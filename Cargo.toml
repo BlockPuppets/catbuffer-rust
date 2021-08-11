@@ -1,0 +1,33 @@
+[package]
+name = "catbuffer-rust"
+version = "0.1.1-alpha.0"
+authors = [ "The BlockPuppet Developers", "The Symbol SDK Rust Project Developers" ]
+readme = "README.md"
+license = "Apache-2.0"
+repository = "https://github.com/BlockPuppets/catbuffer-rust"
+documentation = "https://docs.rs/catbuffer-generated"
+keywords = ["symbol", "nem"]
+categories = ["catbuffer"]
+exclude = [".gitignore"]
+edition = "2018"
+
+[lib]
+name = "catbuffer_rust"
+crate-type = ["lib"]
+
+[dependencies.num-derive]
+version = "0.3"
+default-features = false
+
+[dependencies.num-traits]
+version = "0.2"
+default-features = false
+
+[dependencies.strum]
+version = "0.21"
+
+[dependencies.strum_macros]
+version = "0.21"
+
+[dependencies.hex]
+version = "0.4.3"
