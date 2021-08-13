@@ -31,16 +31,22 @@ use strum_macros::EnumIter;
 pub enum NetworkTypeDto {
     /// Mijin network.
     MIJIN = 96,
+
     /// Public network.
     PUBLIC = 104,
+
     /// Private network.
     PRIVATE = 120,
+
     /// Mijin test network.
     MIJIN_TEST = 144,
+
     /// Public test network.
     PUBLIC_TEST = 152,
+
     /// Private test network.
     PRIVATE_TEST = 168,
+
 }
 
 impl NetworkTypeDto {

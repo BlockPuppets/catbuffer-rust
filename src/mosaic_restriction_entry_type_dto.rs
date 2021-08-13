@@ -31,8 +31,10 @@ use strum_macros::EnumIter;
 pub enum MosaicRestrictionEntryTypeDto {
     /// Address restriction.
     ADDRESS = 0,
+
     /// Global (mosaic) restriction.
     GLOBAL = 1,
+
 }
 
 impl MosaicRestrictionEntryTypeDto {

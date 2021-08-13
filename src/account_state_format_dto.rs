@@ -31,8 +31,10 @@ use strum_macros::EnumIter;
 pub enum AccountStateFormatDto {
     /// Regular account.
     REGULAR = 0,
+
     /// High value account eligible to harvest.
     HIGH_VALUE = 1,
+
 }
 
 impl AccountStateFormatDto {

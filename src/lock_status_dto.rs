@@ -31,8 +31,10 @@ use strum_macros::EnumIter;
 pub enum LockStatusDto {
     /// Lock is unused.
     UNUSED = 0,
+
     /// Lock was already used.
     USED = 1,
+
 }
 
 impl LockStatusDto {

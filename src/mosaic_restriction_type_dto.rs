@@ -31,18 +31,25 @@ use strum_macros::EnumIter;
 pub enum MosaicRestrictionTypeDto {
     /// Uninitialized value indicating no restriction.
     NONE = 0,
+
     /// Allow if equal.
     EQ = 1,
+
     /// Allow if not equal.
     NE = 2,
+
     /// Allow if less than.
     LT = 3,
+
     /// Allow if less than or equal.
     LE = 4,
+
     /// Allow if greater than.
     GT = 5,
+
     /// Allow if greater than or equal.
     GE = 6,
+
 }
 
 impl MosaicRestrictionTypeDto {

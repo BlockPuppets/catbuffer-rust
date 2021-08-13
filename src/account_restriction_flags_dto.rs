@@ -31,14 +31,19 @@ use strum_macros::EnumIter;
 pub enum AccountRestrictionFlagsDto {
     /// Restriction type is an address.
     ADDRESS = 1,
+
     /// Restriction type is a mosaic identifier.
     MOSAIC_ID = 2,
+
     /// Restriction type is a transaction type.
     TRANSACTION_TYPE = 4,
+
     /// Restriction is interpreted as outgoing.
     OUTGOING = 16384,
+
     /// Restriction is interpreted as blocking (instead of allowing) operation.
     BLOCK = 32768,
+
 }
 
 impl AccountRestrictionFlagsDto {

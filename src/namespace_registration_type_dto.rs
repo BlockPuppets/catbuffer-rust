@@ -31,8 +31,10 @@ use strum_macros::EnumIter;
 pub enum NamespaceRegistrationTypeDto {
     /// Root namespace.
     ROOT = 0,
+
     /// Child namespace.
     CHILD = 1,
+
 }
 
 impl NamespaceRegistrationTypeDto {

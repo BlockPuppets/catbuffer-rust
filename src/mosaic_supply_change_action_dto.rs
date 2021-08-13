@@ -31,8 +31,10 @@ use strum_macros::EnumIter;
 pub enum MosaicSupplyChangeActionDto {
     /// Decreases the supply.
     DECREASE = 0,
+
     /// Increases the supply.
     INCREASE = 1,
+
 }
 
 impl MosaicSupplyChangeActionDto {

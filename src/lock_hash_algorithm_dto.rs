@@ -31,10 +31,13 @@ use strum_macros::EnumIter;
 pub enum LockHashAlgorithmDto {
     /// Input is hashed using sha-3 256.
     SHA3_256 = 0,
+
     /// Input is hashed twice: first with sha-256 and then with ripemd-160 (bitcoin's OP_HASH160).
     HASH_160 = 1,
+
     /// Input is hashed twice with sha-256 (bitcoin's OP_HASH256).
     HASH_256 = 2,
+
 }
 
 impl LockHashAlgorithmDto {

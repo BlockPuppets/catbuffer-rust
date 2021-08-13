@@ -83,19 +83,3 @@ impl AccountRestrictionAddressValueBuilder {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_value() {
-        let payload = "02000000000000006826D27E1D0A26CA4E316F901E23E55C8711DB20DF250DEF6826D27E1D0A26CA4E316F901E23E55C8711DB20DF250DFE";
-        let binary = hex::decode(payload).unwrap();
-        let dto = AccountRestrictionAddressValueBuilder::from_binary(&binary);
-        // println!("{:?}", binary);
-        println!("{:#?}", dto);
-
-        assert_eq!(binary, dto.serializer());
-    }
-}
-

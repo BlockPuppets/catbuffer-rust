@@ -31,12 +31,16 @@ use strum_macros::EnumIter;
 pub enum AccountKeyTypeFlagsDto {
     /// Unset key.
     UNSET = 0,
+
     /// Linked account public key \note this can be either a remote or main account public key depending on context.
     LINKED = 1,
+
     /// Node public key on which remote is allowed to harvest.
     NODE = 2,
+
     /// VRF public key.
     VRF = 4,
+
 }
 
 impl AccountKeyTypeFlagsDto {
@@ -92,7 +96,7 @@ impl AccountKeyTypeFlagsDto {
     ///
     /// # Returns
     ///
-    /// A u16 value of the vec of flags
+    /// A u8 value of the vec of flags
     pub fn flags_to_int(flags: Vec<AccountKeyTypeFlagsDto>) -> u8 {
         let mut result: u8 = 0;
         for flag in AccountKeyTypeFlagsDto::iter() {

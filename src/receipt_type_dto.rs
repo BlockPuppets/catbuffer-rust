@@ -31,38 +31,55 @@ use strum_macros::EnumIter;
 pub enum ReceiptTypeDto {
     /// Reserved receipt type.
     RESERVED = 0,
+
     /// Mosaic rental fee receipt type.
     MOSAIC_RENTAL_FEE = 4685,
+
     /// Namespace rental fee receipt type.
     NAMESPACE_RENTAL_FEE = 4942,
+
     /// Harvest fee receipt type.
     HARVEST_FEE = 8515,
+
     /// Lock hash completed receipt type.
     LOCK_HASH_COMPLETED = 8776,
+
     /// Lock hash expired receipt type.
     LOCK_HASH_EXPIRED = 9032,
+
     /// Lock secret completed receipt type.
     LOCK_SECRET_COMPLETED = 8786,
+
     /// Lock secret expired receipt type.
     LOCK_SECRET_EXPIRED = 9042,
+
     /// Lock hash created receipt type.
     LOCK_HASH_CREATED = 12616,
+
     /// Lock secret created receipt type.
     LOCK_SECRET_CREATED = 12626,
+
     /// Mosaic expired receipt type.
     MOSAIC_EXPIRED = 16717,
+
     /// Namespace expired receipt type.
     NAMESPACE_EXPIRED = 16718,
+
     /// Namespace deleted receipt type.
     NAMESPACE_DELETED = 16974,
+
     /// Inflation receipt type.
     INFLATION = 20803,
+
     /// Transaction group receipt type.
     TRANSACTION_GROUP = 57667,
+
     /// Address alias resolution receipt type.
     ADDRESS_ALIAS_RESOLUTION = 61763,
+
     /// Mosaic alias resolution receipt type.
     MOSAIC_ALIAS_RESOLUTION = 62019,
+
 }
 
 impl ReceiptTypeDto {

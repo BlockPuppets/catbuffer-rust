@@ -31,8 +31,10 @@ use strum_macros::EnumIter;
 pub enum AliasActionDto {
     /// Unlink alias.
     UNLINK = 0,
+
     /// Link alias.
     LINK = 1,
+
 }
 
 impl AliasActionDto {

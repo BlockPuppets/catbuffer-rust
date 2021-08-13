@@ -31,8 +31,10 @@ use strum_macros::EnumIter;
 pub enum LinkActionDto {
     /// Unlink account.
     UNLINK = 0,
+
     /// Link account.
     LINK = 1,
+
 }
 
 impl LinkActionDto {

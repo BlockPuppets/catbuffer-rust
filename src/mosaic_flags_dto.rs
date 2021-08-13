@@ -31,12 +31,16 @@ use strum_macros::EnumIter;
 pub enum MosaicFlagsDto {
     /// No flags present.
     NONE = 0,
+
     /// Mosaic supports supply changes even when mosaic owner owns partial supply.
     SUPPLY_MUTABLE = 1,
+
     /// Mosaic supports transfers between arbitrary accounts \note when not set, mosaic can only be transferred to and from mosaic owner.
     TRANSFERABLE = 2,
+
     /// Mosaic supports custom restrictions configured by mosaic owner.
     RESTRICTABLE = 4,
+
 }
 
 impl MosaicFlagsDto {
@@ -92,7 +96,7 @@ impl MosaicFlagsDto {
     ///
     /// # Returns
     ///
-    /// A u16 value of the vec of flags
+    /// A u8 value of the vec of flags
     pub fn flags_to_int(flags: Vec<MosaicFlagsDto>) -> u8 {
         let mut result: u8 = 0;
         for flag in MosaicFlagsDto::iter() {

@@ -31,10 +31,13 @@ use strum_macros::EnumIter;
 pub enum MetadataTypeDto {
     /// Account metadata.
     ACCOUNT = 0,
+
     /// Mosaic metadata.
     MOSAIC = 1,
+
     /// Namespace metadata.
     NAMESPACE = 2,
+
 }
 
 impl MetadataTypeDto {

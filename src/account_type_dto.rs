@@ -31,12 +31,16 @@ use strum_macros::EnumIter;
 pub enum AccountTypeDto {
     /// Account is not linked to another account.
     UNLINKED = 0,
+
     /// Account is a balance-holding account that is linked to a remote harvester account.
     MAIN = 1,
+
     /// Account is a remote harvester account that is linked to a balance-holding account.
     REMOTE = 2,
+
     /// Account is a remote harvester eligible account that is unlinked \note this allows an account that has previously been used as remote to be reused as a remote.
     REMOTE_UNLINKED = 3,
+
 }
 
 impl AccountTypeDto {

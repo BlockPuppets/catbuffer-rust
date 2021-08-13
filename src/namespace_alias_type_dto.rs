@@ -31,10 +31,13 @@ use strum_macros::EnumIter;
 pub enum NamespaceAliasTypeDto {
     /// No alias.
     NONE = 0,
+
     /// If alias is mosaicId.
     MOSAIC_ID = 1,
+
     /// If alias is address.
     ADDRESS = 2,
+
 }
 
 impl NamespaceAliasTypeDto {
