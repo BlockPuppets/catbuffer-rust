@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 
 /// Binary layout for receipt source.
 #[derive(Debug, Clone)]
@@ -36,12 +37,10 @@ impl ReceiptSourceBuilder {
     /// # Returns
     /// A ReceiptSourceBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        let mut buf = fixed_bytes::<4>(&bytes_);
         let primary_id = u32::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        let mut buf = fixed_bytes::<4>(&bytes_);
         let secondary_id = u32::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[4..]).to_vec();
         ReceiptSourceBuilder { primary_id, secondary_id }

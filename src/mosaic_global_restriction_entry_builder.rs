@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::global_key_value_set_builder::*;
 use super::mosaic_id_dto::*;
 
@@ -67,8 +68,8 @@ impl MosaicGlobalRestrictionEntryBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.mosaic_id.get_size();
-        size += self.key_pairs.get_size();
+        size += self.mosaic_id.get_size(); // mosaic_id;
+        size += self.key_pairs.get_size(); // key_pairs;
         size
     }
 

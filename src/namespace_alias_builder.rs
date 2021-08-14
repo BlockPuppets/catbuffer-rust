@@ -20,6 +20,7 @@
  */
 
 use super::address_dto::*;
+use super::generator_utils::*;
 use super::mosaic_id_dto::*;
 use super::namespace_alias_type_dto::*;
 
@@ -94,12 +95,12 @@ impl NamespaceAliasBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.namespace_alias_type.get_size();
+        size += self.namespace_alias_type.get_size(); // namespace_alias_type;
         if self.namespace_alias_type == NamespaceAliasTypeDto::MOSAIC_ID {
-            size += self.mosaic_alias.as_ref().unwrap().get_size();
+            size += self.mosaic_alias.as_ref().unwrap().get_size(); // mosaic_alias
         }
         if self.namespace_alias_type == NamespaceAliasTypeDto::ADDRESS {
-            size += self.address_alias.as_ref().unwrap().get_size();
+            size += self.address_alias.as_ref().unwrap().get_size(); // address_alias
         }
         size
     }

@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::mosaic_address_restriction_entry_builder::*;
 use super::mosaic_global_restriction_entry_builder::*;
 use super::mosaic_restriction_entry_type_dto::*;
@@ -99,12 +100,12 @@ impl MosaicRestrictionEntryBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.entry_type.get_size();
+        size += self.entry_type.get_size(); // entry_type;
         if self.entry_type == MosaicRestrictionEntryTypeDto::ADDRESS {
-            size += self.address_entry.as_ref().unwrap().get_size();
+            size += self.address_entry.as_ref().unwrap().get_size(); // address_entry
         }
         if self.entry_type == MosaicRestrictionEntryTypeDto::GLOBAL {
-            size += self.global_entry.as_ref().unwrap().get_size();
+            size += self.global_entry.as_ref().unwrap().get_size(); // global_entry
         }
         size
     }

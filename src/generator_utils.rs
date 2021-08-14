@@ -19,46 +19,10 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use super::generator_utils::*;
-
-/// Height.
-#[derive(Debug, Clone, Copy)]
-pub struct HeightDto(pub u64);
-
-impl HeightDto {
-    pub const LENGTH: usize = std::mem::size_of::<Self>();
-
-    /// Gets the size of the type.
-    ///
-    /// # Returns
-    /// A usize.
-    pub fn get_size(&self) -> usize {
-        Self::LENGTH
-    }
-
-    /// Gets Height.
-    ///
-    /// # Returns
-    /// A Height.
-    pub fn get_height(&self) -> u64 {
-        self.0
-    }
-
-    /// Serializes an type to bytes.
-    ///
-    /// # Returns
-    /// A Serialized bytes.
-    pub fn serializer(&self) -> Vec<u8> {
-        self.0.to_le_bytes().to_vec()
-    }
-
-    /// Creates an `HeightDto` from a slice.
-    ///
-    /// # Returns
-    /// A `HeightDto`.
-    pub fn from_binary(src: &[u8]) -> Self {
-        // assert_eq!(src.len(), Self::LENGTH);
-        let buf = fixed_bytes::<{ Self::LENGTH }>(src);
-        Self(u64::from_le_bytes(buf))
-    }
+/// Retrieve the bytes of unknown size.
+///
+pub fn fixed_bytes<const COUNT: usize>(bytes: &[u8]) -> [u8; COUNT] {
+    let mut buf = [0u8; COUNT];
+    buf.copy_from_slice(&bytes[..COUNT]);
+    buf
 }

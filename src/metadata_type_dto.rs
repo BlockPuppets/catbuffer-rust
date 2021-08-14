@@ -23,6 +23,8 @@ use num_derive::{FromPrimitive, ToPrimitive};
 use num_traits::{FromPrimitive, ToPrimitive};
 use strum_macros::EnumIter;
 
+use super::generator_utils::*;
+
 /// Enum for the different types of metadata.
 #[allow(non_camel_case_types)]
 #[repr(u8)]
@@ -68,8 +70,7 @@ impl MetadataTypeDto {
     /// A `MetadataTypeDto`.
     pub fn from_binary(src: &[u8]) -> Self {
         // assert_eq!(src.len(), Self::LENGTH);
-        let mut buf = [0x0u8; Self::LENGTH];
-        buf.copy_from_slice(&src[..Self::LENGTH]);
+        let buf = fixed_bytes::<{ Self::LENGTH }>(src);
         Self::from_u8(u8::from_le_bytes(buf)).unwrap()
     }
 

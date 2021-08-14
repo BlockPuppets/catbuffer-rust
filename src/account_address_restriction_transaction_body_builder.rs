@@ -20,6 +20,7 @@
  */
 
 use super::account_restriction_flags_dto::*;
+use super::generator_utils::*;
 use super::unresolved_address_dto::*;
 
 /// Binary layout for an account address restriction transaction.
@@ -42,17 +43,14 @@ impl AccountAddressRestrictionTransactionBodyBuilder {
         let mut bytes_ = payload.to_vec();
         let restriction_flags = AccountRestrictionFlagsDto::bytes_to_flags(&bytes_[..2]); // kind:FLAGS
         let mut bytes_ = (&bytes_[2..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        let buf = fixed_bytes::<1>(&bytes_);
         let restriction_additions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        let buf = fixed_bytes::<1>(&bytes_);
         let restriction_deletions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
-        let _account_restriction_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
+        let buf = fixed_bytes::<4>(&bytes_);
+        let account_restriction_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
         bytes_ = (&bytes_[4..]).to_vec();
         let mut restriction_additions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
         for _ in 0..restriction_additions_count {
@@ -61,7 +59,6 @@ impl AccountAddressRestrictionTransactionBodyBuilder {
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
         let mut restriction_deletions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
         for _ in 0..restriction_deletions_count {
             let item = UnresolvedAddressDto::from_binary(&bytes_);
             restriction_deletions.push(item.clone());

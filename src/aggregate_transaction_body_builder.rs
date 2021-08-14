@@ -21,6 +21,7 @@
 
 use super::cosignature_builder::*;
 use super::embedded_transaction_builder::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
 
 /// Binary layout for an aggregate transaction.
@@ -47,17 +48,15 @@ impl AggregateTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let transactions_hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[transactions_hash.get_size()..].to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        bytes_ = bytes_[transactions_hash.get_size()..].to_vec();
+        let buf = fixed_bytes::<4>(&bytes_);
         let payload_size = u32::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        bytes_ = (&bytes_[4..]).to_vec();
+        let buf = fixed_bytes::<4>(&bytes_);
         let aggregate_transaction_header__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
+        bytes_ = (&bytes_[4..]).to_vec();
         let transactions: Vec<EmbeddedTransactionBuilder> = vec![];
-        let bytes_ = AggregateTransactionBodyBuilder::load_embedded_transactions(transactions.clone(), bytes_, payload_size);
+        bytes_ = AggregateTransactionBodyBuilder::load_embedded_transactions(transactions.clone(), bytes_, payload_size);
         let mut cosignatures: Vec<CosignatureBuilder> = vec![];
         let mut remaining_byte_sizes = bytes_.len();
         while remaining_byte_sizes > 0 {

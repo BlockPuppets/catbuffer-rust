@@ -20,6 +20,7 @@
  */
 
 use super::cosignature_builder::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
 
 /// Cosignature detached from an aggregate transaction.
@@ -59,7 +60,7 @@ impl DetachedCosignatureBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.parent_hash.get_size();
+        size += self.parent_hash.get_size(); // parent_hash;
         size
     }
 

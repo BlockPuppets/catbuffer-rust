@@ -20,6 +20,7 @@
  */
 
 use super::address_dto::*;
+use super::generator_utils::*;
 use super::namespace_alias_builder::*;
 use super::namespace_id_dto::*;
 use super::namespace_lifetime_builder::*;
@@ -60,8 +61,7 @@ impl RootNamespaceHistoryBuilder {
         let mut bytes_ = bytes_[lifetime.get_size()..].to_vec();
         let root_alias = NamespaceAliasBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[root_alias.get_size()..].to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let childrenCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut paths: Vec<NamespacePathBuilder> = vec![]; // kind:ARRAY
@@ -120,10 +120,10 @@ impl RootNamespaceHistoryBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.id.get_size();
-        size += self.owner_address.get_size();
-        size += self.lifetime.get_size();
-        size += self.root_alias.get_size();
+        size += self.id.get_size(); // id;
+        size += self.owner_address.get_size(); // owner_address;
+        size += self.lifetime.get_size(); // lifetime;
+        size += self.root_alias.get_size(); // root_alias;
         size += 8; // children_count;
         size += self.paths.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size

@@ -20,6 +20,7 @@
  */
 
 use super::entity_type_dto::*;
+use super::generator_utils::*;
 use super::key_dto::*;
 use super::network_type_dto::*;
 
@@ -43,25 +44,22 @@ impl EmbeddedTransactionBuilder {
     /// A EmbeddedTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        bytes_ = (&bytes_[4..]).to_vec();
+        let buf = fixed_bytes::<4>(&bytes_);
         let embedded_transaction_header__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
+        bytes_ = (&bytes_[4..]).to_vec();
         let signer_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
+        let buf = fixed_bytes::<4>(&bytes_);
         let entity_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        bytes_ = (&bytes_[4..]).to_vec();
+        let buf = fixed_bytes::<1>(&bytes_);
         let version = u8::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[1..]).to_vec();
+        bytes_ = (&bytes_[1..]).to_vec();
         let network = NetworkTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[network.get_size()..].to_vec();
+        bytes_ = (&bytes_[network.get_size()..]).to_vec();
         let _type = EntityTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
+        bytes_ = (&bytes_[_type.get_size()..]).to_vec();
         // create object and call. // EmbeddedTransaction
         EmbeddedTransactionBuilder { signer_public_key, version, network, _type }
     }
@@ -88,7 +86,7 @@ impl EmbeddedTransactionBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
-        buf.append(&mut (self.get_size() as u32).to_le_bytes().to_vec()); // # serial_kind:SIMPLE
+        // Ignored serialization: size AttributeKind.SIMPLE
         buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved
         buf.append(&mut self.signer_public_key.serializer()); // kind:CUSTOM
         buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved

@@ -20,6 +20,7 @@
  */
 
 use super::address_dto::*;
+use super::generator_utils::*;
 use super::state_header_builder::*;
 
 /// Binary layout for a multisig entry.
@@ -48,18 +49,15 @@ impl MultisigEntryBuilder {
     pub fn from_binary(bytes_: &[u8]) -> Self {
         let super_object = StateHeaderBuilder::from_binary(bytes_);
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        let mut buf = fixed_bytes::<4>(&bytes_);
         let min_approval = u32::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        let mut buf = fixed_bytes::<4>(&bytes_);
         let min_removal = u32::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[4..]).to_vec();
         let account_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[account_address.get_size()..].to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let cosignatoryAddressesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut cosignatory_addresses: Vec<AddressDto> = vec![]; // kind:ARRAY
@@ -69,8 +67,7 @@ impl MultisigEntryBuilder {
             cosignatory_addresses.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let multisigAddressesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut multisig_addresses: Vec<AddressDto> = vec![]; // kind:ARRAY
@@ -131,7 +128,7 @@ impl MultisigEntryBuilder {
         let mut size = self.super_object.get_size();
         size += 4; // min_approval;
         size += 4; // min_removal;
-        size += self.account_address.get_size();
+        size += self.account_address.get_size(); // account_address;
         size += 8; // cosignatory_addresses_count;
         size += self.cosignatory_addresses.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size += 8; // multisig_addresses_count;

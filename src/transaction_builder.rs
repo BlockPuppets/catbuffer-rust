@@ -21,6 +21,7 @@
 
 use super::amount_dto::*;
 use super::entity_type_dto::*;
+use super::generator_utils::*;
 use super::key_dto::*;
 use super::network_type_dto::*;
 use super::signature_dto::*;
@@ -52,31 +53,28 @@ impl TransactionBuilder {
     /// A TransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        bytes_ = (&bytes_[4..]).to_vec();
+        let buf = fixed_bytes::<4>(&bytes_);
         let verifiable_entity_header__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
+        bytes_ = (&bytes_[4..]).to_vec();
         let signature = SignatureDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[signature.get_size()..].to_vec();
+        bytes_ = bytes_[signature.get_size()..].to_vec();
         let signer_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
+        let buf = fixed_bytes::<4>(&bytes_);
         let entity_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        bytes_ = (&bytes_[4..]).to_vec();
+        let buf = fixed_bytes::<1>(&bytes_);
         let version = u8::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[1..]).to_vec();
+        bytes_ = (&bytes_[1..]).to_vec();
         let network = NetworkTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[network.get_size()..].to_vec();
+        bytes_ = (&bytes_[network.get_size()..]).to_vec();
         let _type = EntityTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
+        bytes_ = (&bytes_[_type.get_size()..]).to_vec();
         let fee = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[fee.get_size()..].to_vec();
+        bytes_ = bytes_[fee.get_size()..].to_vec();
         let deadline = TimestampDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[deadline.get_size()..].to_vec();
+        bytes_ = bytes_[deadline.get_size()..].to_vec();
         // create object and call. // Transaction
         TransactionBuilder { signature, signer_public_key, version, network, _type, fee, deadline }
     }
@@ -106,6 +104,7 @@ impl TransactionBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
+        // Ignored serialization: size AttributeKind.SIMPLE
         buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved
         buf.append(&mut self.signature.serializer()); // kind:CUSTOM
         buf.append(&mut self.signer_public_key.serializer()); // kind:CUSTOM

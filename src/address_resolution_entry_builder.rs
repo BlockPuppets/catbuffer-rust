@@ -20,6 +20,7 @@
  */
 
 use super::address_dto::*;
+use super::generator_utils::*;
 use super::receipt_source_builder::*;
 
 /// Binary layout for address resolution entry.
@@ -67,8 +68,8 @@ impl AddressResolutionEntryBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.source.get_size();
-        size += self.resolved.get_size();
+        size += self.source.get_size(); // source;
+        size += self.resolved.get_size(); // resolved;
         size
     }
 

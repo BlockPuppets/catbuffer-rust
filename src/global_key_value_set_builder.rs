@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::global_key_value_builder::*;
 
 /// Binary layout for a global restriction key-value set.
@@ -35,8 +36,7 @@ impl GlobalKeyValueSetBuilder {
     /// # Returns
     /// A GlobalKeyValueSetBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        let mut buf = fixed_bytes::<1>(&bytes_);
         let keyValueCount = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[1..]).to_vec();
         let mut keys: Vec<GlobalKeyValueBuilder> = vec![]; // kind:ARRAY

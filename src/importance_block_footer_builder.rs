@@ -20,6 +20,7 @@
  */
 
 use super::amount_dto::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
 
 /// Binary layout for an importance block footer.
@@ -42,12 +43,10 @@ impl ImportanceBlockFooterBuilder {
     /// # Returns
     /// A ImportanceBlockFooterBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        let mut buf = fixed_bytes::<4>(&bytes_);
         let voting_eligible_accounts_count = u32::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let harvesting_eligible_accounts_count = u64::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[8..]).to_vec();
         let total_voting_balance = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
@@ -97,8 +96,8 @@ impl ImportanceBlockFooterBuilder {
         let mut size = 0;
         size += 4; // voting_eligible_accounts_count;
         size += 8; // harvesting_eligible_accounts_count;
-        size += self.total_voting_balance.get_size();
-        size += self.previous_importance_block_hash.get_size();
+        size += self.total_voting_balance.get_size(); // total_voting_balance;
+        size += self.previous_importance_block_hash.get_size(); // previous_importance_block_hash;
         size
     }
 

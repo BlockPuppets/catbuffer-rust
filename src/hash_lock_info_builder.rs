@@ -20,6 +20,7 @@
  */
 
 use super::address_dto::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
 use super::height_dto::*;
 use super::lock_status_dto::*;
@@ -111,11 +112,11 @@ impl HashLockInfoBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.owner_address.get_size();
-        size += self.mosaic.get_size();
-        size += self.end_height.get_size();
-        size += self.status.get_size();
-        size += self.hash.get_size();
+        size += self.owner_address.get_size(); // owner_address;
+        size += self.mosaic.get_size(); // mosaic;
+        size += self.end_height.get_size(); // end_height;
+        size += self.status.get_size(); // status;
+        size += self.hash.get_size(); // hash;
         size
     }
 

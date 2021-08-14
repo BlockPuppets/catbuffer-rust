@@ -19,6 +19,8 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
+
 /// Proof verification hash.
 #[derive(Debug, Clone, Copy)]
 pub struct ProofVerificationHashDto(pub [u8; 16]);
@@ -58,8 +60,7 @@ impl ProofVerificationHashDto {
     /// A `ProofVerificationHashDto`.
     pub fn from_binary(src: &[u8]) -> Self {
         // assert_eq!(src.len(), Self::LENGTH);
-        let mut buf = [0x0u8; Self::LENGTH];
-        buf.copy_from_slice(&src[..Self::LENGTH]);
+        let buf = fixed_bytes::<{ Self::LENGTH }>(src);
         Self(buf)
     }
 }

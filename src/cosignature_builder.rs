@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::key_dto::*;
 use super::signature_dto::*;
 
@@ -40,8 +41,7 @@ impl CosignatureBuilder {
     /// # Returns
     /// A CosignatureBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let version = u64::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[8..]).to_vec();
         let signer_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
@@ -82,8 +82,8 @@ impl CosignatureBuilder {
     pub fn get_size(&self) -> usize {
         let mut size = 0;
         size += 8; // version;
-        size += self.signer_public_key.get_size();
-        size += self.signature.get_size();
+        size += self.signer_public_key.get_size(); // signer_public_key;
+        size += self.signature.get_size(); // signature;
         size
     }
 

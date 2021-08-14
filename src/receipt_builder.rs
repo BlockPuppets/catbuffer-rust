@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::receipt_type_dto::*;
 
 /// Binary layout for a receipt entity.
@@ -37,8 +38,7 @@ impl ReceiptBuilder {
     /// # Returns
     /// A ReceiptBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = [0x0u8; 2];
-        buf.copy_from_slice(&bytes_[..2]);
+        let mut buf = fixed_bytes::<2>(&bytes_);
         let version = u16::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[2..]).to_vec();
         let _type = ReceiptTypeDto::from_binary(&bytes_); // kind:CUSTOM2
@@ -70,7 +70,7 @@ impl ReceiptBuilder {
         let mut size = 0;
         size += 4; // size;
         size += 2; // version;
-        size += self._type.get_size();
+        size += self._type.get_size(); // type;
         size
     }
 

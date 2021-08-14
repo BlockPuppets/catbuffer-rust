@@ -20,6 +20,7 @@
  */
 
 use super::alias_action_dto::*;
+use super::generator_utils::*;
 use super::mosaic_id_dto::*;
 use super::namespace_id_dto::*;
 
@@ -42,11 +43,11 @@ impl MosaicAliasTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let namespace_id = NamespaceIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[namespace_id.get_size()..].to_vec();
+        bytes_ = bytes_[namespace_id.get_size()..].to_vec();
         let mosaic_id = MosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
+        bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
         let alias_action = AliasActionDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[alias_action.get_size()..].to_vec();
+        bytes_ = (&bytes_[alias_action.get_size()..]).to_vec();
         // create object and call.
         MosaicAliasTransactionBodyBuilder { namespace_id, mosaic_id, alias_action } // TransactionBody
     }

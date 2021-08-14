@@ -23,6 +23,7 @@ use super::account_restriction_address_value_builder::*;
 use super::account_restriction_flags_dto::*;
 use super::account_restriction_mosaic_value_builder::*;
 use super::account_restriction_transaction_type_value_builder::*;
+use super::generator_utils::*;
 
 /// Binary layout for account restrictions.
 #[derive(Debug, Clone)]
@@ -116,13 +117,13 @@ impl AccountRestrictionsInfoBuilder {
         let mut size = 0;
         size += 2; // restriction_flags;
         if self.restriction_flags.iter().any(|&i| i == AccountRestrictionFlagsDto::ADDRESS) {
-            size += self.address_restrictions.as_ref().unwrap().get_size();
+            size += self.address_restrictions.as_ref().unwrap().get_size(); // address_restrictions
         }
         if self.restriction_flags.iter().any(|&i| i == AccountRestrictionFlagsDto::MOSAIC_ID) {
-            size += self.mosaic_id_restrictions.as_ref().unwrap().get_size();
+            size += self.mosaic_id_restrictions.as_ref().unwrap().get_size(); // mosaic_id_restrictions
         }
         if self.restriction_flags.iter().any(|&i| i == AccountRestrictionFlagsDto::TRANSACTION_TYPE) {
-            size += self.transaction_type_restrictions.as_ref().unwrap().get_size();
+            size += self.transaction_type_restrictions.as_ref().unwrap().get_size(); // transaction_type_restrictions
         }
         size
     }

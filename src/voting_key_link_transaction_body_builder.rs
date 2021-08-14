@@ -20,6 +20,7 @@
  */
 
 use super::finalization_epoch_dto::*;
+use super::generator_utils::*;
 use super::link_action_dto::*;
 use super::voting_key_dto::*;
 
@@ -44,13 +45,13 @@ impl VotingKeyLinkTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let linked_public_key = VotingKeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[linked_public_key.get_size()..].to_vec();
+        bytes_ = bytes_[linked_public_key.get_size()..].to_vec();
         let start_epoch = FinalizationEpochDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[start_epoch.get_size()..].to_vec();
+        bytes_ = bytes_[start_epoch.get_size()..].to_vec();
         let end_epoch = FinalizationEpochDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[end_epoch.get_size()..].to_vec();
+        bytes_ = bytes_[end_epoch.get_size()..].to_vec();
         let link_action = LinkActionDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[link_action.get_size()..].to_vec();
+        bytes_ = (&bytes_[link_action.get_size()..]).to_vec();
         // create object and call.
         VotingKeyLinkTransactionBodyBuilder { linked_public_key, start_epoch, end_epoch, link_action } // TransactionBody
     }

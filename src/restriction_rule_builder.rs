@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::mosaic_id_dto::*;
 use super::mosaic_restriction_type_dto::*;
 
@@ -42,8 +43,7 @@ impl RestrictionRuleBuilder {
     pub fn from_binary(bytes_: &[u8]) -> Self {
         let reference_mosaic_id = MosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[reference_mosaic_id.get_size()..].to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let restriction_value = u64::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[8..]).to_vec();
         let restriction_type = MosaicRestrictionTypeDto::from_binary(&bytes_); // kind:CUSTOM2
@@ -81,9 +81,9 @@ impl RestrictionRuleBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.reference_mosaic_id.get_size();
+        size += self.reference_mosaic_id.get_size(); // reference_mosaic_id;
         size += 8; // restriction_value;
-        size += self.restriction_type.get_size();
+        size += self.restriction_type.get_size(); // restriction_type;
         size
     }
 

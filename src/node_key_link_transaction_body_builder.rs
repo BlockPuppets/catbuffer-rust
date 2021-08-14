@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::key_dto::*;
 use super::link_action_dto::*;
 
@@ -39,9 +40,9 @@ impl NodeKeyLinkTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let linked_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[linked_public_key.get_size()..].to_vec();
+        bytes_ = bytes_[linked_public_key.get_size()..].to_vec();
         let link_action = LinkActionDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[link_action.get_size()..].to_vec();
+        bytes_ = (&bytes_[link_action.get_size()..]).to_vec();
         // create object and call.
         NodeKeyLinkTransactionBodyBuilder { linked_public_key, link_action } // TransactionBody
     }

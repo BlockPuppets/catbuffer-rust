@@ -23,6 +23,7 @@ use super::account_key_type_flags_dto::*;
 use super::account_state_format_dto::*;
 use super::account_type_dto::*;
 use super::address_dto::*;
+use super::generator_utils::*;
 use super::height_activity_buckets_builder::*;
 use super::height_dto::*;
 use super::importance_snapshot_builder::*;
@@ -89,8 +90,7 @@ impl AccountStateBuilder {
         let mut bytes_ = bytes_[format.get_size()..].to_vec();
         let supplemental_public_keys_mask = AccountKeyTypeFlagsDto::bytes_to_flags(&bytes_[..1]); // kind:FLAGS
         let mut bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        let mut buf = fixed_bytes::<1>(&bytes_);
         let votingPublicKeysCount = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[1..]).to_vec();
         let mut linked_public_key = None;
@@ -130,8 +130,7 @@ impl AccountStateBuilder {
             bytes_ = (&bytes_[raw_activity_buckets.get_size()..]).to_vec();
             activity_buckets = Some(raw_activity_buckets); // kind:CUSTOM1
         }
-        let mut buf = [0x0u8; 2];
-        buf.copy_from_slice(&bytes_[..2]);
+        let mut buf = fixed_bytes::<2>(&bytes_);
         let balancesCount = u16::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[2..]).to_vec();
         let mut balances: Vec<MosaicBuilder> = vec![]; // kind:ARRAY
@@ -277,29 +276,29 @@ impl AccountStateBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.address.get_size();
-        size += self.address_height.get_size();
-        size += self.public_key.get_size();
-        size += self.public_key_height.get_size();
-        size += self.account_type.get_size();
-        size += self.format.get_size();
+        size += self.address.get_size(); // address;
+        size += self.address_height.get_size(); // address_height;
+        size += self.public_key.get_size(); // public_key;
+        size += self.public_key_height.get_size(); // public_key_height;
+        size += self.account_type.get_size(); // account_type;
+        size += self.format.get_size(); // format;
         size += 1; // supplemental_public_keys_mask;
         size += 1; // voting_public_keys_count;
         if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::LINKED) {
-            size += self.linked_public_key.as_ref().unwrap().get_size();
+            size += self.linked_public_key.as_ref().unwrap().get_size(); // linked_public_key
         }
         if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::NODE) {
-            size += self.node_public_key.as_ref().unwrap().get_size();
+            size += self.node_public_key.as_ref().unwrap().get_size(); // node_public_key
         }
         if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::VRF) {
-            size += self.vrf_public_key.as_ref().unwrap().get_size();
+            size += self.vrf_public_key.as_ref().unwrap().get_size(); // vrf_public_key
         }
         size += self.voting_public_keys.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         if self.format == AccountStateFormatDto::HIGH_VALUE {
-            size += self.importance_snapshots.as_ref().unwrap().get_size();
+            size += self.importance_snapshots.as_ref().unwrap().get_size(); // importance_snapshots
         }
         if self.format == AccountStateFormatDto::HIGH_VALUE {
-            size += self.activity_buckets.as_ref().unwrap().get_size();
+            size += self.activity_buckets.as_ref().unwrap().get_size(); // activity_buckets
         }
         size += 2; // balances_count;
         size += self.balances.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;

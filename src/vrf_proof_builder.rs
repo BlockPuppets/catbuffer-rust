@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::proof_gamma_dto::*;
 use super::proof_scalar_dto::*;
 use super::proof_verification_hash_dto::*;
@@ -80,9 +81,9 @@ impl VrfProofBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.gamma.get_size();
-        size += self.verification_hash.get_size();
-        size += self.scalar.get_size();
+        size += self.gamma.get_size(); // gamma;
+        size += self.verification_hash.get_size(); // verification_hash;
+        size += self.scalar.get_size(); // scalar;
         size
     }
 

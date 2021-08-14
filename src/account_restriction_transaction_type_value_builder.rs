@@ -20,6 +20,7 @@
  */
 
 use super::entity_type_dto::*;
+use super::generator_utils::*;
 
 /// Binary layout for transaction type based account restriction.
 #[derive(Debug, Clone)]
@@ -35,8 +36,7 @@ impl AccountRestrictionTransactionTypeValueBuilder {
     /// # Returns
     /// A AccountRestrictionTransactionTypeValueBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let restrictionValuesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut restriction_values: Vec<EntityTypeDto> = vec![]; // kind:ARRAY

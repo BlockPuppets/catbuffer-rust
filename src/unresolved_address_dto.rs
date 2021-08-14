@@ -19,6 +19,8 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
+
 /// Unresolved address.
 #[derive(Debug, Clone, Copy)]
 pub struct UnresolvedAddressDto(pub [u8; 24]);
@@ -58,8 +60,7 @@ impl UnresolvedAddressDto {
     /// A `UnresolvedAddressDto`.
     pub fn from_binary(src: &[u8]) -> Self {
         // assert_eq!(src.len(), Self::LENGTH);
-        let mut buf = [0x0u8; Self::LENGTH];
-        buf.copy_from_slice(&src[..Self::LENGTH]);
+        let buf = fixed_bytes::<{ Self::LENGTH }>(src);
         Self(buf)
     }
 }

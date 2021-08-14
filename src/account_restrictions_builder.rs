@@ -21,6 +21,7 @@
 
 use super::account_restrictions_info_builder::*;
 use super::address_dto::*;
+use super::generator_utils::*;
 use super::state_header_builder::*;
 
 /// Binary layout for account restrictions.
@@ -45,8 +46,7 @@ impl AccountRestrictionsBuilder {
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[address.get_size()..].to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let restrictionsCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut restrictions: Vec<AccountRestrictionsInfoBuilder> = vec![]; // kind:ARRAY
@@ -81,7 +81,7 @@ impl AccountRestrictionsBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.address.get_size();
+        size += self.address.get_size(); // address;
         size += 8; // restrictions_count;
         size += self.restrictions.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size

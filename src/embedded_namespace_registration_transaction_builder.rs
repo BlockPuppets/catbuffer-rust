@@ -50,7 +50,7 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let namespace_registration_transaction_body = NamespaceRegistrationTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[namespace_registration_transaction_body.get_size()..].to_vec();
+        bytes_ = bytes_[namespace_registration_transaction_body.get_size()..].to_vec();
         // create object and call.
         EmbeddedNamespaceRegistrationTransactionBuilder { super_object, body: namespace_registration_transaction_body }  // Transaction
         // nothing needed to copy into EmbeddedTransaction
@@ -117,6 +117,7 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
+        buf.append(&mut (self.get_size() as u32).to_le_bytes().to_vec());
         buf.append(&mut self.super_object.serializer());
         buf.append(&mut self.body.serializer()); // kind:CUSTOM TransactionBody
         buf

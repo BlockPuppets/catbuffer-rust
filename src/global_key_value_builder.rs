@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::mosaic_restriction_key_dto::*;
 use super::restriction_rule_builder::*;
 
@@ -67,8 +68,8 @@ impl GlobalKeyValueBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.key.get_size();
-        size += self.restriction_rule.get_size();
+        size += self.key.get_size(); // key;
+        size += self.restriction_rule.get_size(); // restriction_rule;
         size
     }
 

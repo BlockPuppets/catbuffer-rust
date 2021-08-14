@@ -20,6 +20,7 @@
  */
 
 use super::block_duration_dto::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
 use super::unresolved_mosaic_builder::*;
 
@@ -42,11 +43,11 @@ impl HashLockTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let mosaic = UnresolvedMosaicBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[mosaic.get_size()..].to_vec();
+        bytes_ = bytes_[mosaic.get_size()..].to_vec();
         let duration = BlockDurationDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[duration.get_size()..].to_vec();
+        bytes_ = bytes_[duration.get_size()..].to_vec();
         let hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[hash.get_size()..].to_vec();
+        bytes_ = bytes_[hash.get_size()..].to_vec();
         // create object and call.
         HashLockTransactionBodyBuilder { mosaic, duration, hash } // TransactionBody
     }

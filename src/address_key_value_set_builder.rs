@@ -20,6 +20,7 @@
  */
 
 use super::address_key_value_builder::*;
+use super::generator_utils::*;
 
 /// Binary layout for mosaic address restriction key-value set.
 #[derive(Debug, Clone)]
@@ -35,8 +36,7 @@ impl AddressKeyValueSetBuilder {
     /// # Returns
     /// A AddressKeyValueSetBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        let mut buf = fixed_bytes::<1>(&bytes_);
         let keyValueCount = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[1..]).to_vec();
         let mut keys: Vec<AddressKeyValueBuilder> = vec![]; // kind:ARRAY

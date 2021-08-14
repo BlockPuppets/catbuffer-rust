@@ -20,6 +20,7 @@
  */
 
 use super::amount_dto::*;
+use super::generator_utils::*;
 use super::mosaic_id_dto::*;
 
 /// Binary layout for a mosaic.
@@ -67,8 +68,8 @@ impl MosaicBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.mosaic_id.get_size();
-        size += self.amount.get_size();
+        size += self.mosaic_id.get_size(); // mosaic_id;
+        size += self.amount.get_size(); // amount;
         size
     }
 

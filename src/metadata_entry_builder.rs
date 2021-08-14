@@ -20,6 +20,7 @@
  */
 
 use super::address_dto::*;
+use super::generator_utils::*;
 use super::metadata_type_dto::*;
 use super::metadata_value_builder::*;
 use super::scoped_metadata_key_dto::*;
@@ -59,8 +60,7 @@ impl MetadataEntryBuilder {
         let mut bytes_ = bytes_[target_address.get_size()..].to_vec();
         let scoped_metadata_key = ScopedMetadataKeyDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[scoped_metadata_key.get_size()..].to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let target_id = u64::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[8..]).to_vec();
         let metadata_type = MetadataTypeDto::from_binary(&bytes_); // kind:CUSTOM2
@@ -124,12 +124,12 @@ impl MetadataEntryBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.source_address.get_size();
-        size += self.target_address.get_size();
-        size += self.scoped_metadata_key.get_size();
+        size += self.source_address.get_size(); // source_address;
+        size += self.target_address.get_size(); // target_address;
+        size += self.scoped_metadata_key.get_size(); // scoped_metadata_key;
         size += 8; // target_id;
-        size += self.metadata_type.get_size();
-        size += self.value.get_size();
+        size += self.metadata_type.get_size(); // metadata_type;
+        size += self.value.get_size(); // value;
         size
     }
 

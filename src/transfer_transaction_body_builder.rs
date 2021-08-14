@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::unresolved_address_dto::*;
 use super::unresolved_mosaic_builder::*;
 
@@ -41,32 +42,27 @@ impl TransferTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let recipient_address = UnresolvedAddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[recipient_address.get_size()..].to_vec();
-        let mut buf = [0x0u8; 2];
-        buf.copy_from_slice(&bytes_[..2]);
+        bytes_ = bytes_[recipient_address.get_size()..].to_vec();
+        let buf = fixed_bytes::<2>(&bytes_);
         let message_size = u16::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[2..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        bytes_ = (&bytes_[2..]).to_vec();
+        let buf = fixed_bytes::<1>(&bytes_);
         let mosaics_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        bytes_ = (&bytes_[1..]).to_vec();
+        let buf = fixed_bytes::<4>(&bytes_);
         let transfer_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        bytes_ = (&bytes_[4..]).to_vec();
+        let buf = fixed_bytes::<1>(&bytes_);
         let transfer_transaction_body__reserved2 = u8::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[1..]).to_vec();
+        bytes_ = (&bytes_[1..]).to_vec();
         let mut mosaics: Vec<UnresolvedMosaicBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
         for _ in 0..mosaics_count {
             let item = UnresolvedMosaicBuilder::from_binary(&bytes_);
             mosaics.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
         let message = (&bytes_[..message_size as usize]).to_vec(); // kind:BUFFER
-        let bytes_ = (&bytes_[message_size as usize..]).to_vec();
+        bytes_ = (&bytes_[message_size as usize..]).to_vec();
         // create object and call.
         TransferTransactionBodyBuilder { recipient_address, mosaics, message } // TransactionBody
     }

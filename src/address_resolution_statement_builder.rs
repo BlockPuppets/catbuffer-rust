@@ -20,6 +20,7 @@
  */
 
 use super::address_resolution_entry_builder::*;
+use super::generator_utils::*;
 use super::receipt_builder::*;
 use super::unresolved_address_dto::*;
 
@@ -72,7 +73,7 @@ impl AddressResolutionStatementBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.unresolved.get_size();
+        size += self.unresolved.get_size(); // unresolved;
         size += self.resolution_entries.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
     }

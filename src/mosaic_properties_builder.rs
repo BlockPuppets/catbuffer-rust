@@ -20,6 +20,7 @@
  */
 
 use super::block_duration_dto::*;
+use super::generator_utils::*;
 use super::mosaic_flags_dto::*;
 
 /// Binary layout for mosaic properties.
@@ -42,8 +43,7 @@ impl MosaicPropertiesBuilder {
     pub fn from_binary(bytes_: &[u8]) -> Self {
         let flags = MosaicFlagsDto::bytes_to_flags(&bytes_[..1]); // kind:FLAGS
         let mut bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        let mut buf = fixed_bytes::<1>(&bytes_);
         let divisibility = u8::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[1..]).to_vec();
         let duration = BlockDurationDto::from_binary(&bytes_); // kind:CUSTOM1
@@ -83,7 +83,7 @@ impl MosaicPropertiesBuilder {
         let mut size = 0;
         size += 1; // flags;
         size += 1; // divisibility;
-        size += self.duration.get_size();
+        size += self.duration.get_size(); // duration;
         size
     }
 

@@ -23,6 +23,7 @@ use super::address_dto::*;
 use super::block_fee_multiplier_dto::*;
 use super::difficulty_dto::*;
 use super::entity_type_dto::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
 use super::height_dto::*;
 use super::key_dto::*;
@@ -77,8 +78,7 @@ impl BlockHeaderBuilder {
         let mut bytes_ = bytes_[signature.get_size()..].to_vec();
         let signer_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        let mut buf = fixed_bytes::<1>(&bytes_);
         let version = u8::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[1..]).to_vec();
         let network = NetworkTypeDto::from_binary(&bytes_); // kind:CUSTOM2
@@ -236,22 +236,22 @@ impl BlockHeaderBuilder {
         let mut size = 0;
         size += 4; // size;
         size += 4; // verifiable_entity_header__reserved1;
-        size += self.signature.get_size();
-        size += self.signer_public_key.get_size();
+        size += self.signature.get_size(); // signature;
+        size += self.signer_public_key.get_size(); // signer_public_key;
         size += 4; // entity_body__reserved1;
         size += 1; // version;
-        size += self.network.get_size();
-        size += self._type.get_size();
-        size += self.height.get_size();
-        size += self.timestamp.get_size();
-        size += self.difficulty.get_size();
-        size += self.generation_hash_proof.get_size();
-        size += self.previous_block_hash.get_size();
-        size += self.transactions_hash.get_size();
-        size += self.receipts_hash.get_size();
-        size += self.state_hash.get_size();
-        size += self.beneficiary_address.get_size();
-        size += self.fee_multiplier.get_size();
+        size += self.network.get_size(); // network;
+        size += self._type.get_size(); // type;
+        size += self.height.get_size(); // height;
+        size += self.timestamp.get_size(); // timestamp;
+        size += self.difficulty.get_size(); // difficulty;
+        size += self.generation_hash_proof.get_size(); // generation_hash_proof;
+        size += self.previous_block_hash.get_size(); // previous_block_hash;
+        size += self.transactions_hash.get_size(); // transactions_hash;
+        size += self.receipts_hash.get_size(); // receipts_hash;
+        size += self.state_hash.get_size(); // state_hash;
+        size += self.beneficiary_address.get_size(); // beneficiary_address;
+        size += self.fee_multiplier.get_size(); // fee_multiplier;
         size
     }
 

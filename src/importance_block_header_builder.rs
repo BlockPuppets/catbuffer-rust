@@ -85,7 +85,7 @@ impl ImportanceBlockHeaderBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.importance_block_footer.get_size();
+        size += self.importance_block_footer.get_size(); // importance_block_footer;
         size
     }
 

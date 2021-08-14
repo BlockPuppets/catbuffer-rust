@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::importance_dto::*;
 use super::importance_height_dto::*;
 
@@ -67,8 +68,8 @@ impl ImportanceSnapshotBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.importance.get_size();
-        size += self.height.get_size();
+        size += self.importance.get_size(); // importance;
+        size += self.height.get_size(); // height;
         size
     }
 

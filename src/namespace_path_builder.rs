@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::namespace_alias_builder::*;
 use super::namespace_id_dto::*;
 
@@ -38,8 +39,7 @@ impl NamespacePathBuilder {
     /// # Returns
     /// A NamespacePathBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        let mut buf = fixed_bytes::<1>(&bytes_);
         let pathSize = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[1..]).to_vec();
         let mut path: Vec<NamespaceIdDto> = vec![]; // kind:ARRAY
@@ -78,7 +78,7 @@ impl NamespacePathBuilder {
         let mut size = 0;
         size += 1; // path_size;
         size += self.path.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
-        size += self.alias.get_size();
+        size += self.alias.get_size(); // alias;
         size
     }
 

@@ -20,6 +20,7 @@
  */
 
 use super::amount_dto::*;
+use super::generator_utils::*;
 use super::importance_height_dto::*;
 
 /// Account activity bucket.
@@ -46,12 +47,10 @@ impl HeightActivityBucketBuilder {
         let mut bytes_ = bytes_[start_height.get_size()..].to_vec();
         let total_fees_paid = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[total_fees_paid.get_size()..].to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        let mut buf = fixed_bytes::<4>(&bytes_);
         let beneficiary_count = u32::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let raw_score = u64::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[8..]).to_vec();
         HeightActivityBucketBuilder { start_height, total_fees_paid, beneficiary_count, raw_score }
@@ -95,8 +94,8 @@ impl HeightActivityBucketBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.start_height.get_size();
-        size += self.total_fees_paid.get_size();
+        size += self.start_height.get_size(); // start_height;
+        size += self.total_fees_paid.get_size(); // total_fees_paid;
         size += 4; // beneficiary_count;
         size += 8; // raw_score;
         size

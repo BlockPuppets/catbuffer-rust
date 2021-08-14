@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::unresolved_address_dto::*;
 use super::unresolved_mosaic_id_dto::*;
 
@@ -45,21 +46,18 @@ impl MosaicAddressRestrictionTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let mosaic_id = UnresolvedMosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
+        let buf = fixed_bytes::<8>(&bytes_);
         let restriction_key = u64::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[8..]).to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        bytes_ = (&bytes_[8..]).to_vec();
+        let buf = fixed_bytes::<8>(&bytes_);
         let previous_restriction_value = u64::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[8..]).to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        bytes_ = (&bytes_[8..]).to_vec();
+        let buf = fixed_bytes::<8>(&bytes_);
         let new_restriction_value = u64::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[8..]).to_vec();
+        bytes_ = (&bytes_[8..]).to_vec();
         let target_address = UnresolvedAddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[target_address.get_size()..].to_vec();
+        bytes_ = bytes_[target_address.get_size()..].to_vec();
         // create object and call.
         MosaicAddressRestrictionTransactionBodyBuilder { mosaic_id, restriction_key, previous_restriction_value, new_restriction_value, target_address } // TransactionBody
     }

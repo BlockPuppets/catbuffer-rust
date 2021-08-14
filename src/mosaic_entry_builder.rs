@@ -20,6 +20,7 @@
  */
 
 use super::amount_dto::*;
+use super::generator_utils::*;
 use super::mosaic_definition_builder::*;
 use super::mosaic_id_dto::*;
 use super::state_header_builder::*;
@@ -85,9 +86,9 @@ impl MosaicEntryBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.mosaic_id.get_size();
-        size += self.supply.get_size();
-        size += self.definition.get_size();
+        size += self.mosaic_id.get_size(); // mosaic_id;
+        size += self.supply.get_size(); // supply;
+        size += self.definition.get_size(); // definition;
         size
     }
 

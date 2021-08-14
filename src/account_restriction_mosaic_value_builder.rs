@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::mosaic_id_dto::*;
 
 /// Binary layout for mosaic id based account restriction.
@@ -35,8 +36,7 @@ impl AccountRestrictionMosaicValueBuilder {
     /// # Returns
     /// A AccountRestrictionMosaicValueBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        let mut buf = fixed_bytes::<8>(&bytes_);
         let restrictionValuesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut restriction_values: Vec<MosaicIdDto> = vec![]; // kind:ARRAY

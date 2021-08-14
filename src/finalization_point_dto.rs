@@ -19,6 +19,8 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
+
 /// Finalization point.
 #[derive(Debug, Clone, Copy)]
 pub struct FinalizationPointDto(pub u32);
@@ -56,8 +58,7 @@ impl FinalizationPointDto {
     /// A `FinalizationPointDto`.
     pub fn from_binary(src: &[u8]) -> Self {
         // assert_eq!(src.len(), Self::LENGTH);
-        let mut buf = [0x0u8; Self::LENGTH];
-        buf.copy_from_slice(&src[..Self::LENGTH]);
+        let buf = fixed_bytes::<{ Self::LENGTH }>(src);
         Self(u32::from_le_bytes(buf))
     }
 }

@@ -20,6 +20,7 @@
  */
 
 use super::finalization_round_builder::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
 use super::height_dto::*;
 
@@ -80,9 +81,9 @@ impl FinalizedBlockHeaderBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.round.get_size();
-        size += self.height.get_size();
-        size += self.hash.get_size();
+        size += self.round.get_size(); // round;
+        size += self.height.get_size(); // height;
+        size += self.hash.get_size(); // hash;
         size
     }
 

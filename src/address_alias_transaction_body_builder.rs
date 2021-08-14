@@ -21,6 +21,7 @@
 
 use super::address_dto::*;
 use super::alias_action_dto::*;
+use super::generator_utils::*;
 use super::namespace_id_dto::*;
 
 /// Binary layout for an address alias transaction.
@@ -42,11 +43,11 @@ impl AddressAliasTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let namespace_id = NamespaceIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[namespace_id.get_size()..].to_vec();
+        bytes_ = bytes_[namespace_id.get_size()..].to_vec();
         let address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[address.get_size()..].to_vec();
+        bytes_ = bytes_[address.get_size()..].to_vec();
         let alias_action = AliasActionDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[alias_action.get_size()..].to_vec();
+        bytes_ = (&bytes_[alias_action.get_size()..]).to_vec();
         // create object and call.
         AddressAliasTransactionBodyBuilder { namespace_id, address, alias_action } // TransactionBody
     }

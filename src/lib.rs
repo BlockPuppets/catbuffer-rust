@@ -66,6 +66,7 @@ pub mod finalization_epoch_dto;
 pub mod finalization_point_dto;
 pub mod finalization_round_builder;
 pub mod finalized_block_header_builder;
+pub mod generator_utils;
 pub mod global_key_value_builder;
 pub mod global_key_value_set_builder;
 pub mod hash256_dto;

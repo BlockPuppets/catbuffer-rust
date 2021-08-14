@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::height_dto::*;
 
 /// Binary layout for namespace lifetime.
@@ -66,8 +67,8 @@ impl NamespaceLifetimeBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.lifetime_start.get_size();
-        size += self.lifetime_end.get_size();
+        size += self.lifetime_start.get_size(); // lifetime_start;
+        size += self.lifetime_end.get_size(); // lifetime_end;
         size
     }
 

@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::mosaic_builder::*;
 use super::receipt_builder::*;
 
@@ -59,7 +60,7 @@ impl InflationReceiptBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.mosaic.get_size();
+        size += self.mosaic.get_size(); // mosaic;
         size
     }
 

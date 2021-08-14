@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::unresolved_address_dto::*;
 
 /// Binary layout for a multisig account modification transaction.
@@ -41,35 +42,28 @@ impl MultisigAccountModificationTransactionBodyBuilder {
     /// A MultisigAccountModificationTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        let buf = fixed_bytes::<1>(&bytes_);
         let min_removal_delta = u8::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        bytes_ = (&bytes_[1..]).to_vec();
+        let buf = fixed_bytes::<1>(&bytes_);
         let min_approval_delta = u8::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        bytes_ = (&bytes_[1..]).to_vec();
+        let buf = fixed_bytes::<1>(&bytes_);
         let address_additions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = [0x0u8; 1];
-        buf.copy_from_slice(&bytes_[..1]);
+        bytes_ = (&bytes_[1..]).to_vec();
+        let buf = fixed_bytes::<1>(&bytes_);
         let address_deletions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        bytes_ = (&bytes_[1..]).to_vec();
+        let buf = fixed_bytes::<4>(&bytes_);
         let multisig_account_modification_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
+        bytes_ = (&bytes_[4..]).to_vec();
         let mut address_additions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
         for _ in 0..address_additions_count {
             let item = UnresolvedAddressDto::from_binary(&bytes_);
             address_additions.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
         let mut address_deletions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
         for _ in 0..address_deletions_count {
             let item = UnresolvedAddressDto::from_binary(&bytes_);
             address_deletions.push(item.clone());

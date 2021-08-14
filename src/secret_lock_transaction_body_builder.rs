@@ -20,6 +20,7 @@
  */
 
 use super::block_duration_dto::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
 use super::lock_hash_algorithm_dto::*;
 use super::unresolved_address_dto::*;
@@ -48,15 +49,15 @@ impl SecretLockTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let recipient_address = UnresolvedAddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[recipient_address.get_size()..].to_vec();
+        bytes_ = bytes_[recipient_address.get_size()..].to_vec();
         let secret = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[secret.get_size()..].to_vec();
+        bytes_ = bytes_[secret.get_size()..].to_vec();
         let mosaic = UnresolvedMosaicBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[mosaic.get_size()..].to_vec();
+        bytes_ = bytes_[mosaic.get_size()..].to_vec();
         let duration = BlockDurationDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[duration.get_size()..].to_vec();
+        bytes_ = bytes_[duration.get_size()..].to_vec();
         let hash_algorithm = LockHashAlgorithmDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[hash_algorithm.get_size()..].to_vec();
+        bytes_ = (&bytes_[hash_algorithm.get_size()..]).to_vec();
         // create object and call.
         SecretLockTransactionBodyBuilder { recipient_address, secret, mosaic, duration, hash_algorithm } // TransactionBody
     }

@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::namespace_id_dto::*;
 use super::receipt_builder::*;
 
@@ -59,7 +60,7 @@ impl NamespaceExpiryReceiptBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.artifact_id.get_size();
+        size += self.artifact_id.get_size(); // artifact_id;
         size
     }
 

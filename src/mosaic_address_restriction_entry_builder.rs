@@ -21,6 +21,7 @@
 
 use super::address_dto::*;
 use super::address_key_value_set_builder::*;
+use super::generator_utils::*;
 use super::mosaic_id_dto::*;
 
 /// Binary layout for a mosaic restriction.
@@ -80,9 +81,9 @@ impl MosaicAddressRestrictionEntryBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.mosaic_id.get_size();
-        size += self.address.get_size();
-        size += self.key_pairs.get_size();
+        size += self.mosaic_id.get_size(); // mosaic_id;
+        size += self.address.get_size(); // address;
+        size += self.key_pairs.get_size(); // key_pairs;
         size
     }
 

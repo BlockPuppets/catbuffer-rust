@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::mosaic_id_dto::*;
 use super::receipt_source_builder::*;
 
@@ -67,8 +68,8 @@ impl MosaicResolutionEntryBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.source.get_size();
-        size += self.resolved.get_size();
+        size += self.source.get_size(); // source;
+        size += self.resolved.get_size(); // resolved;
         size
     }
 

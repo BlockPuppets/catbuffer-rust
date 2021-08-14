@@ -20,6 +20,7 @@
  */
 
 use super::amount_dto::*;
+use super::generator_utils::*;
 use super::mosaic_supply_change_action_dto::*;
 use super::unresolved_mosaic_id_dto::*;
 
@@ -42,11 +43,11 @@ impl MosaicSupplyChangeTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let mosaic_id = UnresolvedMosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
+        bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
         let delta = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[delta.get_size()..].to_vec();
+        bytes_ = bytes_[delta.get_size()..].to_vec();
         let action = MosaicSupplyChangeActionDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[action.get_size()..].to_vec();
+        bytes_ = (&bytes_[action.get_size()..]).to_vec();
         // create object and call.
         MosaicSupplyChangeTransactionBodyBuilder { mosaic_id, delta, action } // TransactionBody
     }

@@ -21,6 +21,7 @@
 
 use super::finalization_epoch_dto::*;
 use super::finalization_point_dto::*;
+use super::generator_utils::*;
 
 /// Binary layout for finalization round.
 #[derive(Debug, Clone)]
@@ -67,8 +68,8 @@ impl FinalizationRoundBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.epoch.get_size();
-        size += self.point.get_size();
+        size += self.epoch.get_size(); // epoch;
+        size += self.point.get_size(); // point;
         size
     }
 

@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 
 /// Binary layout of a metadata entry value.
 #[derive(Debug, Clone)]
@@ -34,8 +35,7 @@ impl MetadataValueBuilder {
     /// # Returns
     /// A MetadataValueBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = [0x0u8; 2];
-        buf.copy_from_slice(&bytes_[..2]);
+        let mut buf = fixed_bytes::<2>(&bytes_);
         let size = u16::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[2..]).to_vec();
         let data = (&bytes_[..size as usize]).to_vec(); // kind:BUFFER
@@ -58,7 +58,7 @@ impl MetadataValueBuilder {
     pub fn get_size(&self) -> usize {
         let mut size = 0;
         size += 2; // size;
-        size += self.data.len();
+        size += self.data.len(); // data;
         size
     }
 

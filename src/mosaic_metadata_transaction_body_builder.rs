@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::unresolved_address_dto::*;
 use super::unresolved_mosaic_id_dto::*;
 
@@ -45,23 +46,20 @@ impl MosaicMetadataTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let target_address = UnresolvedAddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[target_address.get_size()..].to_vec();
-        let mut buf = [0x0u8; 8];
-        buf.copy_from_slice(&bytes_[..8]);
+        bytes_ = bytes_[target_address.get_size()..].to_vec();
+        let buf = fixed_bytes::<8>(&bytes_);
         let scoped_metadata_key = u64::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[8..]).to_vec();
+        bytes_ = (&bytes_[8..]).to_vec();
         let target_mosaic_id = UnresolvedMosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[target_mosaic_id.get_size()..].to_vec();
-        let mut buf = [0x0u8; 2];
-        buf.copy_from_slice(&bytes_[..2]);
+        bytes_ = bytes_[target_mosaic_id.get_size()..].to_vec();
+        let buf = fixed_bytes::<2>(&bytes_);
         let value_size_delta = u16::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[2..]).to_vec();
-        let mut buf = [0x0u8; 2];
-        buf.copy_from_slice(&bytes_[..2]);
+        bytes_ = (&bytes_[2..]).to_vec();
+        let buf = fixed_bytes::<2>(&bytes_);
         let value_size = u16::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[2..]).to_vec();
+        bytes_ = (&bytes_[2..]).to_vec();
         let value = (&bytes_[..value_size as usize]).to_vec(); // kind:BUFFER
-        let bytes_ = (&bytes_[value_size as usize..]).to_vec();
+        bytes_ = (&bytes_[value_size as usize..]).to_vec();
         // create object and call.
         MosaicMetadataTransactionBodyBuilder { target_address, scoped_metadata_key, target_mosaic_id, value_size_delta, value } // TransactionBody
     }

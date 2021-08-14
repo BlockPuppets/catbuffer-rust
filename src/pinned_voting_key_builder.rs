@@ -20,6 +20,7 @@
  */
 
 use super::finalization_epoch_dto::*;
+use super::generator_utils::*;
 use super::voting_key_dto::*;
 
 /// Pinned voting key.
@@ -79,9 +80,9 @@ impl PinnedVotingKeyBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.voting_key.get_size();
-        size += self.start_epoch.get_size();
-        size += self.end_epoch.get_size();
+        size += self.voting_key.get_size(); // voting_key;
+        size += self.start_epoch.get_size(); // start_epoch;
+        size += self.end_epoch.get_size(); // end_epoch;
         size
     }
 

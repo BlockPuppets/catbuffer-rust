@@ -20,6 +20,7 @@
  */
 
 use super::address_dto::*;
+use super::generator_utils::*;
 use super::mosaic_builder::*;
 use super::receipt_builder::*;
 
@@ -72,8 +73,8 @@ impl BalanceChangeReceiptBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = self.super_object.get_size();
-        size += self.mosaic.get_size();
-        size += self.target_address.get_size();
+        size += self.mosaic.get_size(); // mosaic;
+        size += self.target_address.get_size(); // target_address;
         size
     }
 

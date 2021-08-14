@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::generator_utils::*;
 use super::hash256_dto::*;
 use super::lock_hash_algorithm_dto::*;
 use super::unresolved_address_dto::*;
@@ -44,17 +45,16 @@ impl SecretProofTransactionBodyBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let recipient_address = UnresolvedAddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[recipient_address.get_size()..].to_vec();
+        bytes_ = bytes_[recipient_address.get_size()..].to_vec();
         let secret = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[secret.get_size()..].to_vec();
-        let mut buf = [0x0u8; 2];
-        buf.copy_from_slice(&bytes_[..2]);
+        bytes_ = bytes_[secret.get_size()..].to_vec();
+        let buf = fixed_bytes::<2>(&bytes_);
         let proof_size = u16::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[2..]).to_vec();
+        bytes_ = (&bytes_[2..]).to_vec();
         let hash_algorithm = LockHashAlgorithmDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[hash_algorithm.get_size()..].to_vec();
+        bytes_ = (&bytes_[hash_algorithm.get_size()..]).to_vec();
         let proof = (&bytes_[..proof_size as usize]).to_vec(); // kind:BUFFER
-        let bytes_ = (&bytes_[proof_size as usize..]).to_vec();
+        bytes_ = (&bytes_[proof_size as usize..]).to_vec();
         // create object and call.
         SecretProofTransactionBodyBuilder { recipient_address, secret, hash_algorithm, proof } // TransactionBody
     }

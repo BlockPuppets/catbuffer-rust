@@ -20,6 +20,7 @@
  */
 
 use super::address_dto::*;
+use super::generator_utils::*;
 use super::height_dto::*;
 use super::mosaic_properties_builder::*;
 
@@ -47,8 +48,7 @@ impl MosaicDefinitionBuilder {
         let mut bytes_ = bytes_[start_height.get_size()..].to_vec();
         let owner_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[owner_address.get_size()..].to_vec();
-        let mut buf = [0x0u8; 4];
-        buf.copy_from_slice(&bytes_[..4]);
+        let mut buf = fixed_bytes::<4>(&bytes_);
         let revision = u32::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[4..]).to_vec();
         let properties = MosaicPropertiesBuilder::from_binary(&bytes_); // kind:CUSTOM1
@@ -94,10 +94,10 @@ impl MosaicDefinitionBuilder {
     /// A size in bytes.
     pub fn get_size(&self) -> usize {
         let mut size = 0;
-        size += self.start_height.get_size();
-        size += self.owner_address.get_size();
+        size += self.start_height.get_size(); // start_height;
+        size += self.owner_address.get_size(); // owner_address;
         size += 4; // revision;
-        size += self.properties.get_size();
+        size += self.properties.get_size(); // properties;
         size
     }
 
