@@ -20,13 +20,8 @@
  */
 
 use super::account_key_link_transaction_body_builder::*;
-use super::amount_dto::*;
-use super::entity_type_dto::*;
 use super::key_dto::*;
 use super::link_action_dto::*;
-use super::network_type_dto::*;
-use super::signature_dto::*;
-use super::timestamp_dto::*;
 use super::transaction_builder::*;
 
 /// Binary layout for a non-embedded account key link transaction.

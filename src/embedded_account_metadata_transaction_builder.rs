@@ -21,9 +21,6 @@
 
 use super::account_metadata_transaction_body_builder::*;
 use super::embedded_transaction_builder::*;
-use super::entity_type_dto::*;
-use super::key_dto::*;
-use super::network_type_dto::*;
 use super::unresolved_address_dto::*;
 
 /// Binary layout for an embedded account metadata transaction.

@@ -21,8 +21,6 @@
 
 use super::cosignature_builder::*;
 use super::hash256_dto::*;
-use super::key_dto::*;
-use super::signature_dto::*;
 
 /// Cosignature detached from an aggregate transaction.
 #[derive(Debug, Clone)]

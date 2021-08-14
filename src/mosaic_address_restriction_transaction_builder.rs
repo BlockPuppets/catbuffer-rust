@@ -19,13 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use super::amount_dto::*;
-use super::entity_type_dto::*;
-use super::key_dto::*;
 use super::mosaic_address_restriction_transaction_body_builder::*;
-use super::network_type_dto::*;
-use super::signature_dto::*;
-use super::timestamp_dto::*;
 use super::transaction_builder::*;
 use super::unresolved_address_dto::*;
 use super::unresolved_mosaic_id_dto::*;

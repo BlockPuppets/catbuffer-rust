@@ -21,11 +21,8 @@
 
 use super::block_duration_dto::*;
 use super::embedded_transaction_builder::*;
-use super::entity_type_dto::*;
 use super::hash256_dto::*;
 use super::hash_lock_transaction_body_builder::*;
-use super::key_dto::*;
-use super::network_type_dto::*;
 use super::unresolved_mosaic_builder::*;
 
 /// Binary layout for an embedded hash lock transaction.

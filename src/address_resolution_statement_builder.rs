@@ -21,7 +21,6 @@
 
 use super::address_resolution_entry_builder::*;
 use super::receipt_builder::*;
-use super::receipt_type_dto::*;
 use super::unresolved_address_dto::*;
 
 /// Binary layout for an address resolution statement.

@@ -21,7 +21,6 @@
 
 use super::mosaic_resolution_entry_builder::*;
 use super::receipt_builder::*;
-use super::receipt_type_dto::*;
 use super::unresolved_mosaic_id_dto::*;
 
 /// Binary layout for a mosaic resolution statement.

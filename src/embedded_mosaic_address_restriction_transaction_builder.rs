@@ -20,10 +20,7 @@
  */
 
 use super::embedded_transaction_builder::*;
-use super::entity_type_dto::*;
-use super::key_dto::*;
 use super::mosaic_address_restriction_transaction_body_builder::*;
-use super::network_type_dto::*;
 use super::unresolved_address_dto::*;
 use super::unresolved_mosaic_id_dto::*;
 

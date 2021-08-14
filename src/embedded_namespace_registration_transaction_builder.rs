@@ -21,12 +21,9 @@
 
 use super::block_duration_dto::*;
 use super::embedded_transaction_builder::*;
-use super::entity_type_dto::*;
-use super::key_dto::*;
 use super::namespace_id_dto::*;
 use super::namespace_registration_transaction_body_builder::*;
 use super::namespace_registration_type_dto::*;
-use super::network_type_dto::*;
 
 /// Binary layout for an embedded namespace registration transaction.
 #[derive(Debug, Clone)]

@@ -19,14 +19,8 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use super::amount_dto::*;
-use super::entity_type_dto::*;
 use super::finalization_epoch_dto::*;
-use super::key_dto::*;
 use super::link_action_dto::*;
-use super::network_type_dto::*;
-use super::signature_dto::*;
-use super::timestamp_dto::*;
 use super::transaction_builder::*;
 use super::voting_key_dto::*;
 use super::voting_key_link_transaction_body_builder::*;

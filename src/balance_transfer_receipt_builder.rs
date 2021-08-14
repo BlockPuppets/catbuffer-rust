@@ -22,7 +22,6 @@
 use super::address_dto::*;
 use super::mosaic_builder::*;
 use super::receipt_builder::*;
-use super::receipt_type_dto::*;
 
 /// Binary layout for a balance transfer receipt.
 #[derive(Debug, Clone)]

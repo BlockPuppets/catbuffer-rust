@@ -21,11 +21,8 @@
 
 use super::amount_dto::*;
 use super::embedded_transaction_builder::*;
-use super::entity_type_dto::*;
-use super::key_dto::*;
 use super::mosaic_supply_change_action_dto::*;
 use super::mosaic_supply_change_transaction_body_builder::*;
-use super::network_type_dto::*;
 use super::unresolved_mosaic_id_dto::*;
 
 /// Binary layout for an embedded mosaic supply change transaction.

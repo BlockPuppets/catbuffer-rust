@@ -45,17 +45,16 @@ impl AccountAddressRestrictionTransactionBodyBuilder {
         let mut buf = [0x0u8; 1];
         buf.copy_from_slice(&bytes_[..1]);
         let restriction_additions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[1..]).to_vec();
+        bytes_ = (&bytes_[1..]).to_vec();
         let mut buf = [0x0u8; 1];
         buf.copy_from_slice(&bytes_[..1]);
         let restriction_deletions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[1..]).to_vec();
+        bytes_ = (&bytes_[1..]).to_vec();
         let mut buf = [0x0u8; 4];
         buf.copy_from_slice(&bytes_[..4]);
-        let account_restriction_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
+        let _account_restriction_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
+        bytes_ = (&bytes_[4..]).to_vec();
         let mut restriction_additions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
         for _ in 0..restriction_additions_count {
             let item = UnresolvedAddressDto::from_binary(&bytes_);
             restriction_additions.push(item.clone());

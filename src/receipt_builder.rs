@@ -71,7 +71,6 @@ impl ReceiptBuilder {
         size += 4; // size;
         size += 2; // version;
         size += self._type.get_size();
-        ;
         size
     }
 

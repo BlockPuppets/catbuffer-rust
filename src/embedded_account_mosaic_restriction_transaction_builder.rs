@@ -22,9 +22,6 @@
 use super::account_mosaic_restriction_transaction_body_builder::*;
 use super::account_restriction_flags_dto::*;
 use super::embedded_transaction_builder::*;
-use super::entity_type_dto::*;
-use super::key_dto::*;
-use super::network_type_dto::*;
 use super::unresolved_mosaic_id_dto::*;
 
 /// Binary layout for an embedded account mosaic restriction transaction.

@@ -21,7 +21,6 @@
 
 use num_derive::{FromPrimitive, ToPrimitive};
 use num_traits::{FromPrimitive, ToPrimitive};
-use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
 /// Enumeration of lock hash algorithms.

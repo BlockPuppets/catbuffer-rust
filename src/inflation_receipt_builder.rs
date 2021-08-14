@@ -21,7 +21,6 @@
 
 use super::mosaic_builder::*;
 use super::receipt_builder::*;
-use super::receipt_type_dto::*;
 
 /// Binary layout for an inflation receipt.
 #[derive(Debug, Clone)]

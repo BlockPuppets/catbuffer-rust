@@ -20,7 +20,6 @@
  */
 
 use super::address_dto::*;
-use super::address_dto::*;
 use super::state_header_builder::*;
 
 /// Binary layout for a multisig entry.

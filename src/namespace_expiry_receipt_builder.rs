@@ -21,7 +21,6 @@
 
 use super::namespace_id_dto::*;
 use super::receipt_builder::*;
-use super::receipt_type_dto::*;
 
 /// Binary layout for a namespace expiry receipt.
 #[derive(Debug, Clone)]

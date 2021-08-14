@@ -21,13 +21,10 @@
 
 use super::block_duration_dto::*;
 use super::embedded_transaction_builder::*;
-use super::entity_type_dto::*;
-use super::key_dto::*;
 use super::mosaic_definition_transaction_body_builder::*;
 use super::mosaic_flags_dto::*;
 use super::mosaic_id_dto::*;
 use super::mosaic_nonce_dto::*;
-use super::network_type_dto::*;
 
 /// Binary layout for an embedded mosaic definition transaction.
 #[derive(Debug, Clone)]

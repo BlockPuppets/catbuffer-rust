@@ -21,11 +21,8 @@
 
 use super::block_duration_dto::*;
 use super::embedded_transaction_builder::*;
-use super::entity_type_dto::*;
 use super::hash256_dto::*;
-use super::key_dto::*;
 use super::lock_hash_algorithm_dto::*;
-use super::network_type_dto::*;
 use super::secret_lock_transaction_body_builder::*;
 use super::unresolved_address_dto::*;
 use super::unresolved_mosaic_builder::*;

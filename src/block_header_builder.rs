@@ -242,7 +242,6 @@ impl BlockHeaderBuilder {
         size += 1; // version;
         size += self.network.get_size();
         size += self._type.get_size();
-        ;
         size += self.height.get_size();
         size += self.timestamp.get_size();
         size += self.difficulty.get_size();

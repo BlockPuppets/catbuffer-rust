@@ -20,11 +20,8 @@
  */
 
 use super::embedded_transaction_builder::*;
-use super::entity_type_dto::*;
 use super::finalization_epoch_dto::*;
-use super::key_dto::*;
 use super::link_action_dto::*;
-use super::network_type_dto::*;
 use super::voting_key_dto::*;
 use super::voting_key_link_transaction_body_builder::*;
 
