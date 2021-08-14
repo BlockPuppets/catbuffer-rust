@@ -20,6 +20,7 @@
  */
 
 use super::account_address_restriction_transaction_body_builder::*;
+use super::account_restriction_flags_dto::*;
 use super::amount_dto::*;
 use super::entity_type_dto::*;
 use super::key_dto::*;
@@ -27,7 +28,6 @@ use super::network_type_dto::*;
 use super::signature_dto::*;
 use super::timestamp_dto::*;
 use super::transaction_builder::*;
-use super::account_restriction_flags_dto::*;
 use super::unresolved_address_dto::*;
 
 /// Binary layout for a non-embedded account address restriction transaction.
@@ -44,7 +44,6 @@ impl AccountAddressRestrictionTransactionBuilder {
     const ENTITY_TYPE: u16 = 0x4150;
 
 
-
     /// Creates an instance of AccountAddressRestrictionTransactionBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -52,13 +51,13 @@ impl AccountAddressRestrictionTransactionBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let super_object = TransactionBuilder::from_binary(&bytes_);
-        assert_eq!( Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
-        assert_eq!( Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
+        assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
+        assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let account_address_restriction_transaction_body = AccountAddressRestrictionTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[account_address_restriction_transaction_body.get_size()..].to_vec();
         // create object and call.
-        AccountAddressRestrictionTransactionBuilder{ super_object, body: account_address_restriction_transaction_body }  // Transaction
+        AccountAddressRestrictionTransactionBuilder { super_object, body: account_address_restriction_transaction_body }  // Transaction
     }
 
 
@@ -84,11 +83,11 @@ impl AccountAddressRestrictionTransactionBuilder {
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = self.super_object.get_size();
+    pub fn get_size(&self) -> usize {
+        let mut size = self.super_object.get_size();
         size += self.body.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///
@@ -96,6 +95,7 @@ impl AccountAddressRestrictionTransactionBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
+        buf.append(&mut (self.get_size() as u32).to_le_bytes().to_vec()); // # serial_kind:SIMPLE
         buf.append(&mut self.super_object.serializer());
         buf.append(&mut self.body.serializer()); // kind:CUSTOM TransactionBody
         buf

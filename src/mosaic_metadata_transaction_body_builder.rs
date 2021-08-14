@@ -38,9 +38,6 @@ pub struct MosaicMetadataTransactionBodyBuilder {
 }
 
 impl MosaicMetadataTransactionBodyBuilder {
-
-
-
     /// Creates an instance of MosaicMetadataTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -66,15 +63,15 @@ impl MosaicMetadataTransactionBodyBuilder {
         let value = (&bytes_[..value_size as usize]).to_vec(); // kind:BUFFER
         let bytes_ = (&bytes_[value_size as usize..]).to_vec();
         // create object and call.
-        MosaicMetadataTransactionBodyBuilder{ target_address, scoped_metadata_key, target_mosaic_id, value_size_delta, value } // TransactionBody
+        MosaicMetadataTransactionBodyBuilder { target_address, scoped_metadata_key, target_mosaic_id, value_size_delta, value } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.target_address.get_size(); // target_address_size;
         size += 8;  // scoped_metadata_key;
         size += self.target_mosaic_id.get_size(); // target_mosaic_id_size;
@@ -82,7 +79,7 @@ impl MosaicMetadataTransactionBodyBuilder {
         size += 2;  // value_size;
         size += self.value.len();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

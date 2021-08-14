@@ -23,8 +23,8 @@ use super::address_dto::*;
 use super::namespace_alias_builder::*;
 use super::namespace_id_dto::*;
 use super::namespace_lifetime_builder::*;
-use super::state_header_builder::*;
 use super::namespace_path_builder::*;
+use super::state_header_builder::*;
 
 /// Binary layout for non-historical root namespace history.
 #[derive(Debug, Clone)]
@@ -45,7 +45,6 @@ pub struct RootNamespaceHistoryBuilder {
 
 
 impl RootNamespaceHistoryBuilder {
-
     /// Creates an instance of RootNamespaceHistoryBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -66,13 +65,13 @@ impl RootNamespaceHistoryBuilder {
         let childrenCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut paths: Vec<NamespacePathBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..childrenCount {
             let item = NamespacePathBuilder::from_binary(&bytes_);
             paths.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
-        RootNamespaceHistoryBuilder{super_object, id, owner_address, lifetime, root_alias, paths}
+        RootNamespaceHistoryBuilder { super_object, id, owner_address, lifetime, root_alias, paths }
     }
 
     /// Gets id of the root namespace history.
@@ -128,7 +127,7 @@ impl RootNamespaceHistoryBuilder {
         size += 8; // children_count;
         size += self.paths.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

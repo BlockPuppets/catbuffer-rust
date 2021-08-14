@@ -46,7 +46,6 @@ pub struct MetadataEntryBuilder {
 
 
 impl MetadataEntryBuilder {
-
     /// Creates an instance of MetadataEntryBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -68,7 +67,7 @@ impl MetadataEntryBuilder {
         let mut bytes_ = bytes_[metadata_type.get_size()..].to_vec();
         let value = MetadataValueBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[value.get_size()..].to_vec();
-        MetadataEntryBuilder{super_object, source_address, target_address, scoped_metadata_key, target_id, metadata_type, value}
+        MetadataEntryBuilder { super_object, source_address, target_address, scoped_metadata_key, target_id, metadata_type, value }
     }
 
     /// Gets metadata source address (provider).
@@ -132,7 +131,7 @@ impl MetadataEntryBuilder {
         size += self.metadata_type.get_size();
         size += self.value.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

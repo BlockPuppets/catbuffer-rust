@@ -37,7 +37,6 @@ pub struct HeightActivityBucketBuilder {
 
 
 impl HeightActivityBucketBuilder {
-
     /// Creates an instance of HeightActivityBucketBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -55,7 +54,7 @@ impl HeightActivityBucketBuilder {
         buf.copy_from_slice(&bytes_[..8]);
         let raw_score = u64::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[8..]).to_vec();
-        HeightActivityBucketBuilder{start_height, total_fees_paid, beneficiary_count, raw_score}
+        HeightActivityBucketBuilder { start_height, total_fees_paid, beneficiary_count, raw_score }
     }
 
     /// Gets activity start height.
@@ -101,7 +100,7 @@ impl HeightActivityBucketBuilder {
         size += 4; // beneficiary_count;
         size += 8; // raw_score;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

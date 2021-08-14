@@ -36,7 +36,6 @@ pub struct VrfProofBuilder {
 
 
 impl VrfProofBuilder {
-
     /// Creates an instance of VrfProofBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -48,7 +47,7 @@ impl VrfProofBuilder {
         let mut bytes_ = bytes_[verification_hash.get_size()..].to_vec();
         let scalar = ProofScalarDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[scalar.get_size()..].to_vec();
-        VrfProofBuilder{gamma, verification_hash, scalar}
+        VrfProofBuilder { gamma, verification_hash, scalar }
     }
 
     /// Gets gamma.
@@ -85,7 +84,7 @@ impl VrfProofBuilder {
         size += self.verification_hash.get_size();
         size += self.scalar.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

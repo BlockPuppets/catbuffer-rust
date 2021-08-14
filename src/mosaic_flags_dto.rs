@@ -19,8 +19,8 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use num_traits::{ToPrimitive, FromPrimitive};
-use num_derive::{ToPrimitive, FromPrimitive};
+use num_derive::{FromPrimitive, ToPrimitive};
+use num_traits::{FromPrimitive, ToPrimitive};
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
@@ -44,7 +44,6 @@ pub enum MosaicFlagsDto {
 }
 
 impl MosaicFlagsDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.
@@ -86,7 +85,7 @@ impl MosaicFlagsDto {
         let mut results: Vec<MosaicFlagsDto> = vec![];
         for flag in MosaicFlagsDto::iter() {
             if 0 != flag.get_value() & bit_mask_value {
-            results.push(flag);
+                results.push(flag);
             }
         }
         results
@@ -100,8 +99,8 @@ impl MosaicFlagsDto {
     pub fn flags_to_int(flags: Vec<MosaicFlagsDto>) -> u8 {
         let mut result: u8 = 0;
         for flag in MosaicFlagsDto::iter() {
-            if flags.iter().any( | &i | i == flag ) {
-               result += flag.get_value();
+            if flags.iter().any(|&i| i == flag) {
+                result += flag.get_value();
             }
         }
         result

@@ -35,7 +35,6 @@ pub struct DetachedCosignatureBuilder {
 
 
 impl DetachedCosignatureBuilder {
-
     /// Creates an instance of DetachedCosignatureBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -45,7 +44,7 @@ impl DetachedCosignatureBuilder {
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let parent_hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[parent_hash.get_size()..].to_vec();
-        DetachedCosignatureBuilder{super_object, parent_hash}
+        DetachedCosignatureBuilder { super_object, parent_hash }
     }
 
     /// Gets hash of the aggregate transaction that is signed by this cosignature.
@@ -64,7 +63,7 @@ impl DetachedCosignatureBuilder {
         let mut size = self.super_object.get_size();
         size += self.parent_hash.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

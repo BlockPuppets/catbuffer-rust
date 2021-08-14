@@ -33,7 +33,6 @@ pub struct AddressResolutionEntryBuilder {
 
 
 impl AddressResolutionEntryBuilder {
-
     /// Creates an instance of AddressResolutionEntryBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -43,7 +42,7 @@ impl AddressResolutionEntryBuilder {
         let mut bytes_ = bytes_[source.get_size()..].to_vec();
         let resolved = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[resolved.get_size()..].to_vec();
-        AddressResolutionEntryBuilder{source, resolved}
+        AddressResolutionEntryBuilder { source, resolved }
     }
 
     /// Gets source of resolution within block.
@@ -71,7 +70,7 @@ impl AddressResolutionEntryBuilder {
         size += self.source.get_size();
         size += self.resolved.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

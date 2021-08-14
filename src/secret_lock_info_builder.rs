@@ -50,7 +50,6 @@ pub struct SecretLockInfoBuilder {
 
 
 impl SecretLockInfoBuilder {
-
     /// Creates an instance of SecretLockInfoBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -72,7 +71,7 @@ impl SecretLockInfoBuilder {
         let mut bytes_ = bytes_[secret.get_size()..].to_vec();
         let recipient = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[recipient.get_size()..].to_vec();
-        SecretLockInfoBuilder{super_object, owner_address, mosaic, end_height, status, hash_algorithm, secret, recipient}
+        SecretLockInfoBuilder { super_object, owner_address, mosaic, end_height, status, hash_algorithm, secret, recipient }
     }
 
     /// Gets owner address.
@@ -145,7 +144,7 @@ impl SecretLockInfoBuilder {
         size += self.secret.get_size();
         size += self.recipient.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

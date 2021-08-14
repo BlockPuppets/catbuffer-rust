@@ -19,8 +19,8 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use num_traits::{ToPrimitive, FromPrimitive};
-use num_derive::{ToPrimitive, FromPrimitive};
+use num_derive::{FromPrimitive, ToPrimitive};
+use num_traits::{FromPrimitive, ToPrimitive};
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
@@ -38,7 +38,6 @@ pub enum NamespaceRegistrationTypeDto {
 }
 
 impl NamespaceRegistrationTypeDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

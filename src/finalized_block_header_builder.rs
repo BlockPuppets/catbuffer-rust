@@ -36,7 +36,6 @@ pub struct FinalizedBlockHeaderBuilder {
 
 
 impl FinalizedBlockHeaderBuilder {
-
     /// Creates an instance of FinalizedBlockHeaderBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -48,7 +47,7 @@ impl FinalizedBlockHeaderBuilder {
         let mut bytes_ = bytes_[height.get_size()..].to_vec();
         let hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[hash.get_size()..].to_vec();
-        FinalizedBlockHeaderBuilder{round, height, hash}
+        FinalizedBlockHeaderBuilder { round, height, hash }
     }
 
     /// Gets finalization round.
@@ -85,7 +84,7 @@ impl FinalizedBlockHeaderBuilder {
         size += self.height.get_size();
         size += self.hash.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

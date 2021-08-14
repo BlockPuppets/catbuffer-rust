@@ -37,7 +37,6 @@ pub struct BalanceChangeReceiptBuilder {
 
 
 impl BalanceChangeReceiptBuilder {
-
     /// Creates an instance of BalanceChangeReceiptBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -49,7 +48,7 @@ impl BalanceChangeReceiptBuilder {
         let mut bytes_ = bytes_[mosaic.get_size()..].to_vec();
         let target_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[target_address.get_size()..].to_vec();
-        BalanceChangeReceiptBuilder{super_object, mosaic, target_address}
+        BalanceChangeReceiptBuilder { super_object, mosaic, target_address }
     }
 
     /// Gets mosaic.
@@ -77,7 +76,7 @@ impl BalanceChangeReceiptBuilder {
         size += self.mosaic.get_size();
         size += self.target_address.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

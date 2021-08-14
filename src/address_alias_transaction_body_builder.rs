@@ -35,9 +35,6 @@ pub struct AddressAliasTransactionBodyBuilder {
 }
 
 impl AddressAliasTransactionBodyBuilder {
-
-
-
     /// Creates an instance of AddressAliasTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -51,20 +48,20 @@ impl AddressAliasTransactionBodyBuilder {
         let alias_action = AliasActionDto::from_binary(&bytes_); // kind:CUSTOM2
         let mut bytes_ = bytes_[alias_action.get_size()..].to_vec();
         // create object and call.
-        AddressAliasTransactionBodyBuilder{ namespace_id, address, alias_action } // TransactionBody
+        AddressAliasTransactionBodyBuilder { namespace_id, address, alias_action } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.namespace_id.get_size(); // namespace_id_size;
         size += self.address.get_size(); // address_size;
         size += self.alias_action.get_size(); // alias_action_size;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

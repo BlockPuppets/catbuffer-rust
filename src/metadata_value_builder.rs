@@ -29,7 +29,6 @@ pub struct MetadataValueBuilder {
 
 
 impl MetadataValueBuilder {
-
     /// Creates an instance of MetadataValueBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -41,7 +40,7 @@ impl MetadataValueBuilder {
         let mut bytes_ = (&bytes_[2..]).to_vec();
         let data = (&bytes_[..size as usize]).to_vec(); // kind:BUFFER
         let bytes_ = (&bytes_[size as usize..]).to_vec();
-        MetadataValueBuilder{data}
+        MetadataValueBuilder { data }
     }
 
     /// Gets data of the value.
@@ -61,7 +60,7 @@ impl MetadataValueBuilder {
         size += 2; // size;
         size += self.data.len();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

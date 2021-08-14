@@ -35,7 +35,6 @@ pub struct CosignatureBuilder {
 
 
 impl CosignatureBuilder {
-
     /// Creates an instance of CosignatureBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -49,7 +48,7 @@ impl CosignatureBuilder {
         let mut bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
         let signature = SignatureDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[signature.get_size()..].to_vec();
-        CosignatureBuilder{version, signer_public_key, signature}
+        CosignatureBuilder { version, signer_public_key, signature }
     }
 
     /// Gets version.
@@ -86,7 +85,7 @@ impl CosignatureBuilder {
         size += self.signer_public_key.get_size();
         size += self.signature.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

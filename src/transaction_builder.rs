@@ -46,20 +46,25 @@ pub struct TransactionBuilder {
 }
 
 impl TransactionBuilder {
-
-
-
     /// Creates an instance of TransactionBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A TransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
-        
+        let bytes_ = (&bytes_[4..]).to_vec();
+        let mut buf = [0x0u8; 4];
+        buf.copy_from_slice(&bytes_[..4]);
+        let verifiable_entity_header__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
+        let bytes_ = (&bytes_[4..]).to_vec();
         let signature = SignatureDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[signature.get_size()..].to_vec();
         let signer_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
+        let mut buf = [0x0u8; 4];
+        buf.copy_from_slice(&bytes_[..4]);
+        let entity_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
+        let bytes_ = (&bytes_[4..]).to_vec();
         let mut buf = [0x0u8; 1];
         buf.copy_from_slice(&bytes_[..1]);
         let version = u8::from_le_bytes(buf); // kind:SIMPLE
@@ -67,21 +72,21 @@ impl TransactionBuilder {
         let network = NetworkTypeDto::from_binary(&bytes_); // kind:CUSTOM2
         let mut bytes_ = bytes_[network.get_size()..].to_vec();
         let _type = EntityTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-            let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
+        let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
         let fee = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[fee.get_size()..].to_vec();
         let deadline = TimestampDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[deadline.get_size()..].to_vec();
         // create object and call. // Transaction
-        TransactionBuilder{ signature, signer_public_key, version, network, _type, fee, deadline }
+        TransactionBuilder { signature, signer_public_key, version, network, _type, fee, deadline }
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += 4;  // size;
         size += 4;  // verifiable_entity_header__reserved1;
         size += self.signature.get_size(); // signature_size;
@@ -93,7 +98,7 @@ impl TransactionBuilder {
         size += self.fee.get_size(); // fee_size;
         size += self.deadline.get_size(); // deadline_size;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///
@@ -101,11 +106,10 @@ impl TransactionBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
-        buf.append(&mut self.get_size().to_le_bytes().to_vec()); // # serial_kind:SIMPLE
-        buf.append(&mut 4u32.to_le_bytes().to_vec()); // SIMPLE and is_reserved
+        buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved
         buf.append(&mut self.signature.serializer()); // kind:CUSTOM
         buf.append(&mut self.signer_public_key.serializer()); // kind:CUSTOM
-        buf.append(&mut 4u32.to_le_bytes().to_vec()); // SIMPLE and is_reserved
+        buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved
         buf.append(&mut self.version.to_le_bytes().to_vec()); // serial_kind:SIMPLE
         buf.append(&mut self.network.serializer()); // kind:CUSTOM
         buf.append(&mut self._type.serializer()); // kind:CUSTOM

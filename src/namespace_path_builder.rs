@@ -33,7 +33,6 @@ pub struct NamespacePathBuilder {
 
 
 impl NamespacePathBuilder {
-
     /// Creates an instance of NamespacePathBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -44,7 +43,7 @@ impl NamespacePathBuilder {
         let pathSize = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[1..]).to_vec();
         let mut path: Vec<NamespaceIdDto> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..pathSize {
             let item = NamespaceIdDto::from_binary(&bytes_);
             path.push(item.clone());
@@ -52,7 +51,7 @@ impl NamespacePathBuilder {
         }
         let alias = NamespaceAliasBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[alias.get_size()..].to_vec();
-        NamespacePathBuilder{path, alias}
+        NamespacePathBuilder { path, alias }
     }
 
     /// Gets namespace path (excluding root id).
@@ -81,7 +80,7 @@ impl NamespacePathBuilder {
         size += self.path.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size += self.alias.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

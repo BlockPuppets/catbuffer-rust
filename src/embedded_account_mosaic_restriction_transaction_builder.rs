@@ -20,11 +20,11 @@
  */
 
 use super::account_mosaic_restriction_transaction_body_builder::*;
+use super::account_restriction_flags_dto::*;
 use super::embedded_transaction_builder::*;
 use super::entity_type_dto::*;
 use super::key_dto::*;
 use super::network_type_dto::*;
-use super::account_restriction_flags_dto::*;
 use super::unresolved_mosaic_id_dto::*;
 
 /// Binary layout for an embedded account mosaic restriction transaction.
@@ -41,7 +41,6 @@ impl EmbeddedAccountMosaicRestrictionTransactionBuilder {
     const ENTITY_TYPE: u16 = 0x4250;
 
 
-
     /// Creates an instance of EmbeddedAccountMosaicRestrictionTransactionBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -49,13 +48,13 @@ impl EmbeddedAccountMosaicRestrictionTransactionBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let super_object = EmbeddedTransactionBuilder::from_binary(&bytes_);
-        assert_eq!( Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
-        assert_eq!( Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
+        assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
+        assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let account_mosaic_restriction_transaction_body = AccountMosaicRestrictionTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[account_mosaic_restriction_transaction_body.get_size()..].to_vec();
         // create object and call.
-        EmbeddedAccountMosaicRestrictionTransactionBuilder{ super_object, body: account_mosaic_restriction_transaction_body }  // Transaction
+        EmbeddedAccountMosaicRestrictionTransactionBuilder { super_object, body: account_mosaic_restriction_transaction_body }  // Transaction
         // nothing needed to copy into EmbeddedTransaction
     }
 
@@ -82,11 +81,11 @@ impl EmbeddedAccountMosaicRestrictionTransactionBuilder {
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = self.super_object.get_size();
+    pub fn get_size(&self) -> usize {
+        let mut size = self.super_object.get_size();
         size += self.body.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

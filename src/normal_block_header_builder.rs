@@ -41,7 +41,6 @@ pub struct NormalBlockHeaderBuilder {
 
 
 impl NormalBlockHeaderBuilder {
-
     /// Creates an instance of NormalBlockHeaderBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -49,7 +48,7 @@ impl NormalBlockHeaderBuilder {
     pub fn from_binary(bytes_: &[u8]) -> Self {
         let super_object = BlockHeaderBuilder::from_binary(bytes_);
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        NormalBlockHeaderBuilder{super_object}
+        NormalBlockHeaderBuilder { super_object }
     }
 
     /// Gets the size of the type.
@@ -60,7 +59,7 @@ impl NormalBlockHeaderBuilder {
         let mut size = self.super_object.get_size();
         size += 4; // block_header__reserved1;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

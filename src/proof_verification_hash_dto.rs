@@ -24,7 +24,6 @@
 pub struct ProofVerificationHashDto(pub [u8; 16]);
 
 impl ProofVerificationHashDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

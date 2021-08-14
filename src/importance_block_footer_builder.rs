@@ -37,7 +37,6 @@ pub struct ImportanceBlockFooterBuilder {
 
 
 impl ImportanceBlockFooterBuilder {
-
     /// Creates an instance of ImportanceBlockFooterBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -55,7 +54,7 @@ impl ImportanceBlockFooterBuilder {
         let mut bytes_ = bytes_[total_voting_balance.get_size()..].to_vec();
         let previous_importance_block_hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[previous_importance_block_hash.get_size()..].to_vec();
-        ImportanceBlockFooterBuilder{voting_eligible_accounts_count, harvesting_eligible_accounts_count, total_voting_balance, previous_importance_block_hash}
+        ImportanceBlockFooterBuilder { voting_eligible_accounts_count, harvesting_eligible_accounts_count, total_voting_balance, previous_importance_block_hash }
     }
 
     /// Gets number of voting eligible accounts.
@@ -101,7 +100,7 @@ impl ImportanceBlockFooterBuilder {
         size += self.total_voting_balance.get_size();
         size += self.previous_importance_block_hash.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

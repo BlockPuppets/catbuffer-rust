@@ -19,9 +19,9 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::account_restrictions_info_builder::*;
 use super::address_dto::*;
 use super::state_header_builder::*;
-use super::account_restrictions_info_builder::*;
 
 /// Binary layout for account restrictions.
 #[derive(Debug, Clone)]
@@ -36,7 +36,6 @@ pub struct AccountRestrictionsBuilder {
 
 
 impl AccountRestrictionsBuilder {
-
     /// Creates an instance of AccountRestrictionsBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -51,13 +50,13 @@ impl AccountRestrictionsBuilder {
         let restrictionsCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut restrictions: Vec<AccountRestrictionsInfoBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..restrictionsCount {
             let item = AccountRestrictionsInfoBuilder::from_binary(&bytes_);
             restrictions.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
-        AccountRestrictionsBuilder{super_object, address, restrictions}
+        AccountRestrictionsBuilder { super_object, address, restrictions }
     }
 
     /// Gets address on which restrictions are placed.
@@ -86,7 +85,7 @@ impl AccountRestrictionsBuilder {
         size += 8; // restrictions_count;
         size += self.restrictions.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

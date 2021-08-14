@@ -24,7 +24,6 @@
 pub struct AmountDto(pub u64);
 
 impl AmountDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

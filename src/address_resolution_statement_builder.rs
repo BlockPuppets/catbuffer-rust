@@ -19,10 +19,10 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::address_resolution_entry_builder::*;
 use super::receipt_builder::*;
 use super::receipt_type_dto::*;
 use super::unresolved_address_dto::*;
-use super::address_resolution_entry_builder::*;
 
 /// Binary layout for an address resolution statement.
 #[derive(Debug, Clone)]
@@ -37,7 +37,6 @@ pub struct AddressResolutionStatementBuilder {
 
 
 impl AddressResolutionStatementBuilder {
-
     /// Creates an instance of AddressResolutionStatementBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -49,7 +48,7 @@ impl AddressResolutionStatementBuilder {
         let mut bytes_ = bytes_[unresolved.get_size()..].to_vec();
         let resolution_entries: Vec<AddressResolutionEntryBuilder> = vec![];
         //let bytes_ = GeneratorUtils.load_from_binary(AddressResolutionEntryBuilder, resolutionEntries, bytes_, len(bytes_));
-        AddressResolutionStatementBuilder{super_object, unresolved, resolution_entries}
+        AddressResolutionStatementBuilder { super_object, unresolved, resolution_entries }
     }
 
     /// Gets unresolved address.
@@ -77,7 +76,7 @@ impl AddressResolutionStatementBuilder {
         size += self.unresolved.get_size();
         size += self.resolution_entries.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

@@ -38,9 +38,6 @@ pub struct MosaicAddressRestrictionTransactionBodyBuilder {
 }
 
 impl MosaicAddressRestrictionTransactionBodyBuilder {
-
-
-
     /// Creates an instance of MosaicAddressRestrictionTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -64,22 +61,22 @@ impl MosaicAddressRestrictionTransactionBodyBuilder {
         let target_address = UnresolvedAddressDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[target_address.get_size()..].to_vec();
         // create object and call.
-        MosaicAddressRestrictionTransactionBodyBuilder{ mosaic_id, restriction_key, previous_restriction_value, new_restriction_value, target_address } // TransactionBody
+        MosaicAddressRestrictionTransactionBodyBuilder { mosaic_id, restriction_key, previous_restriction_value, new_restriction_value, target_address } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.mosaic_id.get_size(); // mosaic_id_size;
         size += 8;  // restriction_key;
         size += 8;  // previous_restriction_value;
         size += 8;  // new_restriction_value;
         size += self.target_address.get_size(); // target_address_size;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

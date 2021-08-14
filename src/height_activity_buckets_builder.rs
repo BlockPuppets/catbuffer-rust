@@ -30,20 +30,19 @@ pub struct HeightActivityBucketsBuilder {
 
 
 impl HeightActivityBucketsBuilder {
-
     /// Creates an instance of HeightActivityBucketsBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A HeightActivityBucketsBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
         let mut buckets: Vec<HeightActivityBucketBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..5 {
             let item = HeightActivityBucketBuilder::from_binary(&bytes_);
             buckets.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
-        HeightActivityBucketsBuilder{buckets}
+        HeightActivityBucketsBuilder { buckets }
     }
 
     /// Gets account activity buckets.
@@ -62,7 +61,7 @@ impl HeightActivityBucketsBuilder {
         let mut size = 0;
         size += self.buckets.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

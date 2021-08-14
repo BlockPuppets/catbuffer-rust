@@ -20,8 +20,8 @@
  */
 
 use super::address_dto::*;
-use super::state_header_builder::*;
 use super::address_dto::*;
+use super::state_header_builder::*;
 
 /// Binary layout for a multisig entry.
 #[derive(Debug, Clone)]
@@ -42,7 +42,6 @@ pub struct MultisigEntryBuilder {
 
 
 impl MultisigEntryBuilder {
-
     /// Creates an instance of MultisigEntryBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -65,7 +64,7 @@ impl MultisigEntryBuilder {
         let cosignatoryAddressesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut cosignatory_addresses: Vec<AddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..cosignatoryAddressesCount {
             let item = AddressDto::from_binary(&bytes_);
             cosignatory_addresses.push(item.clone());
@@ -76,13 +75,13 @@ impl MultisigEntryBuilder {
         let multisigAddressesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut multisig_addresses: Vec<AddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..multisigAddressesCount {
             let item = AddressDto::from_binary(&bytes_);
             multisig_addresses.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
-        MultisigEntryBuilder{super_object, min_approval, min_removal, account_address, cosignatory_addresses, multisig_addresses}
+        MultisigEntryBuilder { super_object, min_approval, min_removal, account_address, cosignatory_addresses, multisig_addresses }
     }
 
     /// Gets minimum approval for modifications.
@@ -139,7 +138,7 @@ impl MultisigEntryBuilder {
         size += 8; // multisig_addresses_count;
         size += self.multisig_addresses.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

@@ -36,7 +36,6 @@ pub struct MosaicAddressRestrictionEntryBuilder {
 
 
 impl MosaicAddressRestrictionEntryBuilder {
-
     /// Creates an instance of MosaicAddressRestrictionEntryBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -48,7 +47,7 @@ impl MosaicAddressRestrictionEntryBuilder {
         let mut bytes_ = bytes_[address.get_size()..].to_vec();
         let key_pairs = AddressKeyValueSetBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[key_pairs.get_size()..].to_vec();
-        MosaicAddressRestrictionEntryBuilder{mosaic_id, address, key_pairs}
+        MosaicAddressRestrictionEntryBuilder { mosaic_id, address, key_pairs }
     }
 
     /// Gets identifier of the mosaic to which the restriction applies.
@@ -85,7 +84,7 @@ impl MosaicAddressRestrictionEntryBuilder {
         size += self.address.get_size();
         size += self.key_pairs.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

@@ -35,9 +35,6 @@ pub struct MultisigAccountModificationTransactionBodyBuilder {
 }
 
 impl MultisigAccountModificationTransactionBodyBuilder {
-
-
-
     /// Creates an instance of MultisigAccountModificationTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -60,30 +57,34 @@ impl MultisigAccountModificationTransactionBodyBuilder {
         buf.copy_from_slice(&bytes_[..1]);
         let address_deletions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[1..]).to_vec();
+        let mut buf = [0x0u8; 4];
+        buf.copy_from_slice(&bytes_[..4]);
+        let multisig_account_modification_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
+        let bytes_ = (&bytes_[4..]).to_vec();
         let mut address_additions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..address_additions_count {
             let item = UnresolvedAddressDto::from_binary(&bytes_);
             address_additions.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
         let mut address_deletions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..address_deletions_count {
             let item = UnresolvedAddressDto::from_binary(&bytes_);
             address_deletions.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
         // create object and call.
-        MultisigAccountModificationTransactionBodyBuilder{ min_removal_delta, min_approval_delta, address_additions, address_deletions } // TransactionBody
+        MultisigAccountModificationTransactionBodyBuilder { min_removal_delta, min_approval_delta, address_additions, address_deletions } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += 1;  // min_removal_delta;
         size += 1;  // min_approval_delta;
         size += 1;  // address_additions_count;
@@ -96,7 +97,7 @@ impl MultisigAccountModificationTransactionBodyBuilder {
             size += i.get_size(); // FILL_ARRAY
         };
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///
@@ -110,7 +111,7 @@ impl MultisigAccountModificationTransactionBodyBuilder {
         buf.append(&mut size_value.to_le_bytes().to_vec()); // kind:SIZE_FIELD
         let size_value: u8 = self.address_deletions.len() as u8;
         buf.append(&mut size_value.to_le_bytes().to_vec()); // kind:SIZE_FIELD
-        buf.append(&mut 4u32.to_le_bytes().to_vec()); // SIMPLE and is_reserved
+        buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved
         for i in &self.address_additions {
             buf.append(&mut i.serializer()); // kind:ARRAY|FILL_ARRAY
         }

@@ -42,9 +42,6 @@ pub struct MosaicGlobalRestrictionTransactionBodyBuilder {
 }
 
 impl MosaicGlobalRestrictionTransactionBodyBuilder {
-
-
-
     /// Creates an instance of MosaicGlobalRestrictionTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -72,15 +69,15 @@ impl MosaicGlobalRestrictionTransactionBodyBuilder {
         let new_restriction_type = MosaicRestrictionTypeDto::from_binary(&bytes_); // kind:CUSTOM2
         let mut bytes_ = bytes_[new_restriction_type.get_size()..].to_vec();
         // create object and call.
-        MosaicGlobalRestrictionTransactionBodyBuilder{ mosaic_id, reference_mosaic_id, restriction_key, previous_restriction_value, new_restriction_value, previous_restriction_type, new_restriction_type } // TransactionBody
+        MosaicGlobalRestrictionTransactionBodyBuilder { mosaic_id, reference_mosaic_id, restriction_key, previous_restriction_value, new_restriction_value, previous_restriction_type, new_restriction_type } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.mosaic_id.get_size(); // mosaic_id_size;
         size += self.reference_mosaic_id.get_size(); // reference_mosaic_id_size;
         size += 8;  // restriction_key;
@@ -89,7 +86,7 @@ impl MosaicGlobalRestrictionTransactionBodyBuilder {
         size += self.previous_restriction_type.get_size(); // previous_restriction_type_size;
         size += self.new_restriction_type.get_size(); // new_restriction_type_size;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

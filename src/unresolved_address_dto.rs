@@ -24,7 +24,6 @@
 pub struct UnresolvedAddressDto(pub [u8; 24]);
 
 impl UnresolvedAddressDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

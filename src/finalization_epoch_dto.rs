@@ -24,7 +24,6 @@
 pub struct FinalizationEpochDto(pub u32);
 
 impl FinalizationEpochDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

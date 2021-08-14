@@ -30,7 +30,6 @@ pub struct AddressKeyValueSetBuilder {
 
 
 impl AddressKeyValueSetBuilder {
-
     /// Creates an instance of AddressKeyValueSetBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -41,13 +40,13 @@ impl AddressKeyValueSetBuilder {
         let keyValueCount = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[1..]).to_vec();
         let mut keys: Vec<AddressKeyValueBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..keyValueCount {
             let item = AddressKeyValueBuilder::from_binary(&bytes_);
             keys.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
-        AddressKeyValueSetBuilder{keys}
+        AddressKeyValueSetBuilder { keys }
     }
 
     /// Gets key value array.
@@ -67,7 +66,7 @@ impl AddressKeyValueSetBuilder {
         size += 1; // key_value_count;
         size += self.keys.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

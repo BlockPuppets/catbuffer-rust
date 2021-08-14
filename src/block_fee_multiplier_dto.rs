@@ -24,7 +24,6 @@
 pub struct BlockFeeMultiplierDto(pub u32);
 
 impl BlockFeeMultiplierDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

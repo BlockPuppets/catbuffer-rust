@@ -24,7 +24,6 @@
 pub struct ScopedMetadataKeyDto(pub u64);
 
 impl ScopedMetadataKeyDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

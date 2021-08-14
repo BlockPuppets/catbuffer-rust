@@ -35,9 +35,6 @@ pub struct HashLockTransactionBodyBuilder {
 }
 
 impl HashLockTransactionBodyBuilder {
-
-
-
     /// Creates an instance of HashLockTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -51,20 +48,20 @@ impl HashLockTransactionBodyBuilder {
         let hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[hash.get_size()..].to_vec();
         // create object and call.
-        HashLockTransactionBodyBuilder{ mosaic, duration, hash } // TransactionBody
+        HashLockTransactionBodyBuilder { mosaic, duration, hash } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.mosaic.get_size(); // mosaic_size;
         size += self.duration.get_size(); // duration_size;
         size += self.hash.get_size(); // hash_size;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

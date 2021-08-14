@@ -24,7 +24,6 @@
 pub struct ProofGammaDto(pub [u8; 32]);
 
 impl ProofGammaDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

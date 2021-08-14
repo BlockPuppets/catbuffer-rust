@@ -33,7 +33,6 @@ pub struct MosaicGlobalRestrictionEntryBuilder {
 
 
 impl MosaicGlobalRestrictionEntryBuilder {
-
     /// Creates an instance of MosaicGlobalRestrictionEntryBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -43,7 +42,7 @@ impl MosaicGlobalRestrictionEntryBuilder {
         let mut bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
         let key_pairs = GlobalKeyValueSetBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[key_pairs.get_size()..].to_vec();
-        MosaicGlobalRestrictionEntryBuilder{mosaic_id, key_pairs}
+        MosaicGlobalRestrictionEntryBuilder { mosaic_id, key_pairs }
     }
 
     /// Gets identifier of the mosaic to which the restriction applies.
@@ -71,7 +70,7 @@ impl MosaicGlobalRestrictionEntryBuilder {
         size += self.mosaic_id.get_size();
         size += self.key_pairs.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

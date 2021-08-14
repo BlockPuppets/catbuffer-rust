@@ -37,18 +37,23 @@ pub struct EmbeddedTransactionBuilder {
 }
 
 impl EmbeddedTransactionBuilder {
-
-
-
     /// Creates an instance of EmbeddedTransactionBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A EmbeddedTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
-        
+        let bytes_ = (&bytes_[4..]).to_vec();
+        let mut buf = [0x0u8; 4];
+        buf.copy_from_slice(&bytes_[..4]);
+        let embedded_transaction_header__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
+        let bytes_ = (&bytes_[4..]).to_vec();
         let signer_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
+        let mut buf = [0x0u8; 4];
+        buf.copy_from_slice(&bytes_[..4]);
+        let entity_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
+        let bytes_ = (&bytes_[4..]).to_vec();
         let mut buf = [0x0u8; 1];
         buf.copy_from_slice(&bytes_[..1]);
         let version = u8::from_le_bytes(buf); // kind:SIMPLE
@@ -56,17 +61,17 @@ impl EmbeddedTransactionBuilder {
         let network = NetworkTypeDto::from_binary(&bytes_); // kind:CUSTOM2
         let mut bytes_ = bytes_[network.get_size()..].to_vec();
         let _type = EntityTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-            let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
+        let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
         // create object and call. // EmbeddedTransaction
-        EmbeddedTransactionBuilder{signer_public_key, version, network, _type}
+        EmbeddedTransactionBuilder { signer_public_key, version, network, _type }
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += 4;  // size;
         size += 4;  // embedded_transaction_header__reserved1;
         size += self.signer_public_key.get_size(); // signer_public_key_size;
@@ -75,7 +80,7 @@ impl EmbeddedTransactionBuilder {
         size += self.network.get_size(); // network_size;
         size += self._type.get_size(); // type_size;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///
@@ -83,10 +88,10 @@ impl EmbeddedTransactionBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
-        buf.append(&mut self.get_size().to_le_bytes().to_vec()); // # serial_kind:SIMPLE
-        buf.append(&mut 4u32.to_le_bytes().to_vec()); // SIMPLE and is_reserved
+        buf.append(&mut (self.get_size() as u32).to_le_bytes().to_vec()); // # serial_kind:SIMPLE
+        buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved
         buf.append(&mut self.signer_public_key.serializer()); // kind:CUSTOM
-        buf.append(&mut 4u32.to_le_bytes().to_vec()); // SIMPLE and is_reserved
+        buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved
         buf.append(&mut self.version.to_le_bytes().to_vec()); // serial_kind:SIMPLE
         buf.append(&mut self.network.serializer()); // kind:CUSTOM
         buf.append(&mut self._type.serializer()); // kind:CUSTOM

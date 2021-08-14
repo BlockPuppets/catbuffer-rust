@@ -35,7 +35,6 @@ pub struct PinnedVotingKeyBuilder {
 
 
 impl PinnedVotingKeyBuilder {
-
     /// Creates an instance of PinnedVotingKeyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -47,7 +46,7 @@ impl PinnedVotingKeyBuilder {
         let mut bytes_ = bytes_[start_epoch.get_size()..].to_vec();
         let end_epoch = FinalizationEpochDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[end_epoch.get_size()..].to_vec();
-        PinnedVotingKeyBuilder{voting_key, start_epoch, end_epoch}
+        PinnedVotingKeyBuilder { voting_key, start_epoch, end_epoch }
     }
 
     /// Gets voting key.
@@ -84,7 +83,7 @@ impl PinnedVotingKeyBuilder {
         size += self.start_epoch.get_size();
         size += self.end_epoch.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

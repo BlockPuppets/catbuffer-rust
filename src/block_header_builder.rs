@@ -68,13 +68,11 @@ pub struct BlockHeaderBuilder {
 
 
 impl BlockHeaderBuilder {
-
     /// Creates an instance of BlockHeaderBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A BlockHeaderBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        
         let signature = SignatureDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[signature.get_size()..].to_vec();
         let signer_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
@@ -86,7 +84,7 @@ impl BlockHeaderBuilder {
         let network = NetworkTypeDto::from_binary(&bytes_); // kind:CUSTOM2
         let mut bytes_ = bytes_[network.get_size()..].to_vec();
         let _type = EntityTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-            let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
+        let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
         let height = HeightDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[height.get_size()..].to_vec();
         let timestamp = TimestampDto::from_binary(&bytes_); // kind:CUSTOM1
@@ -107,7 +105,7 @@ impl BlockHeaderBuilder {
         let mut bytes_ = bytes_[beneficiary_address.get_size()..].to_vec();
         let fee_multiplier = BlockFeeMultiplierDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[fee_multiplier.get_size()..].to_vec();
-        BlockHeaderBuilder{signature, signer_public_key, version, network, _type, height, timestamp, difficulty, generation_hash_proof, previous_block_hash, transactions_hash, receipts_hash, state_hash, beneficiary_address, fee_multiplier}
+        BlockHeaderBuilder { signature, signer_public_key, version, network, _type, height, timestamp, difficulty, generation_hash_proof, previous_block_hash, transactions_hash, receipts_hash, state_hash, beneficiary_address, fee_multiplier }
     }
 
     /// Gets entity signature.
@@ -243,7 +241,8 @@ impl BlockHeaderBuilder {
         size += 4; // entity_body__reserved1;
         size += 1; // version;
         size += self.network.get_size();
-        size += self._type.get_size();;
+        size += self._type.get_size();
+        ;
         size += self.height.get_size();
         size += self.timestamp.get_size();
         size += self.difficulty.get_size();
@@ -255,7 +254,7 @@ impl BlockHeaderBuilder {
         size += self.beneficiary_address.get_size();
         size += self.fee_multiplier.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

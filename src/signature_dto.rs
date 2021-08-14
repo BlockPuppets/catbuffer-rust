@@ -24,7 +24,6 @@
 pub struct SignatureDto(pub [u8; 64]);
 
 impl SignatureDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

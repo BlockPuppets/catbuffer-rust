@@ -33,7 +33,6 @@ pub struct ImportanceSnapshotBuilder {
 
 
 impl ImportanceSnapshotBuilder {
-
     /// Creates an instance of ImportanceSnapshotBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -43,7 +42,7 @@ impl ImportanceSnapshotBuilder {
         let mut bytes_ = bytes_[importance.get_size()..].to_vec();
         let height = ImportanceHeightDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[height.get_size()..].to_vec();
-        ImportanceSnapshotBuilder{importance, height}
+        ImportanceSnapshotBuilder { importance, height }
     }
 
     /// Gets account importance.
@@ -71,7 +70,7 @@ impl ImportanceSnapshotBuilder {
         size += self.importance.get_size();
         size += self.height.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

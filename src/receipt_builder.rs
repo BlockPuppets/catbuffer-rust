@@ -32,20 +32,18 @@ pub struct ReceiptBuilder {
 
 
 impl ReceiptBuilder {
-
     /// Creates an instance of ReceiptBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A ReceiptBuilder.
     pub fn from_binary(bytes_: &[u8]) -> Self {
-        
         let mut buf = [0x0u8; 2];
         buf.copy_from_slice(&bytes_[..2]);
         let version = u16::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[2..]).to_vec();
         let _type = ReceiptTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-            let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
-        ReceiptBuilder{version, _type}
+        let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
+        ReceiptBuilder { version, _type }
     }
 
     /// Gets receipt version.
@@ -72,9 +70,10 @@ impl ReceiptBuilder {
         let mut size = 0;
         size += 4; // size;
         size += 2; // version;
-        size += self._type.get_size();;
+        size += self._type.get_size();
+        ;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

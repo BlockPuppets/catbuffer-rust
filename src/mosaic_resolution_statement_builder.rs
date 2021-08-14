@@ -19,10 +19,10 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::mosaic_resolution_entry_builder::*;
 use super::receipt_builder::*;
 use super::receipt_type_dto::*;
 use super::unresolved_mosaic_id_dto::*;
-use super::mosaic_resolution_entry_builder::*;
 
 /// Binary layout for a mosaic resolution statement.
 #[derive(Debug, Clone)]
@@ -37,7 +37,6 @@ pub struct MosaicResolutionStatementBuilder {
 
 
 impl MosaicResolutionStatementBuilder {
-
     /// Creates an instance of MosaicResolutionStatementBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -49,7 +48,7 @@ impl MosaicResolutionStatementBuilder {
         let mut bytes_ = bytes_[unresolved.get_size()..].to_vec();
         let resolution_entries: Vec<MosaicResolutionEntryBuilder> = vec![];
         //let bytes_ = GeneratorUtils.load_from_binary(MosaicResolutionEntryBuilder, resolutionEntries, bytes_, len(bytes_));
-        MosaicResolutionStatementBuilder{super_object, unresolved, resolution_entries}
+        MosaicResolutionStatementBuilder { super_object, unresolved, resolution_entries }
     }
 
     /// Gets unresolved mosaic.
@@ -77,7 +76,7 @@ impl MosaicResolutionStatementBuilder {
         size += self.unresolved.get_size();
         size += self.resolution_entries.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

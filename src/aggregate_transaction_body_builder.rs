@@ -19,9 +19,9 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use super::hash256_dto::*;
 use super::cosignature_builder::*;
 use super::embedded_transaction_builder::*;
+use super::hash256_dto::*;
 
 /// Binary layout for an aggregate transaction.
 #[derive(Debug, Clone)]
@@ -35,19 +35,8 @@ pub struct AggregateTransactionBodyBuilder {
 }
 
 impl AggregateTransactionBodyBuilder {
-
     fn load_embedded_transactions(mut transactions: Vec<EmbeddedTransactionBuilder>, payload: Vec<u8>, payload_size: u32) -> Vec<u8> {
-        let mut remaining_byte_sizes = payload_size;
-
-        let mut payload_r = vec![];
-        while remaining_byte_sizes > 0 {
-            let item = EmbeddedTransactionBuilderFactory::create_from_payload(&payload);
-            transactions.append(item);
-            let item_size = item.get_size() + Self::transaction_padding_size(item.get_size(), 8);
-            remaining_byte_sizes -= item_size;
-            payload_r = payload[item_size..];
-        }
-        payload_r
+        vec![]
     }
 
 
@@ -63,6 +52,10 @@ impl AggregateTransactionBodyBuilder {
         buf.copy_from_slice(&bytes_[..4]);
         let payload_size = u32::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[4..]).to_vec();
+        let mut buf = [0x0u8; 4];
+        buf.copy_from_slice(&bytes_[..4]);
+        let aggregate_transaction_header__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
+        let bytes_ = (&bytes_[4..]).to_vec();
         let transactions: Vec<EmbeddedTransactionBuilder> = vec![];
         let bytes_ = AggregateTransactionBodyBuilder::load_embedded_transactions(transactions.clone(), bytes_, payload_size);
         let mut cosignatures: Vec<CosignatureBuilder> = vec![];
@@ -73,7 +66,7 @@ impl AggregateTransactionBodyBuilder {
             remaining_byte_sizes -= item.get_size();
         }
         // create object and call.
-        AggregateTransactionBodyBuilder{ transactions_hash, transactions, cosignatures } // TransactionBody
+        AggregateTransactionBodyBuilder { transactions_hash, transactions, cosignatures } // TransactionBody
     }
 
     /// Serializes an embeded transaction with correct padding.
@@ -81,7 +74,7 @@ impl AggregateTransactionBodyBuilder {
     /// A Serialized embedded transaction.
     pub fn serialize_aligned(transaction: &EmbeddedTransactionBuilder) -> Vec<u8> {
         let txn_bytes = transaction.serializer();
-        let padding = vec![ 0u8; Self::transaction_padding_size(txn_bytes.len(), 8)];
+        let padding = vec![0u8; Self::transaction_padding_size(txn_bytes.len(), 8)];
         [txn_bytes, padding].concat()
     }
 
@@ -96,7 +89,7 @@ impl AggregateTransactionBodyBuilder {
 
     fn transaction_padding_size(size: usize, alignment: usize) -> usize {
         if size % alignment == 0 {
-            return 0
+            return 0;
         }
         alignment - size % alignment
     }
@@ -104,8 +97,8 @@ impl AggregateTransactionBodyBuilder {
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.transactions_hash.get_size(); // transactions_hash_size;
         size += 4;  // payload_size;
         size += 4;  // aggregate_transaction_header__reserved1;
@@ -116,7 +109,7 @@ impl AggregateTransactionBodyBuilder {
             size += i.get_size(); // FILL_ARRAY
         };
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///
@@ -127,11 +120,11 @@ impl AggregateTransactionBodyBuilder {
         buf.append(&mut self.transactions_hash.serializer()); // kind:CUSTOM
         // calculate payload size
         let mut size_value: u32 = 0;
-        for i in &self.transactions{
+        for i in &self.transactions {
             size_value += Self::size_aligned(i) as u32;
         };
         buf.append(&mut size_value.to_le_bytes().to_vec()); // kind:SIZE_FIELD
-        buf.append(&mut 4u32.to_le_bytes().to_vec()); // SIMPLE and is_reserved
+        buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved
         for i in &self.transactions {
             buf.append(&mut Self::serialize_aligned(i)); // kind:VAR_ARRAY
         }

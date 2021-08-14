@@ -34,9 +34,6 @@ pub struct AccountMosaicRestrictionTransactionBodyBuilder {
 }
 
 impl AccountMosaicRestrictionTransactionBodyBuilder {
-
-
-
     /// Creates an instance of AccountMosaicRestrictionTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -53,30 +50,34 @@ impl AccountMosaicRestrictionTransactionBodyBuilder {
         buf.copy_from_slice(&bytes_[..1]);
         let restriction_deletions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[1..]).to_vec();
+        let mut buf = [0x0u8; 4];
+        buf.copy_from_slice(&bytes_[..4]);
+        let account_restriction_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
+        let bytes_ = (&bytes_[4..]).to_vec();
         let mut restriction_additions: Vec<UnresolvedMosaicIdDto> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..restriction_additions_count {
             let item = UnresolvedMosaicIdDto::from_binary(&bytes_);
             restriction_additions.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
         let mut restriction_deletions: Vec<UnresolvedMosaicIdDto> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..restriction_deletions_count {
             let item = UnresolvedMosaicIdDto::from_binary(&bytes_);
             restriction_deletions.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
         // create object and call.
-        AccountMosaicRestrictionTransactionBodyBuilder{ restriction_flags, restriction_additions, restriction_deletions } // TransactionBody
+        AccountMosaicRestrictionTransactionBodyBuilder { restriction_flags, restriction_additions, restriction_deletions } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += 2;  // restriction_flags;
         size += 1;  // restriction_additions_count;
         size += 1;  // restriction_deletions_count;
@@ -88,7 +89,7 @@ impl AccountMosaicRestrictionTransactionBodyBuilder {
             size += i.get_size(); // FILL_ARRAY
         };
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///
@@ -101,7 +102,7 @@ impl AccountMosaicRestrictionTransactionBodyBuilder {
         buf.append(&mut size_value.to_le_bytes().to_vec()); // kind:SIZE_FIELD
         let size_value: u8 = self.restriction_deletions.len() as u8;
         buf.append(&mut size_value.to_le_bytes().to_vec()); // kind:SIZE_FIELD
-        buf.append(&mut 4u32.to_le_bytes().to_vec()); // SIMPLE and is_reserved
+        buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved
         for i in &self.restriction_additions {
             buf.append(&mut i.serializer()); // kind:ARRAY|FILL_ARRAY
         }

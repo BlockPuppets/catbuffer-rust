@@ -39,7 +39,6 @@ pub struct MosaicEntryBuilder {
 
 
 impl MosaicEntryBuilder {
-
     /// Creates an instance of MosaicEntryBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -53,7 +52,7 @@ impl MosaicEntryBuilder {
         let mut bytes_ = bytes_[supply.get_size()..].to_vec();
         let definition = MosaicDefinitionBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[definition.get_size()..].to_vec();
-        MosaicEntryBuilder{super_object, mosaic_id, supply, definition}
+        MosaicEntryBuilder { super_object, mosaic_id, supply, definition }
     }
 
     /// Gets entry id.
@@ -90,7 +89,7 @@ impl MosaicEntryBuilder {
         size += self.supply.get_size();
         size += self.definition.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

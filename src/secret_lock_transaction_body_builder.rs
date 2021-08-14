@@ -41,9 +41,6 @@ pub struct SecretLockTransactionBodyBuilder {
 }
 
 impl SecretLockTransactionBodyBuilder {
-
-
-
     /// Creates an instance of SecretLockTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -61,22 +58,22 @@ impl SecretLockTransactionBodyBuilder {
         let hash_algorithm = LockHashAlgorithmDto::from_binary(&bytes_); // kind:CUSTOM2
         let mut bytes_ = bytes_[hash_algorithm.get_size()..].to_vec();
         // create object and call.
-        SecretLockTransactionBodyBuilder{ recipient_address, secret, mosaic, duration, hash_algorithm } // TransactionBody
+        SecretLockTransactionBodyBuilder { recipient_address, secret, mosaic, duration, hash_algorithm } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.recipient_address.get_size(); // recipient_address_size;
         size += self.secret.get_size(); // secret_size;
         size += self.mosaic.get_size(); // mosaic_size;
         size += self.duration.get_size(); // duration_size;
         size += self.hash_algorithm.get_size(); // hash_algorithm_size;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

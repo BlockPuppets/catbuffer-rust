@@ -29,7 +29,6 @@ pub struct StateHeaderBuilder {
 
 
 impl StateHeaderBuilder {
-
     /// Creates an instance of StateHeaderBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -39,7 +38,7 @@ impl StateHeaderBuilder {
         buf.copy_from_slice(&bytes_[..2]);
         let version = u16::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[2..]).to_vec();
-        StateHeaderBuilder{version}
+        StateHeaderBuilder { version }
     }
 
     /// Gets serialization version.
@@ -58,7 +57,7 @@ impl StateHeaderBuilder {
         let mut size = 0;
         size += 2; // version;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

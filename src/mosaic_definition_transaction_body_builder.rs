@@ -20,9 +20,9 @@
  */
 
 use super::block_duration_dto::*;
+use super::mosaic_flags_dto::*;
 use super::mosaic_id_dto::*;
 use super::mosaic_nonce_dto::*;
-use super::mosaic_flags_dto::*;
 
 /// Binary layout for a mosaic definition transaction.
 #[derive(Debug, Clone)]
@@ -40,9 +40,6 @@ pub struct MosaicDefinitionTransactionBodyBuilder {
 }
 
 impl MosaicDefinitionTransactionBodyBuilder {
-
-
-
     /// Creates an instance of MosaicDefinitionTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -62,22 +59,22 @@ impl MosaicDefinitionTransactionBodyBuilder {
         let divisibility = u8::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[1..]).to_vec();
         // create object and call.
-        MosaicDefinitionTransactionBodyBuilder{ id, duration, nonce, flags, divisibility } // TransactionBody
+        MosaicDefinitionTransactionBodyBuilder { id, duration, nonce, flags, divisibility } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.id.get_size(); // id_size;
         size += self.duration.get_size(); // duration_size;
         size += self.nonce.get_size(); // nonce_size;
         size += 1;  // flags;
         size += 1;  // divisibility;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

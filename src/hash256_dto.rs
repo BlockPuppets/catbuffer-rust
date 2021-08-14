@@ -24,7 +24,6 @@
 pub struct Hash256Dto(pub [u8; 32]);
 
 impl Hash256Dto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

@@ -41,7 +41,6 @@ impl EmbeddedMosaicMetadataTransactionBuilder {
     const ENTITY_TYPE: u16 = 0x4244;
 
 
-
     /// Creates an instance of EmbeddedMosaicMetadataTransactionBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -49,13 +48,13 @@ impl EmbeddedMosaicMetadataTransactionBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let super_object = EmbeddedTransactionBuilder::from_binary(&bytes_);
-        assert_eq!( Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
-        assert_eq!( Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
+        assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
+        assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let mosaic_metadata_transaction_body = MosaicMetadataTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[mosaic_metadata_transaction_body.get_size()..].to_vec();
         // create object and call.
-        EmbeddedMosaicMetadataTransactionBuilder{ super_object, body: mosaic_metadata_transaction_body }  // Transaction
+        EmbeddedMosaicMetadataTransactionBuilder { super_object, body: mosaic_metadata_transaction_body }  // Transaction
         // nothing needed to copy into EmbeddedTransaction
     }
 
@@ -108,11 +107,11 @@ impl EmbeddedMosaicMetadataTransactionBuilder {
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = self.super_object.get_size();
+    pub fn get_size(&self) -> usize {
+        let mut size = self.super_object.get_size();
         size += self.body.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

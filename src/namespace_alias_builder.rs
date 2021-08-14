@@ -36,7 +36,6 @@ pub struct NamespaceAliasBuilder {
 
 
 impl NamespaceAliasBuilder {
-
     /// Creates an instance of NamespaceAliasBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -56,7 +55,7 @@ impl NamespaceAliasBuilder {
             bytes_ = (&bytes_[raw_address_alias.get_size()..]).to_vec();
             address_alias = Some(raw_address_alias); // kind:CUSTOM1
         }
-        NamespaceAliasBuilder{namespace_alias_type, mosaic_alias, address_alias}
+        NamespaceAliasBuilder { namespace_alias_type, mosaic_alias, address_alias }
     }
 
     /// Gets namespace alias type.
@@ -103,7 +102,7 @@ impl NamespaceAliasBuilder {
             size += self.address_alias.as_ref().unwrap().get_size();
         }
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

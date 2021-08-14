@@ -30,7 +30,6 @@ pub struct AccountRestrictionAddressValueBuilder {
 
 
 impl AccountRestrictionAddressValueBuilder {
-
     /// Creates an instance of AccountRestrictionAddressValueBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -41,13 +40,13 @@ impl AccountRestrictionAddressValueBuilder {
         let restrictionValuesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut restriction_values: Vec<AddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..restrictionValuesCount {
             let item = AddressDto::from_binary(&bytes_);
             restriction_values.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
-        AccountRestrictionAddressValueBuilder{restriction_values}
+        AccountRestrictionAddressValueBuilder { restriction_values }
     }
 
     /// Gets restriction values.
@@ -67,7 +66,7 @@ impl AccountRestrictionAddressValueBuilder {
         size += 8; // restriction_values_count;
         size += self.restriction_values.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

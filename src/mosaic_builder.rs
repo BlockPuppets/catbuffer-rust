@@ -33,7 +33,6 @@ pub struct MosaicBuilder {
 
 
 impl MosaicBuilder {
-
     /// Creates an instance of MosaicBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -43,7 +42,7 @@ impl MosaicBuilder {
         let mut bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
         let amount = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[amount.get_size()..].to_vec();
-        MosaicBuilder{mosaic_id, amount}
+        MosaicBuilder { mosaic_id, amount }
     }
 
     /// Gets mosaic identifier.
@@ -71,7 +70,7 @@ impl MosaicBuilder {
         size += self.mosaic_id.get_size();
         size += self.amount.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

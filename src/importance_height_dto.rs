@@ -24,7 +24,6 @@
 pub struct ImportanceHeightDto(pub u64);
 
 impl ImportanceHeightDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

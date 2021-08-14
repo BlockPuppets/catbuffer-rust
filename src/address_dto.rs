@@ -24,7 +24,6 @@
 pub struct AddressDto(pub [u8; 24]);
 
 impl AddressDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

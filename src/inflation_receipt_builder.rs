@@ -34,7 +34,6 @@ pub struct InflationReceiptBuilder {
 
 
 impl InflationReceiptBuilder {
-
     /// Creates an instance of InflationReceiptBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -44,7 +43,7 @@ impl InflationReceiptBuilder {
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let mosaic = MosaicBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[mosaic.get_size()..].to_vec();
-        InflationReceiptBuilder{super_object, mosaic}
+        InflationReceiptBuilder { super_object, mosaic }
     }
 
     /// Gets mosaic.
@@ -63,7 +62,7 @@ impl InflationReceiptBuilder {
         let mut size = self.super_object.get_size();
         size += self.mosaic.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

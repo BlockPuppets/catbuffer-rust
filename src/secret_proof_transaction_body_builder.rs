@@ -37,9 +37,6 @@ pub struct SecretProofTransactionBodyBuilder {
 }
 
 impl SecretProofTransactionBodyBuilder {
-
-
-
     /// Creates an instance of SecretProofTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -59,22 +56,22 @@ impl SecretProofTransactionBodyBuilder {
         let proof = (&bytes_[..proof_size as usize]).to_vec(); // kind:BUFFER
         let bytes_ = (&bytes_[proof_size as usize..]).to_vec();
         // create object and call.
-        SecretProofTransactionBodyBuilder{ recipient_address, secret, hash_algorithm, proof } // TransactionBody
+        SecretProofTransactionBodyBuilder { recipient_address, secret, hash_algorithm, proof } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.recipient_address.get_size(); // recipient_address_size;
         size += self.secret.get_size(); // secret_size;
         size += 2;  // proof_size;
         size += self.hash_algorithm.get_size(); // hash_algorithm_size;
         size += self.proof.len();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

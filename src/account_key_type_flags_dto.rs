@@ -19,8 +19,8 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use num_traits::{ToPrimitive, FromPrimitive};
-use num_derive::{ToPrimitive, FromPrimitive};
+use num_derive::{FromPrimitive, ToPrimitive};
+use num_traits::{FromPrimitive, ToPrimitive};
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
@@ -44,7 +44,6 @@ pub enum AccountKeyTypeFlagsDto {
 }
 
 impl AccountKeyTypeFlagsDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.
@@ -86,7 +85,7 @@ impl AccountKeyTypeFlagsDto {
         let mut results: Vec<AccountKeyTypeFlagsDto> = vec![];
         for flag in AccountKeyTypeFlagsDto::iter() {
             if 0 != flag.get_value() & bit_mask_value {
-            results.push(flag);
+                results.push(flag);
             }
         }
         results
@@ -100,8 +99,8 @@ impl AccountKeyTypeFlagsDto {
     pub fn flags_to_int(flags: Vec<AccountKeyTypeFlagsDto>) -> u8 {
         let mut result: u8 = 0;
         for flag in AccountKeyTypeFlagsDto::iter() {
-            if flags.iter().any( | &i | i == flag ) {
-               result += flag.get_value();
+            if flags.iter().any(|&i| i == flag) {
+                result += flag.get_value();
             }
         }
         result

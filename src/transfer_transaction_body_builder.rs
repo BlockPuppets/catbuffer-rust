@@ -34,9 +34,6 @@ pub struct TransferTransactionBodyBuilder {
 }
 
 impl TransferTransactionBodyBuilder {
-
-
-
     /// Creates an instance of TransferTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -53,8 +50,16 @@ impl TransferTransactionBodyBuilder {
         buf.copy_from_slice(&bytes_[..1]);
         let mosaics_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[1..]).to_vec();
+        let mut buf = [0x0u8; 4];
+        buf.copy_from_slice(&bytes_[..4]);
+        let transfer_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
+        let bytes_ = (&bytes_[4..]).to_vec();
+        let mut buf = [0x0u8; 1];
+        buf.copy_from_slice(&bytes_[..1]);
+        let transfer_transaction_body__reserved2 = u8::from_le_bytes(buf); // kind:SIMPLE
+        let bytes_ = (&bytes_[1..]).to_vec();
         let mut mosaics: Vec<UnresolvedMosaicBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..mosaics_count {
             let item = UnresolvedMosaicBuilder::from_binary(&bytes_);
             mosaics.push(item.clone());
@@ -63,15 +68,15 @@ impl TransferTransactionBodyBuilder {
         let message = (&bytes_[..message_size as usize]).to_vec(); // kind:BUFFER
         let bytes_ = (&bytes_[message_size as usize..]).to_vec();
         // create object and call.
-        TransferTransactionBodyBuilder{ recipient_address, mosaics, message } // TransactionBody
+        TransferTransactionBodyBuilder { recipient_address, mosaics, message } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.recipient_address.get_size(); // recipient_address_size;
         size += 2;  // message_size;
         size += 1;  // mosaics_count;
@@ -82,7 +87,7 @@ impl TransferTransactionBodyBuilder {
         };
         size += self.message.len();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///
@@ -95,8 +100,8 @@ impl TransferTransactionBodyBuilder {
         buf.append(&mut size_value.to_le_bytes().to_vec()); // kind:SIZE_FIELD
         let size_value: u8 = self.mosaics.len() as u8;
         buf.append(&mut size_value.to_le_bytes().to_vec()); // kind:SIZE_FIELD
-        buf.append(&mut 4u32.to_le_bytes().to_vec()); // SIMPLE and is_reserved
-        buf.append(&mut 1u8.to_le_bytes().to_vec()); // SIMPLE and is_reserved
+        buf.append(&mut [0u8; 4].to_vec()); // kind:SIMPLE and is_reserved
+        buf.append(&mut [0u8; 1].to_vec()); // kind:SIMPLE and is_reserved
         for i in &self.mosaics {
             buf.append(&mut i.serializer()); // kind:ARRAY|FILL_ARRAY
         }

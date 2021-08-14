@@ -39,7 +39,6 @@ pub struct MosaicRestrictionEntryBuilder {
 
 
 impl MosaicRestrictionEntryBuilder {
-
     /// Creates an instance of MosaicRestrictionEntryBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -61,7 +60,7 @@ impl MosaicRestrictionEntryBuilder {
             bytes_ = (&bytes_[raw_global_entry.get_size()..]).to_vec();
             global_entry = Some(raw_global_entry); // kind:CUSTOM1
         }
-        MosaicRestrictionEntryBuilder{super_object, entry_type, address_entry, global_entry}
+        MosaicRestrictionEntryBuilder { super_object, entry_type, address_entry, global_entry }
     }
 
     /// Gets type of restriction being placed upon the entity.
@@ -108,7 +107,7 @@ impl MosaicRestrictionEntryBuilder {
             size += self.global_entry.as_ref().unwrap().get_size();
         }
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

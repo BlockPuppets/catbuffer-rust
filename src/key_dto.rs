@@ -24,7 +24,6 @@
 pub struct KeyDto(pub [u8; 32]);
 
 impl KeyDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

@@ -32,9 +32,6 @@ pub struct VrfKeyLinkTransactionBodyBuilder {
 }
 
 impl VrfKeyLinkTransactionBodyBuilder {
-
-
-
     /// Creates an instance of VrfKeyLinkTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -46,19 +43,19 @@ impl VrfKeyLinkTransactionBodyBuilder {
         let link_action = LinkActionDto::from_binary(&bytes_); // kind:CUSTOM2
         let mut bytes_ = bytes_[link_action.get_size()..].to_vec();
         // create object and call.
-        VrfKeyLinkTransactionBodyBuilder{ linked_public_key, link_action } // TransactionBody
+        VrfKeyLinkTransactionBodyBuilder { linked_public_key, link_action } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.linked_public_key.get_size(); // linked_public_key_size;
         size += self.link_action.get_size(); // link_action_size;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

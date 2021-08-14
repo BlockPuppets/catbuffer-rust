@@ -37,9 +37,6 @@ pub struct VotingKeyLinkTransactionBodyBuilder {
 }
 
 impl VotingKeyLinkTransactionBodyBuilder {
-
-
-
     /// Creates an instance of VotingKeyLinkTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -55,21 +52,21 @@ impl VotingKeyLinkTransactionBodyBuilder {
         let link_action = LinkActionDto::from_binary(&bytes_); // kind:CUSTOM2
         let mut bytes_ = bytes_[link_action.get_size()..].to_vec();
         // create object and call.
-        VotingKeyLinkTransactionBodyBuilder{ linked_public_key, start_epoch, end_epoch, link_action } // TransactionBody
+        VotingKeyLinkTransactionBodyBuilder { linked_public_key, start_epoch, end_epoch, link_action } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.linked_public_key.get_size(); // linked_public_key_size;
         size += self.start_epoch.get_size(); // start_epoch_size;
         size += self.end_epoch.get_size(); // end_epoch_size;
         size += self.link_action.get_size(); // link_action_size;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

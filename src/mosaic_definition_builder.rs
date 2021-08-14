@@ -38,7 +38,6 @@ pub struct MosaicDefinitionBuilder {
 
 
 impl MosaicDefinitionBuilder {
-
     /// Creates an instance of MosaicDefinitionBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -54,7 +53,7 @@ impl MosaicDefinitionBuilder {
         let bytes_ = (&bytes_[4..]).to_vec();
         let properties = MosaicPropertiesBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[properties.get_size()..].to_vec();
-        MosaicDefinitionBuilder{start_height, owner_address, revision, properties}
+        MosaicDefinitionBuilder { start_height, owner_address, revision, properties }
     }
 
     /// Gets block height.
@@ -100,7 +99,7 @@ impl MosaicDefinitionBuilder {
         size += 4; // revision;
         size += self.properties.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

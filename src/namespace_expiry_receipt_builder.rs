@@ -34,7 +34,6 @@ pub struct NamespaceExpiryReceiptBuilder {
 
 
 impl NamespaceExpiryReceiptBuilder {
-
     /// Creates an instance of NamespaceExpiryReceiptBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -44,7 +43,7 @@ impl NamespaceExpiryReceiptBuilder {
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let artifact_id = NamespaceIdDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[artifact_id.get_size()..].to_vec();
-        NamespaceExpiryReceiptBuilder{super_object, artifact_id}
+        NamespaceExpiryReceiptBuilder { super_object, artifact_id }
     }
 
     /// Gets expiring namespace id.
@@ -63,7 +62,7 @@ impl NamespaceExpiryReceiptBuilder {
         let mut size = self.super_object.get_size();
         size += self.artifact_id.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

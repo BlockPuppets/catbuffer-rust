@@ -24,7 +24,6 @@
 pub struct UnresolvedMosaicIdDto(pub u64);
 
 impl UnresolvedMosaicIdDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

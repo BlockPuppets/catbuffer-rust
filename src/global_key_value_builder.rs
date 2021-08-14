@@ -33,7 +33,6 @@ pub struct GlobalKeyValueBuilder {
 
 
 impl GlobalKeyValueBuilder {
-
     /// Creates an instance of GlobalKeyValueBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -43,7 +42,7 @@ impl GlobalKeyValueBuilder {
         let mut bytes_ = bytes_[key.get_size()..].to_vec();
         let restriction_rule = RestrictionRuleBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[restriction_rule.get_size()..].to_vec();
-        GlobalKeyValueBuilder{key, restriction_rule}
+        GlobalKeyValueBuilder { key, restriction_rule }
     }
 
     /// Gets key associated with a restriction rule.
@@ -71,7 +70,7 @@ impl GlobalKeyValueBuilder {
         size += self.key.get_size();
         size += self.restriction_rule.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

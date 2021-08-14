@@ -45,7 +45,6 @@ pub struct HashLockInfoBuilder {
 
 
 impl HashLockInfoBuilder {
-
     /// Creates an instance of HashLockInfoBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -63,7 +62,7 @@ impl HashLockInfoBuilder {
         let mut bytes_ = bytes_[status.get_size()..].to_vec();
         let hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[hash.get_size()..].to_vec();
-        HashLockInfoBuilder{super_object, owner_address, mosaic, end_height, status, hash}
+        HashLockInfoBuilder { super_object, owner_address, mosaic, end_height, status, hash }
     }
 
     /// Gets owner address.
@@ -118,7 +117,7 @@ impl HashLockInfoBuilder {
         size += self.status.get_size();
         size += self.hash.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

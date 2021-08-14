@@ -45,7 +45,6 @@ impl SecretProofTransactionBuilder {
     const ENTITY_TYPE: u16 = 0x4252;
 
 
-
     /// Creates an instance of SecretProofTransactionBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -53,13 +52,13 @@ impl SecretProofTransactionBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let super_object = TransactionBuilder::from_binary(&bytes_);
-        assert_eq!( Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
-        assert_eq!( Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
+        assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
+        assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let secret_proof_transaction_body = SecretProofTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[secret_proof_transaction_body.get_size()..].to_vec();
         // create object and call.
-        SecretProofTransactionBuilder{ super_object, body: secret_proof_transaction_body }  // Transaction
+        SecretProofTransactionBuilder { super_object, body: secret_proof_transaction_body }  // Transaction
     }
 
 
@@ -102,11 +101,11 @@ impl SecretProofTransactionBuilder {
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = self.super_object.get_size();
+    pub fn get_size(&self) -> usize {
+        let mut size = self.super_object.get_size();
         size += self.body.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///
@@ -114,6 +113,7 @@ impl SecretProofTransactionBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
+        buf.append(&mut (self.get_size() as u32).to_le_bytes().to_vec()); // # serial_kind:SIMPLE
         buf.append(&mut self.super_object.serializer());
         buf.append(&mut self.body.serializer()); // kind:CUSTOM TransactionBody
         buf

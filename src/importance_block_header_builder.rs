@@ -45,7 +45,6 @@ pub struct ImportanceBlockHeaderBuilder {
 
 
 impl ImportanceBlockHeaderBuilder {
-
     /// Creates an instance of ImportanceBlockHeaderBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -55,7 +54,7 @@ impl ImportanceBlockHeaderBuilder {
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let importance_block_footer = ImportanceBlockFooterBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[importance_block_footer.get_size()..].to_vec();
-        ImportanceBlockHeaderBuilder{super_object, importance_block_footer}
+        ImportanceBlockHeaderBuilder { super_object, importance_block_footer }
     }
 
     /// Gets number of voting eligible accounts.
@@ -98,7 +97,7 @@ impl ImportanceBlockHeaderBuilder {
         let mut size = self.super_object.get_size();
         size += self.importance_block_footer.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

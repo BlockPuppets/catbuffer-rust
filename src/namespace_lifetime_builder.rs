@@ -32,7 +32,6 @@ pub struct NamespaceLifetimeBuilder {
 
 
 impl NamespaceLifetimeBuilder {
-
     /// Creates an instance of NamespaceLifetimeBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -42,7 +41,7 @@ impl NamespaceLifetimeBuilder {
         let mut bytes_ = bytes_[lifetime_start.get_size()..].to_vec();
         let lifetime_end = HeightDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[lifetime_end.get_size()..].to_vec();
-        NamespaceLifetimeBuilder{lifetime_start, lifetime_end}
+        NamespaceLifetimeBuilder { lifetime_start, lifetime_end }
     }
 
     /// Gets start height.
@@ -70,7 +69,7 @@ impl NamespaceLifetimeBuilder {
         size += self.lifetime_start.get_size();
         size += self.lifetime_end.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

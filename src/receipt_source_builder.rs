@@ -31,7 +31,6 @@ pub struct ReceiptSourceBuilder {
 
 
 impl ReceiptSourceBuilder {
-
     /// Creates an instance of ReceiptSourceBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -45,7 +44,7 @@ impl ReceiptSourceBuilder {
         buf.copy_from_slice(&bytes_[..4]);
         let secondary_id = u32::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[4..]).to_vec();
-        ReceiptSourceBuilder{primary_id, secondary_id}
+        ReceiptSourceBuilder { primary_id, secondary_id }
     }
 
     /// Gets transaction primary source (e.g. index within block).
@@ -73,7 +72,7 @@ impl ReceiptSourceBuilder {
         size += 4; // primary_id;
         size += 4; // secondary_id;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

@@ -39,9 +39,6 @@ pub struct NamespaceRegistrationTransactionBodyBuilder {
 }
 
 impl NamespaceRegistrationTransactionBodyBuilder {
-
-
-
     /// Creates an instance of NamespaceRegistrationTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -69,15 +66,15 @@ impl NamespaceRegistrationTransactionBodyBuilder {
             parent_id = Some(NamespaceIdDto::from_binary(&registration_type_condition)); // kind:CUSTOM3
         }
         // create object and call.
-        NamespaceRegistrationTransactionBodyBuilder{ duration, parent_id, id, registration_type, name } // TransactionBody
+        NamespaceRegistrationTransactionBodyBuilder { duration, parent_id, id, registration_type, name } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         if self.registration_type == NamespaceRegistrationTypeDto::ROOT {
             size += self.duration.as_ref().unwrap().get_size() // Conditional;
         }
@@ -89,7 +86,7 @@ impl NamespaceRegistrationTransactionBodyBuilder {
         size += 1;  // name_size;
         size += self.name.len();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

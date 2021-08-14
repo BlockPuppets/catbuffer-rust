@@ -34,7 +34,6 @@ pub struct MosaicExpiryReceiptBuilder {
 
 
 impl MosaicExpiryReceiptBuilder {
-
     /// Creates an instance of MosaicExpiryReceiptBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -44,7 +43,7 @@ impl MosaicExpiryReceiptBuilder {
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let artifact_id = MosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[artifact_id.get_size()..].to_vec();
-        MosaicExpiryReceiptBuilder{super_object, artifact_id}
+        MosaicExpiryReceiptBuilder { super_object, artifact_id }
     }
 
     /// Gets expiring mosaic id.
@@ -63,7 +62,7 @@ impl MosaicExpiryReceiptBuilder {
         let mut size = self.super_object.get_size();
         size += self.artifact_id.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

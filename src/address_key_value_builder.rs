@@ -32,7 +32,6 @@ pub struct AddressKeyValueBuilder {
 
 
 impl AddressKeyValueBuilder {
-
     /// Creates an instance of AddressKeyValueBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -44,7 +43,7 @@ impl AddressKeyValueBuilder {
         buf.copy_from_slice(&bytes_[..8]);
         let value = u64::from_le_bytes(buf); // kind:SIMPLE
         let bytes_ = (&bytes_[8..]).to_vec();
-        AddressKeyValueBuilder{key, value}
+        AddressKeyValueBuilder { key, value }
     }
 
     /// Gets key for value.
@@ -72,7 +71,7 @@ impl AddressKeyValueBuilder {
         size += self.key.get_size();
         size += 8; // value;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

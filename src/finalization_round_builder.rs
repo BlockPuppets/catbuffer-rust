@@ -33,7 +33,6 @@ pub struct FinalizationRoundBuilder {
 
 
 impl FinalizationRoundBuilder {
-
     /// Creates an instance of FinalizationRoundBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -43,7 +42,7 @@ impl FinalizationRoundBuilder {
         let mut bytes_ = bytes_[epoch.get_size()..].to_vec();
         let point = FinalizationPointDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[point.get_size()..].to_vec();
-        FinalizationRoundBuilder{epoch, point}
+        FinalizationRoundBuilder { epoch, point }
     }
 
     /// Gets finalization epoch.
@@ -71,7 +70,7 @@ impl FinalizationRoundBuilder {
         size += self.epoch.get_size();
         size += self.point.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

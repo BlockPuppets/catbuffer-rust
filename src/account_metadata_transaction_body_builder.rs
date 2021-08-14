@@ -35,9 +35,6 @@ pub struct AccountMetadataTransactionBodyBuilder {
 }
 
 impl AccountMetadataTransactionBodyBuilder {
-
-
-
     /// Creates an instance of AccountMetadataTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -61,22 +58,22 @@ impl AccountMetadataTransactionBodyBuilder {
         let value = (&bytes_[..value_size as usize]).to_vec(); // kind:BUFFER
         let bytes_ = (&bytes_[value_size as usize..]).to_vec();
         // create object and call.
-        AccountMetadataTransactionBodyBuilder{ target_address, scoped_metadata_key, value_size_delta, value } // TransactionBody
+        AccountMetadataTransactionBodyBuilder { target_address, scoped_metadata_key, value_size_delta, value } // TransactionBody
     }
 
     /// Gets the size of the type.
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = 0;
+    pub fn get_size(&self) -> usize {
+        let mut size = 0;
         size += self.target_address.get_size(); // target_address_size;
         size += 8;  // scoped_metadata_key;
         size += 2;  // value_size_delta;
         size += 2;  // value_size;
         size += self.value.len();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

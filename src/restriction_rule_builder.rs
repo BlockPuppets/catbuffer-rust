@@ -35,7 +35,6 @@ pub struct RestrictionRuleBuilder {
 
 
 impl RestrictionRuleBuilder {
-
     /// Creates an instance of RestrictionRuleBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -49,7 +48,7 @@ impl RestrictionRuleBuilder {
         let bytes_ = (&bytes_[8..]).to_vec();
         let restriction_type = MosaicRestrictionTypeDto::from_binary(&bytes_); // kind:CUSTOM2
         let mut bytes_ = bytes_[restriction_type.get_size()..].to_vec();
-        RestrictionRuleBuilder{reference_mosaic_id, restriction_value, restriction_type}
+        RestrictionRuleBuilder { reference_mosaic_id, restriction_value, restriction_type }
     }
 
     /// Gets identifier of the mosaic providing the restriction key.
@@ -86,7 +85,7 @@ impl RestrictionRuleBuilder {
         size += 8; // restriction_value;
         size += self.restriction_type.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

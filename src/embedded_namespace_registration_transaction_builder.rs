@@ -42,7 +42,6 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
     const ENTITY_TYPE: u16 = 0x414e;
 
 
-
     /// Creates an instance of EmbeddedNamespaceRegistrationTransactionBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -50,13 +49,13 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
     pub fn from_binary(payload: &[u8]) -> Self {
         let mut bytes_ = payload.to_vec();
         let super_object = EmbeddedTransactionBuilder::from_binary(&bytes_);
-        assert_eq!( Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
-        assert_eq!( Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
+        assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
+        assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
         let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
         let namespace_registration_transaction_body = NamespaceRegistrationTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[namespace_registration_transaction_body.get_size()..].to_vec();
         // create object and call.
-        EmbeddedNamespaceRegistrationTransactionBuilder{ super_object, body: namespace_registration_transaction_body }  // Transaction
+        EmbeddedNamespaceRegistrationTransactionBuilder { super_object, body: namespace_registration_transaction_body }  // Transaction
         // nothing needed to copy into EmbeddedTransaction
     }
 
@@ -109,11 +108,11 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
     ///
     /// Returns:
     /// A size in bytes.
-   pub fn get_size(&self) -> usize {
-       let mut size = self.super_object.get_size();
+    pub fn get_size(&self) -> usize {
+        let mut size = self.super_object.get_size();
         size += self.body.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

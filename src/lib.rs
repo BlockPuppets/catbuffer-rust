@@ -167,3 +167,5 @@ mod voting_key_link_transaction_builder;
 mod vrf_key_link_transaction_body_builder;
 mod vrf_key_link_transaction_builder;
 mod vrf_proof_builder;
+#[cfg(test)]
+mod test;

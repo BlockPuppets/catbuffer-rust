@@ -24,7 +24,6 @@
 pub struct VotingKeyDto(pub [u8; 32]);
 
 impl VotingKeyDto {
-
     pub const LENGTH: usize = std::mem::size_of::<Self>();
 
     /// Gets the size of the type.

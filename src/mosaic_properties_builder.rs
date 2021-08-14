@@ -35,7 +35,6 @@ pub struct MosaicPropertiesBuilder {
 
 
 impl MosaicPropertiesBuilder {
-
     /// Creates an instance of MosaicPropertiesBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -49,7 +48,7 @@ impl MosaicPropertiesBuilder {
         let bytes_ = (&bytes_[1..]).to_vec();
         let duration = BlockDurationDto::from_binary(&bytes_); // kind:CUSTOM1
         let mut bytes_ = bytes_[duration.get_size()..].to_vec();
-        MosaicPropertiesBuilder{flags, divisibility, duration}
+        MosaicPropertiesBuilder { flags, divisibility, duration }
     }
 
     /// Gets mosaic flags.
@@ -86,7 +85,7 @@ impl MosaicPropertiesBuilder {
         size += 1; // divisibility;
         size += self.duration.get_size();
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///

@@ -19,6 +19,7 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::account_key_type_flags_dto::*;
 use super::account_state_format_dto::*;
 use super::account_type_dto::*;
 use super::address_dto::*;
@@ -26,10 +27,9 @@ use super::height_activity_buckets_builder::*;
 use super::height_dto::*;
 use super::importance_snapshot_builder::*;
 use super::key_dto::*;
-use super::state_header_builder::*;
-use super::account_key_type_flags_dto::*;
 use super::mosaic_builder::*;
 use super::pinned_voting_key_builder::*;
+use super::state_header_builder::*;
 
 /// Binary layout for non-historical account state.
 #[derive(Debug, Clone)]
@@ -68,7 +68,6 @@ pub struct AccountStateBuilder {
 
 
 impl AccountStateBuilder {
-
     /// Creates an instance of AccountStateBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -95,25 +94,25 @@ impl AccountStateBuilder {
         let votingPublicKeysCount = u8::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[1..]).to_vec();
         let mut linked_public_key = None;
-        if supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::LINKED ) {
+        if supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::LINKED) {
             let raw_linked_public_key = KeyDto::from_binary(&bytes_);
             bytes_ = (&bytes_[raw_linked_public_key.get_size()..]).to_vec();
             linked_public_key = Some(raw_linked_public_key); // kind:CUSTOM1
         }
         let mut node_public_key = None;
-        if supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::NODE ) {
+        if supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::NODE) {
             let raw_node_public_key = KeyDto::from_binary(&bytes_);
             bytes_ = (&bytes_[raw_node_public_key.get_size()..]).to_vec();
             node_public_key = Some(raw_node_public_key); // kind:CUSTOM1
         }
         let mut vrf_public_key = None;
-        if supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::VRF ) {
+        if supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::VRF) {
             let raw_vrf_public_key = KeyDto::from_binary(&bytes_);
             bytes_ = (&bytes_[raw_vrf_public_key.get_size()..]).to_vec();
             vrf_public_key = Some(raw_vrf_public_key); // kind:CUSTOM1
         }
         let mut voting_public_keys: Vec<PinnedVotingKeyBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..votingPublicKeysCount {
             let item = PinnedVotingKeyBuilder::from_binary(&bytes_);
             voting_public_keys.push(item.clone());
@@ -136,13 +135,13 @@ impl AccountStateBuilder {
         let balancesCount = u16::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[2..]).to_vec();
         let mut balances: Vec<MosaicBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..balancesCount {
             let item = MosaicBuilder::from_binary(&bytes_);
             balances.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
-        AccountStateBuilder{super_object, address, address_height, public_key, public_key_height, account_type, format, supplemental_public_keys_mask, linked_public_key, node_public_key, vrf_public_key, voting_public_keys, importance_snapshots, activity_buckets, balances}
+        AccountStateBuilder { super_object, address, address_height, public_key, public_key_height, account_type, format, supplemental_public_keys_mask, linked_public_key, node_public_key, vrf_public_key, voting_public_keys, importance_snapshots, activity_buckets, balances }
     }
 
     /// Gets address of account.
@@ -206,7 +205,7 @@ impl AccountStateBuilder {
     /// # Returns
     /// A Linked account public key.
     pub fn get_linked_public_key(&self) -> Option<KeyDto> {
-        if self.supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::LINKED ) {
+        if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::LINKED) {
             panic!("supplementalPublicKeysMask is not set to LINKED.")
         };
         self.linked_public_key.clone()
@@ -217,7 +216,7 @@ impl AccountStateBuilder {
     /// # Returns
     /// A Node public key.
     pub fn get_node_public_key(&self) -> Option<KeyDto> {
-        if self.supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::NODE ) {
+        if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::NODE) {
             panic!("supplementalPublicKeysMask is not set to NODE.")
         };
         self.node_public_key.clone()
@@ -228,7 +227,7 @@ impl AccountStateBuilder {
     /// # Returns
     /// A Vrf public key.
     pub fn get_vrf_public_key(&self) -> Option<KeyDto> {
-        if self.supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::VRF ) {
+        if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::VRF) {
             panic!("supplementalPublicKeysMask is not set to VRF.")
         };
         self.vrf_public_key.clone()
@@ -286,13 +285,13 @@ impl AccountStateBuilder {
         size += self.format.get_size();
         size += 1; // supplemental_public_keys_mask;
         size += 1; // voting_public_keys_count;
-        if self.supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::LINKED ) {
+        if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::LINKED) {
             size += self.linked_public_key.as_ref().unwrap().get_size();
         }
-        if self.supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::NODE ) {
+        if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::NODE) {
             size += self.node_public_key.as_ref().unwrap().get_size();
         }
-        if self.supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::VRF ) {
+        if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::VRF) {
             size += self.vrf_public_key.as_ref().unwrap().get_size();
         }
         size += self.voting_public_keys.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
@@ -305,7 +304,7 @@ impl AccountStateBuilder {
         size += 2; // balances_count;
         size += self.balances.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///
@@ -322,13 +321,13 @@ impl AccountStateBuilder {
         buf.append(&mut self.format.serializer()); // kind:CUSTOM
         buf.append(&mut AccountKeyTypeFlagsDto::flags_to_int(self.get_supplemental_public_keys_mask()).to_le_bytes().to_vec()); // kind:FLAGS
         buf.append(&mut (self.get_voting_public_keys().len() as u8).to_le_bytes().to_vec()); // kind:SIZE_FIELD
-        if self.supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::LINKED ) {
+        if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::LINKED) {
             buf.append(&mut self.linked_public_key.as_ref().unwrap().serializer()); // kind:CUSTOM
         };
-        if self.supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::NODE ) {
+        if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::NODE) {
             buf.append(&mut self.node_public_key.as_ref().unwrap().serializer()); // kind:CUSTOM
         };
-        if self.supplemental_public_keys_mask.iter().any( | &i | i == AccountKeyTypeFlagsDto::VRF ) {
+        if self.supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::VRF) {
             buf.append(&mut self.vrf_public_key.as_ref().unwrap().serializer()); // kind:CUSTOM
         };
         for i in &self.voting_public_keys {

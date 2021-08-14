@@ -30,7 +30,6 @@ pub struct AccountRestrictionMosaicValueBuilder {
 
 
 impl AccountRestrictionMosaicValueBuilder {
-
     /// Creates an instance of AccountRestrictionMosaicValueBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
@@ -41,13 +40,13 @@ impl AccountRestrictionMosaicValueBuilder {
         let restrictionValuesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
         let mut bytes_ = (&bytes_[8..]).to_vec();
         let mut restriction_values: Vec<MosaicIdDto> = vec![]; // kind:ARRAY
-        let mut bytes_= bytes_.to_vec();
+        let mut bytes_ = bytes_.to_vec();
         for _ in 0..restrictionValuesCount {
             let item = MosaicIdDto::from_binary(&bytes_);
             restriction_values.push(item.clone());
             bytes_ = (&bytes_[item.get_size()..]).to_vec();
         }
-        AccountRestrictionMosaicValueBuilder{restriction_values}
+        AccountRestrictionMosaicValueBuilder { restriction_values }
     }
 
     /// Gets restriction values.
@@ -67,7 +66,7 @@ impl AccountRestrictionMosaicValueBuilder {
         size += 8; // restriction_values_count;
         size += self.restriction_values.iter().map(|item| item.get_size()).sum::<usize>(); // array or fill_array;
         size
-   }
+    }
 
     /// Serializes self to bytes.
     ///
