@@ -2,12 +2,13 @@
 name = "catbuffer-rust"
 version = "0.1.1-alpha.1"
 authors = ["The BlockPuppet Developers", "The Symbol SDK Rust Project Developers"]
+description = "Serialize and deserialize NEM's Catapult entities in Rust applications."
 readme = "README.md"
 license = "MIT"
 repository = "https://github.com/BlockPuppets/catbuffer-rust"
 documentation = "https://docs.rs/catbuffer-generated"
-keywords = ["symbol", "nem"]
-categories = ["catbuffer"]
+keywords = ["symbol", "nem", "catbuffer"]
+categories = ["buffer", "serialize", "deserialize"]
 exclude = [".gitignore"]
 edition = "2018"
 
