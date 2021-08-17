@@ -37,12 +37,12 @@ impl ReceiptBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A ReceiptBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = fixed_bytes::<2>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let buf = fixed_bytes::<2>(&_bytes);
         let version = u16::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[2..]).to_vec();
-        let _type = ReceiptTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
+        let _bytes = (&_bytes[2..]).to_vec();
+        let _type = ReceiptTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        let _bytes = (&_bytes[_type.get_size()..]).to_vec();
         ReceiptBuilder { version, _type }
     }
 
@@ -81,7 +81,7 @@ impl ReceiptBuilder {
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
         // Ignored serialization: size AttributeKind.SIMPLE
-        buf.append(&mut (self.get_version() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_version().to_le_bytes().to_vec()); // kind:SIMPLE
         buf.append(&mut self._type.serializer()); // kind:CUSTOM
         buf
     }

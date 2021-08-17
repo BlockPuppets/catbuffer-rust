@@ -40,14 +40,14 @@ impl MosaicPropertiesBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A MosaicPropertiesBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let flags = MosaicFlagsDto::bytes_to_flags(&bytes_[..1]); // kind:FLAGS
-        let mut bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = fixed_bytes::<1>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let flags = MosaicFlagsDto::bytes_to_flags(&_bytes[..1]); // kind:FLAGS
+        let mut _bytes = (&_bytes[1..]).to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let divisibility = u8::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[1..]).to_vec();
-        let duration = BlockDurationDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[duration.get_size()..].to_vec();
+        let _bytes = (&_bytes[1..]).to_vec();
+        let duration = BlockDurationDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[duration.get_size()..].to_vec();
         MosaicPropertiesBuilder { flags, divisibility, duration }
     }
 
@@ -94,7 +94,7 @@ impl MosaicPropertiesBuilder {
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
         buf.append(&mut MosaicFlagsDto::flags_to_int(self.get_flags()).to_le_bytes().to_vec()); // kind:FLAGS
-        buf.append(&mut (self.get_divisibility() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_divisibility().to_le_bytes().to_vec()); // kind:SIMPLE
         buf.append(&mut self.duration.serializer()); // kind:CUSTOM
         buf
     }

@@ -34,10 +34,10 @@ impl StateHeaderBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A StateHeaderBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = fixed_bytes::<2>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let buf = fixed_bytes::<2>(&_bytes);
         let version = u16::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[2..]).to_vec();
+        let _bytes = (&_bytes[2..]).to_vec();
         StateHeaderBuilder { version }
     }
 
@@ -65,7 +65,7 @@ impl StateHeaderBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
-        buf.append(&mut (self.get_version() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_version().to_le_bytes().to_vec()); // kind:SIMPLE
         buf
     }
 }

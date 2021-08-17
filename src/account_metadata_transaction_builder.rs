@@ -20,6 +20,13 @@
  */
 
 use super::account_metadata_transaction_body_builder::*;
+use super::amount_dto::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
+use super::key_dto::*;
+use super::network_type_dto::*;
+use super::signature_dto::*;
+use super::timestamp_dto::*;
 use super::transaction_builder::*;
 use super::unresolved_address_dto::*;
 
@@ -42,13 +49,13 @@ impl AccountMetadataTransactionBuilder {
     /// # Returns
     /// A AccountMetadataTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = TransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = TransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let account_metadata_transaction_body = AccountMetadataTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[account_metadata_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let account_metadata_transaction_body = AccountMetadataTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[account_metadata_transaction_body.get_size()..].to_vec();
         // create object and call.
         AccountMetadataTransactionBuilder { super_object, body: account_metadata_transaction_body }  // Transaction
     }
@@ -57,7 +64,6 @@ impl AccountMetadataTransactionBuilder {
     pub fn get_target_address(&self) -> UnresolvedAddressDto {
         self.body.target_address.clone()
     }
-
     pub fn set_target_address(&mut self, target_address: UnresolvedAddressDto) {
         self.body.target_address = target_address;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -66,7 +72,6 @@ impl AccountMetadataTransactionBuilder {
     pub fn get_scoped_metadata_key(&self) -> u64 {
         self.body.scoped_metadata_key.clone()
     }
-
     pub fn set_scoped_metadata_key(&mut self, scoped_metadata_key: u64) {
         self.body.scoped_metadata_key = scoped_metadata_key;   // MARKER1 AttributeKind.SIMPLE
     }
@@ -75,7 +80,6 @@ impl AccountMetadataTransactionBuilder {
     pub fn get_value_size_delta(&self) -> u16 {
         self.body.value_size_delta.clone()
     }
-
     pub fn set_value_size_delta(&mut self, value_size_delta: u16) {
         self.body.value_size_delta = value_size_delta;   // MARKER1 AttributeKind.SIMPLE
     }
@@ -84,7 +88,6 @@ impl AccountMetadataTransactionBuilder {
     pub fn get_value(&self) -> Vec<u8> {
         self.body.value.clone()
     }
-
     pub fn set_value(&mut self, value: Vec<u8>) {
         self.body.value = value;   // MARKER1 AttributeKind.BUFFER
     }

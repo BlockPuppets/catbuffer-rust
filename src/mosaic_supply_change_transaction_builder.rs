@@ -20,8 +20,14 @@
  */
 
 use super::amount_dto::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
+use super::key_dto::*;
 use super::mosaic_supply_change_action_dto::*;
 use super::mosaic_supply_change_transaction_body_builder::*;
+use super::network_type_dto::*;
+use super::signature_dto::*;
+use super::timestamp_dto::*;
 use super::transaction_builder::*;
 use super::unresolved_mosaic_id_dto::*;
 
@@ -44,13 +50,13 @@ impl MosaicSupplyChangeTransactionBuilder {
     /// # Returns
     /// A MosaicSupplyChangeTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = TransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = TransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let mosaic_supply_change_transaction_body = MosaicSupplyChangeTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[mosaic_supply_change_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let mosaic_supply_change_transaction_body = MosaicSupplyChangeTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[mosaic_supply_change_transaction_body.get_size()..].to_vec();
         // create object and call.
         MosaicSupplyChangeTransactionBuilder { super_object, body: mosaic_supply_change_transaction_body }  // Transaction
     }
@@ -59,7 +65,6 @@ impl MosaicSupplyChangeTransactionBuilder {
     pub fn get_mosaic_id(&self) -> UnresolvedMosaicIdDto {
         self.body.mosaic_id.clone()
     }
-
     pub fn set_mosaic_id(&mut self, mosaic_id: UnresolvedMosaicIdDto) {
         self.body.mosaic_id = mosaic_id;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -68,7 +73,6 @@ impl MosaicSupplyChangeTransactionBuilder {
     pub fn get_delta(&self) -> AmountDto {
         self.body.delta.clone()
     }
-
     pub fn set_delta(&mut self, delta: AmountDto) {
         self.body.delta = delta;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -77,7 +81,6 @@ impl MosaicSupplyChangeTransactionBuilder {
     pub fn get_action(&self) -> MosaicSupplyChangeActionDto {
         self.body.action.clone()
     }
-
     pub fn set_action(&mut self, action: MosaicSupplyChangeActionDto) {
         self.body.action = action;   // MARKER1 AttributeKind.CUSTOM
     }

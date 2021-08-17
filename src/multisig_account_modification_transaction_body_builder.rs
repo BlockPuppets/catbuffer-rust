@@ -41,33 +41,33 @@ impl MultisigAccountModificationTransactionBodyBuilder {
     /// # Returns
     /// A MultisigAccountModificationTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let buf = fixed_bytes::<1>(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let min_removal_delta = u8::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[1..]).to_vec();
-        let buf = fixed_bytes::<1>(&bytes_);
+        _bytes = (&_bytes[1..]).to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let min_approval_delta = u8::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[1..]).to_vec();
-        let buf = fixed_bytes::<1>(&bytes_);
+        _bytes = (&_bytes[1..]).to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let address_additions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        bytes_ = (&bytes_[1..]).to_vec();
-        let buf = fixed_bytes::<1>(&bytes_);
+        _bytes = (&_bytes[1..]).to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let address_deletions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        bytes_ = (&bytes_[1..]).to_vec();
-        let buf = fixed_bytes::<4>(&bytes_);
-        let multisig_account_modification_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[4..]).to_vec();
+        _bytes = (&_bytes[1..]).to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
+        let _ = u32::from_le_bytes(buf); // kind:SIMPLE
+        _bytes = (&_bytes[4..]).to_vec();
         let mut address_additions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
         for _ in 0..address_additions_count {
-            let item = UnresolvedAddressDto::from_binary(&bytes_);
+            let item = UnresolvedAddressDto::from_binary(&_bytes);
             address_additions.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         let mut address_deletions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
         for _ in 0..address_deletions_count {
-            let item = UnresolvedAddressDto::from_binary(&bytes_);
+            let item = UnresolvedAddressDto::from_binary(&_bytes);
             address_deletions.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         // create object and call.
         MultisigAccountModificationTransactionBodyBuilder { min_removal_delta, min_approval_delta, address_additions, address_deletions } // TransactionBody

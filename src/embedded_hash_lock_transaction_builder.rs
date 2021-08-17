@@ -21,8 +21,13 @@
 
 use super::block_duration_dto::*;
 use super::embedded_transaction_builder::*;
+use super::embedded_transaction_helper::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
 use super::hash_lock_transaction_body_builder::*;
+use super::key_dto::*;
+use super::network_type_dto::*;
 use super::unresolved_mosaic_builder::*;
 
 /// Binary layout for an embedded hash lock transaction.
@@ -44,13 +49,13 @@ impl EmbeddedHashLockTransactionBuilder {
     /// # Returns
     /// A EmbeddedHashLockTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = EmbeddedTransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = EmbeddedTransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let hash_lock_transaction_body = HashLockTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[hash_lock_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let hash_lock_transaction_body = HashLockTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[hash_lock_transaction_body.get_size()..].to_vec();
         // create object and call.
         EmbeddedHashLockTransactionBuilder { super_object, body: hash_lock_transaction_body }  // Transaction
         // nothing needed to copy into EmbeddedTransaction
@@ -60,7 +65,6 @@ impl EmbeddedHashLockTransactionBuilder {
     pub fn get_mosaic(&self) -> UnresolvedMosaicBuilder {
         self.body.mosaic.clone()
     }
-
     pub fn set_mosaic(&mut self, mosaic: UnresolvedMosaicBuilder) {
         self.body.mosaic = mosaic;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -69,7 +73,6 @@ impl EmbeddedHashLockTransactionBuilder {
     pub fn get_duration(&self) -> BlockDurationDto {
         self.body.duration.clone()
     }
-
     pub fn set_duration(&mut self, duration: BlockDurationDto) {
         self.body.duration = duration;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -78,7 +81,6 @@ impl EmbeddedHashLockTransactionBuilder {
     pub fn get_hash(&self) -> Hash256Dto {
         self.body.hash.clone()
     }
-
     pub fn set_hash(&mut self, hash: Hash256Dto) {
         self.body.hash = hash;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -103,6 +105,20 @@ impl EmbeddedHashLockTransactionBuilder {
         buf.append(&mut self.super_object.serializer());
         buf.append(&mut self.body.serializer()); // kind:CUSTOM TransactionBody
         buf
+    }
+}
+
+impl EmbeddedTransactionHelper for EmbeddedHashLockTransactionBuilder {
+    fn box_clone(&self) -> Box<dyn EmbeddedTransactionHelper> {
+        Box::new((*self).clone())
+    }
+
+    fn get_size(&self) -> usize {
+        self.get_size()
+    }
+
+    fn serializer(&self) -> Vec<u8> {
+        self.serializer()
     }
 }
 

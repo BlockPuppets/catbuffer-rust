@@ -50,26 +50,26 @@ impl RootNamespaceHistoryBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A RootNamespaceHistoryBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = StateHeaderBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let id = NamespaceIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[id.get_size()..].to_vec();
-        let owner_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[owner_address.get_size()..].to_vec();
-        let lifetime = NamespaceLifetimeBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[lifetime.get_size()..].to_vec();
-        let root_alias = NamespaceAliasBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[root_alias.get_size()..].to_vec();
-        let mut buf = fixed_bytes::<8>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = StateHeaderBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let id = NamespaceIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[id.get_size()..].to_vec();
+        let owner_address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[owner_address.get_size()..].to_vec();
+        let lifetime = NamespaceLifetimeBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[lifetime.get_size()..].to_vec();
+        let root_alias = NamespaceAliasBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[root_alias.get_size()..].to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let childrenCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[8..]).to_vec();
+        let mut _bytes = (&_bytes[8..]).to_vec();
         let mut paths: Vec<NamespacePathBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
+        let mut _bytes = _bytes.to_vec();
         for _ in 0..childrenCount {
-            let item = NamespacePathBuilder::from_binary(&bytes_);
+            let item = NamespacePathBuilder::from_binary(&_bytes);
             paths.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         RootNamespaceHistoryBuilder { super_object, id, owner_address, lifetime, root_alias, paths }
     }

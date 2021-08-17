@@ -41,20 +41,20 @@ impl AccountRestrictionsBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A AccountRestrictionsBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = StateHeaderBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[address.get_size()..].to_vec();
-        let mut buf = fixed_bytes::<8>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = StateHeaderBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[address.get_size()..].to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let restrictionsCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[8..]).to_vec();
+        let mut _bytes = (&_bytes[8..]).to_vec();
         let mut restrictions: Vec<AccountRestrictionsInfoBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
+        let mut _bytes = _bytes.to_vec();
         for _ in 0..restrictionsCount {
-            let item = AccountRestrictionsInfoBuilder::from_binary(&bytes_);
+            let item = AccountRestrictionsInfoBuilder::from_binary(&_bytes);
             restrictions.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         AccountRestrictionsBuilder { super_object, address, restrictions }
     }

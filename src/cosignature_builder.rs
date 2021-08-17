@@ -40,14 +40,14 @@ impl CosignatureBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A CosignatureBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = fixed_bytes::<8>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let buf = fixed_bytes::<8>(&_bytes);
         let version = u64::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[8..]).to_vec();
-        let signer_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
-        let signature = SignatureDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[signature.get_size()..].to_vec();
+        let _bytes = (&_bytes[8..]).to_vec();
+        let signer_public_key = KeyDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[signer_public_key.get_size()..].to_vec();
+        let signature = SignatureDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[signature.get_size()..].to_vec();
         CosignatureBuilder { version, signer_public_key, signature }
     }
 
@@ -93,7 +93,7 @@ impl CosignatureBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
-        buf.append(&mut (self.get_version() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_version().to_le_bytes().to_vec()); // kind:SIMPLE
         buf.append(&mut self.signer_public_key.serializer()); // kind:CUSTOM
         buf.append(&mut self.signature.serializer()); // kind:CUSTOM
         buf

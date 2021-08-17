@@ -41,19 +41,19 @@ impl NamespaceAliasBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A NamespaceAliasBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let namespace_alias_type = NamespaceAliasTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[namespace_alias_type.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let namespace_alias_type = NamespaceAliasTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        let mut _bytes = _bytes[namespace_alias_type.get_size()..].to_vec();
         let mut mosaic_alias = None;
         if namespace_alias_type == NamespaceAliasTypeDto::MOSAIC_ID {
-            let raw_mosaic_alias = MosaicIdDto::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_mosaic_alias.get_size()..]).to_vec();
+            let raw_mosaic_alias = MosaicIdDto::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_mosaic_alias.get_size()..]).to_vec();
             mosaic_alias = Some(raw_mosaic_alias); // kind:CUSTOM1
         }
         let mut address_alias = None;
         if namespace_alias_type == NamespaceAliasTypeDto::ADDRESS {
-            let raw_address_alias = AddressDto::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_address_alias.get_size()..]).to_vec();
+            let raw_address_alias = AddressDto::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_address_alias.get_size()..]).to_vec();
             address_alias = Some(raw_address_alias); // kind:CUSTOM1
         }
         NamespaceAliasBuilder { namespace_alias_type, mosaic_alias, address_alias }

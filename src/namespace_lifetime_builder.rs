@@ -37,11 +37,11 @@ impl NamespaceLifetimeBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A NamespaceLifetimeBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let lifetime_start = HeightDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[lifetime_start.get_size()..].to_vec();
-        let lifetime_end = HeightDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[lifetime_end.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let lifetime_start = HeightDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[lifetime_start.get_size()..].to_vec();
+        let lifetime_end = HeightDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[lifetime_end.get_size()..].to_vec();
         NamespaceLifetimeBuilder { lifetime_start, lifetime_end }
     }
 

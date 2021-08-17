@@ -23,6 +23,7 @@ use super::address_dto::*;
 use super::generator_utils::*;
 use super::mosaic_builder::*;
 use super::receipt_builder::*;
+use super::receipt_type_dto::*;
 
 /// Binary layout for a balance change receipt.
 #[derive(Debug, Clone)]
@@ -41,13 +42,13 @@ impl BalanceChangeReceiptBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A BalanceChangeReceiptBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = ReceiptBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let mosaic = MosaicBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[mosaic.get_size()..].to_vec();
-        let target_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[target_address.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = ReceiptBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let mosaic = MosaicBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[mosaic.get_size()..].to_vec();
+        let target_address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[target_address.get_size()..].to_vec();
         BalanceChangeReceiptBuilder { super_object, mosaic, target_address }
     }
 

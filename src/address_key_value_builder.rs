@@ -37,12 +37,12 @@ impl AddressKeyValueBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A AddressKeyValueBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let key = MosaicRestrictionKeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[key.get_size()..].to_vec();
-        let mut buf = fixed_bytes::<8>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let key = MosaicRestrictionKeyDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[key.get_size()..].to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let value = u64::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[8..]).to_vec();
+        let _bytes = (&_bytes[8..]).to_vec();
         AddressKeyValueBuilder { key, value }
     }
 
@@ -80,7 +80,7 @@ impl AddressKeyValueBuilder {
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
         buf.append(&mut self.key.serializer()); // kind:CUSTOM
-        buf.append(&mut (self.get_value() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_value().to_le_bytes().to_vec()); // kind:SIMPLE
         buf
     }
 }

@@ -19,9 +19,16 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::amount_dto::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
+use super::key_dto::*;
 use super::lock_hash_algorithm_dto::*;
+use super::network_type_dto::*;
 use super::secret_proof_transaction_body_builder::*;
+use super::signature_dto::*;
+use super::timestamp_dto::*;
 use super::transaction_builder::*;
 use super::unresolved_address_dto::*;
 
@@ -44,13 +51,13 @@ impl SecretProofTransactionBuilder {
     /// # Returns
     /// A SecretProofTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = TransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = TransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let secret_proof_transaction_body = SecretProofTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[secret_proof_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let secret_proof_transaction_body = SecretProofTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[secret_proof_transaction_body.get_size()..].to_vec();
         // create object and call.
         SecretProofTransactionBuilder { super_object, body: secret_proof_transaction_body }  // Transaction
     }
@@ -59,7 +66,6 @@ impl SecretProofTransactionBuilder {
     pub fn get_recipient_address(&self) -> UnresolvedAddressDto {
         self.body.recipient_address.clone()
     }
-
     pub fn set_recipient_address(&mut self, recipient_address: UnresolvedAddressDto) {
         self.body.recipient_address = recipient_address;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -68,7 +74,6 @@ impl SecretProofTransactionBuilder {
     pub fn get_secret(&self) -> Hash256Dto {
         self.body.secret.clone()
     }
-
     pub fn set_secret(&mut self, secret: Hash256Dto) {
         self.body.secret = secret;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -77,7 +82,6 @@ impl SecretProofTransactionBuilder {
     pub fn get_hash_algorithm(&self) -> LockHashAlgorithmDto {
         self.body.hash_algorithm.clone()
     }
-
     pub fn set_hash_algorithm(&mut self, hash_algorithm: LockHashAlgorithmDto) {
         self.body.hash_algorithm = hash_algorithm;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -86,7 +90,6 @@ impl SecretProofTransactionBuilder {
     pub fn get_proof(&self) -> Vec<u8> {
         self.body.proof.clone()
     }
-
     pub fn set_proof(&mut self, proof: Vec<u8>) {
         self.body.proof = proof;   // MARKER1 AttributeKind.BUFFER
     }

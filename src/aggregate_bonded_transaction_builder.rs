@@ -20,9 +20,16 @@
  */
 
 use super::aggregate_transaction_body_builder::*;
+use super::amount_dto::*;
 use super::cosignature_builder::*;
-use super::embedded_transaction_builder::*;
+use super::embedded_transaction_helper::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
+use super::key_dto::*;
+use super::network_type_dto::*;
+use super::signature_dto::*;
+use super::timestamp_dto::*;
 use super::transaction_builder::*;
 
 /// Binary layout for an aggregate bonded transaction.
@@ -44,13 +51,13 @@ impl AggregateBondedTransactionBuilder {
     /// # Returns
     /// A AggregateBondedTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = TransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = TransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let aggregate_transaction_body = AggregateTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[aggregate_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let aggregate_transaction_body = AggregateTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[aggregate_transaction_body.get_size()..].to_vec();
         // create object and call.
         AggregateBondedTransactionBuilder { super_object, body: aggregate_transaction_body }  // Transaction
     }
@@ -59,21 +66,18 @@ impl AggregateBondedTransactionBuilder {
     pub fn get_transactions_hash(&self) -> Hash256Dto {
         self.body.transactions_hash.clone()
     }
-
     pub fn set_transactions_hash(&mut self, transactions_hash: Hash256Dto) {
         self.body.transactions_hash = transactions_hash;   // MARKER1 AttributeKind.CUSTOM
     }
 
 
-    pub fn get_transactions(&self) -> Vec<EmbeddedTransactionBuilder> {
+    pub fn get_transactions(&self) -> Vec<Box<dyn EmbeddedTransactionHelper + 'static>> {
         self.body.transactions.clone()
     }
-
 
     pub fn get_cosignatures(&self) -> Vec<CosignatureBuilder> {
         self.body.cosignatures.clone()
     }
-
     /// Gets the size of the type.
     ///
     /// Returns:

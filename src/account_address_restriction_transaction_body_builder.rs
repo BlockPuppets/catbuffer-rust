@@ -40,29 +40,29 @@ impl AccountAddressRestrictionTransactionBodyBuilder {
     /// # Returns
     /// A AccountAddressRestrictionTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let restriction_flags = AccountRestrictionFlagsDto::bytes_to_flags(&bytes_[..2]); // kind:FLAGS
-        let mut bytes_ = (&bytes_[2..]).to_vec();
-        let buf = fixed_bytes::<1>(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let restriction_flags = AccountRestrictionFlagsDto::bytes_to_flags(&_bytes[..2]); // kind:FLAGS
+        let mut _bytes = (&_bytes[2..]).to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let restriction_additions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        bytes_ = (&bytes_[1..]).to_vec();
-        let buf = fixed_bytes::<1>(&bytes_);
+        _bytes = (&_bytes[1..]).to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let restriction_deletions_count = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        bytes_ = (&bytes_[1..]).to_vec();
-        let buf = fixed_bytes::<4>(&bytes_);
-        let account_restriction_transaction_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[4..]).to_vec();
+        _bytes = (&_bytes[1..]).to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
+        let _ = u32::from_le_bytes(buf); // kind:SIMPLE
+        _bytes = (&_bytes[4..]).to_vec();
         let mut restriction_additions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
         for _ in 0..restriction_additions_count {
-            let item = UnresolvedAddressDto::from_binary(&bytes_);
+            let item = UnresolvedAddressDto::from_binary(&_bytes);
             restriction_additions.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         let mut restriction_deletions: Vec<UnresolvedAddressDto> = vec![]; // kind:ARRAY
         for _ in 0..restriction_deletions_count {
-            let item = UnresolvedAddressDto::from_binary(&bytes_);
+            let item = UnresolvedAddressDto::from_binary(&_bytes);
             restriction_deletions.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         // create object and call.
         AccountAddressRestrictionTransactionBodyBuilder { restriction_flags, restriction_additions, restriction_deletions } // TransactionBody

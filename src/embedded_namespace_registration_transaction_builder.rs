@@ -21,9 +21,14 @@
 
 use super::block_duration_dto::*;
 use super::embedded_transaction_builder::*;
+use super::embedded_transaction_helper::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
+use super::key_dto::*;
 use super::namespace_id_dto::*;
 use super::namespace_registration_transaction_body_builder::*;
 use super::namespace_registration_type_dto::*;
+use super::network_type_dto::*;
 
 /// Binary layout for an embedded namespace registration transaction.
 #[derive(Debug, Clone)]
@@ -44,13 +49,13 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
     /// # Returns
     /// A EmbeddedNamespaceRegistrationTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = EmbeddedTransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = EmbeddedTransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let namespace_registration_transaction_body = NamespaceRegistrationTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[namespace_registration_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let namespace_registration_transaction_body = NamespaceRegistrationTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[namespace_registration_transaction_body.get_size()..].to_vec();
         // create object and call.
         EmbeddedNamespaceRegistrationTransactionBuilder { super_object, body: namespace_registration_transaction_body }  // Transaction
         // nothing needed to copy into EmbeddedTransaction
@@ -60,7 +65,6 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
     pub fn get_duration(&self) -> Option<BlockDurationDto> {
         self.body.duration.clone()
     }
-
     pub fn set_duration(&mut self, duration: BlockDurationDto) {
         self.body.duration = Some(duration);   // MARKER1 AttributeKind.CUSTOM
     }
@@ -69,7 +73,6 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
     pub fn get_parent_id(&self) -> Option<NamespaceIdDto> {
         self.body.parent_id.clone()
     }
-
     pub fn set_parent_id(&mut self, parent_id: NamespaceIdDto) {
         self.body.parent_id = Some(parent_id);   // MARKER1 AttributeKind.CUSTOM
     }
@@ -78,7 +81,6 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
     pub fn get_id(&self) -> NamespaceIdDto {
         self.body.id.clone()
     }
-
     pub fn set_id(&mut self, id: NamespaceIdDto) {
         self.body.id = id;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -87,7 +89,6 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
     pub fn get_registration_type(&self) -> NamespaceRegistrationTypeDto {
         self.body.registration_type.clone()
     }
-
     pub fn set_registration_type(&mut self, registration_type: NamespaceRegistrationTypeDto) {
         self.body.registration_type = registration_type;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -96,7 +97,6 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
     pub fn get_name(&self) -> Vec<u8> {
         self.body.name.clone()
     }
-
     pub fn set_name(&mut self, name: Vec<u8>) {
         self.body.name = name;   // MARKER1 AttributeKind.BUFFER
     }
@@ -121,6 +121,20 @@ impl EmbeddedNamespaceRegistrationTransactionBuilder {
         buf.append(&mut self.super_object.serializer());
         buf.append(&mut self.body.serializer()); // kind:CUSTOM TransactionBody
         buf
+    }
+}
+
+impl EmbeddedTransactionHelper for EmbeddedNamespaceRegistrationTransactionBuilder {
+    fn box_clone(&self) -> Box<dyn EmbeddedTransactionHelper> {
+        Box::new((*self).clone())
+    }
+
+    fn get_size(&self) -> usize {
+        self.get_size()
+    }
+
+    fn serializer(&self) -> Vec<u8> {
+        self.serializer()
     }
 }
 

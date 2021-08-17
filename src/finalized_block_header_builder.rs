@@ -41,13 +41,13 @@ impl FinalizedBlockHeaderBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A FinalizedBlockHeaderBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let round = FinalizationRoundBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[round.get_size()..].to_vec();
-        let height = HeightDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[height.get_size()..].to_vec();
-        let hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[hash.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let round = FinalizationRoundBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[round.get_size()..].to_vec();
+        let height = HeightDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[height.get_size()..].to_vec();
+        let hash = Hash256Dto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[hash.get_size()..].to_vec();
         FinalizedBlockHeaderBuilder { round, height, hash }
     }
 

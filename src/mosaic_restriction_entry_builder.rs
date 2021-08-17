@@ -44,21 +44,21 @@ impl MosaicRestrictionEntryBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A MosaicRestrictionEntryBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = StateHeaderBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let entry_type = MosaicRestrictionEntryTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[entry_type.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = StateHeaderBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let entry_type = MosaicRestrictionEntryTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        let mut _bytes = _bytes[entry_type.get_size()..].to_vec();
         let mut address_entry = None;
         if entry_type == MosaicRestrictionEntryTypeDto::ADDRESS {
-            let raw_address_entry = MosaicAddressRestrictionEntryBuilder::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_address_entry.get_size()..]).to_vec();
+            let raw_address_entry = MosaicAddressRestrictionEntryBuilder::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_address_entry.get_size()..]).to_vec();
             address_entry = Some(raw_address_entry); // kind:CUSTOM1
         }
         let mut global_entry = None;
         if entry_type == MosaicRestrictionEntryTypeDto::GLOBAL {
-            let raw_global_entry = MosaicGlobalRestrictionEntryBuilder::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_global_entry.get_size()..]).to_vec();
+            let raw_global_entry = MosaicGlobalRestrictionEntryBuilder::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_global_entry.get_size()..]).to_vec();
             global_entry = Some(raw_global_entry); // kind:CUSTOM1
         }
         MosaicRestrictionEntryBuilder { super_object, entry_type, address_entry, global_entry }

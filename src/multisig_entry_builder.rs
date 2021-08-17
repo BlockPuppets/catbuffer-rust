@@ -20,6 +20,7 @@
  */
 
 use super::address_dto::*;
+use super::address_dto::*;
 use super::generator_utils::*;
 use super::state_header_builder::*;
 
@@ -46,36 +47,36 @@ impl MultisigEntryBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A MultisigEntryBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = StateHeaderBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let mut buf = fixed_bytes::<4>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = StateHeaderBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
         let min_approval = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = fixed_bytes::<4>(&bytes_);
+        let _bytes = (&_bytes[4..]).to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
         let min_removal = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let account_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[account_address.get_size()..].to_vec();
-        let mut buf = fixed_bytes::<8>(&bytes_);
+        let _bytes = (&_bytes[4..]).to_vec();
+        let account_address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[account_address.get_size()..].to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let cosignatoryAddressesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[8..]).to_vec();
+        let mut _bytes = (&_bytes[8..]).to_vec();
         let mut cosignatory_addresses: Vec<AddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
+        let mut _bytes = _bytes.to_vec();
         for _ in 0..cosignatoryAddressesCount {
-            let item = AddressDto::from_binary(&bytes_);
+            let item = AddressDto::from_binary(&_bytes);
             cosignatory_addresses.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
-        let mut buf = fixed_bytes::<8>(&bytes_);
+        let buf = fixed_bytes::<8>(&_bytes);
         let multisigAddressesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[8..]).to_vec();
+        let mut _bytes = (&_bytes[8..]).to_vec();
         let mut multisig_addresses: Vec<AddressDto> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
+        let mut _bytes = _bytes.to_vec();
         for _ in 0..multisigAddressesCount {
-            let item = AddressDto::from_binary(&bytes_);
+            let item = AddressDto::from_binary(&_bytes);
             multisig_addresses.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         MultisigEntryBuilder { super_object, min_approval, min_removal, account_address, cosignatory_addresses, multisig_addresses }
     }
@@ -143,8 +144,8 @@ impl MultisigEntryBuilder {
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
         buf.append(&mut self.super_object.serializer());
-        buf.append(&mut (self.get_min_approval() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
-        buf.append(&mut (self.get_min_removal() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_min_approval().to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_min_removal().to_le_bytes().to_vec()); // kind:SIMPLE
         buf.append(&mut self.account_address.serializer()); // kind:CUSTOM
         buf.append(&mut (self.get_cosignatory_addresses().len() as u64).to_le_bytes().to_vec()); // kind:SIZE_FIELD
         for i in &self.cosignatory_addresses {

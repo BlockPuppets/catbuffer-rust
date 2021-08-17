@@ -44,20 +44,20 @@ impl MosaicAddressRestrictionTransactionBodyBuilder {
     /// # Returns
     /// A MosaicAddressRestrictionTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let mosaic_id = UnresolvedMosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
-        let buf = fixed_bytes::<8>(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let mosaic_id = UnresolvedMosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[mosaic_id.get_size()..].to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let restriction_key = u64::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[8..]).to_vec();
-        let buf = fixed_bytes::<8>(&bytes_);
+        _bytes = (&_bytes[8..]).to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let previous_restriction_value = u64::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[8..]).to_vec();
-        let buf = fixed_bytes::<8>(&bytes_);
+        _bytes = (&_bytes[8..]).to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let new_restriction_value = u64::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[8..]).to_vec();
-        let target_address = UnresolvedAddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[target_address.get_size()..].to_vec();
+        _bytes = (&_bytes[8..]).to_vec();
+        let target_address = UnresolvedAddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[target_address.get_size()..].to_vec();
         // create object and call.
         MosaicAddressRestrictionTransactionBodyBuilder { mosaic_id, restriction_key, previous_restriction_value, new_restriction_value, target_address } // TransactionBody
     }

@@ -22,7 +22,14 @@
 use super::address_alias_transaction_body_builder::*;
 use super::address_dto::*;
 use super::alias_action_dto::*;
+use super::amount_dto::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
+use super::key_dto::*;
 use super::namespace_id_dto::*;
+use super::network_type_dto::*;
+use super::signature_dto::*;
+use super::timestamp_dto::*;
 use super::transaction_builder::*;
 
 /// Binary layout for a non-embedded address alias transaction.
@@ -44,13 +51,13 @@ impl AddressAliasTransactionBuilder {
     /// # Returns
     /// A AddressAliasTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = TransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = TransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let address_alias_transaction_body = AddressAliasTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[address_alias_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let address_alias_transaction_body = AddressAliasTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[address_alias_transaction_body.get_size()..].to_vec();
         // create object and call.
         AddressAliasTransactionBuilder { super_object, body: address_alias_transaction_body }  // Transaction
     }
@@ -59,7 +66,6 @@ impl AddressAliasTransactionBuilder {
     pub fn get_namespace_id(&self) -> NamespaceIdDto {
         self.body.namespace_id.clone()
     }
-
     pub fn set_namespace_id(&mut self, namespace_id: NamespaceIdDto) {
         self.body.namespace_id = namespace_id;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -68,7 +74,6 @@ impl AddressAliasTransactionBuilder {
     pub fn get_address(&self) -> AddressDto {
         self.body.address.clone()
     }
-
     pub fn set_address(&mut self, address: AddressDto) {
         self.body.address = address;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -77,7 +82,6 @@ impl AddressAliasTransactionBuilder {
     pub fn get_alias_action(&self) -> AliasActionDto {
         self.body.alias_action.clone()
     }
-
     pub fn set_alias_action(&mut self, alias_action: AliasActionDto) {
         self.body.alias_action = alias_action;   // MARKER1 AttributeKind.CUSTOM
     }

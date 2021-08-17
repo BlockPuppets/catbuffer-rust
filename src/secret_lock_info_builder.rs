@@ -55,23 +55,23 @@ impl SecretLockInfoBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A SecretLockInfoBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = StateHeaderBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let owner_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[owner_address.get_size()..].to_vec();
-        let mosaic = MosaicBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[mosaic.get_size()..].to_vec();
-        let end_height = HeightDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[end_height.get_size()..].to_vec();
-        let status = LockStatusDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[status.get_size()..].to_vec();
-        let hash_algorithm = LockHashAlgorithmDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[hash_algorithm.get_size()..].to_vec();
-        let secret = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[secret.get_size()..].to_vec();
-        let recipient = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[recipient.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = StateHeaderBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let owner_address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[owner_address.get_size()..].to_vec();
+        let mosaic = MosaicBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[mosaic.get_size()..].to_vec();
+        let end_height = HeightDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[end_height.get_size()..].to_vec();
+        let status = LockStatusDto::from_binary(&_bytes); // kind:CUSTOM2
+        let mut _bytes = _bytes[status.get_size()..].to_vec();
+        let hash_algorithm = LockHashAlgorithmDto::from_binary(&_bytes); // kind:CUSTOM2
+        let mut _bytes = _bytes[hash_algorithm.get_size()..].to_vec();
+        let secret = Hash256Dto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[secret.get_size()..].to_vec();
+        let recipient = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[recipient.get_size()..].to_vec();
         SecretLockInfoBuilder { super_object, owner_address, mosaic, end_height, status, hash_algorithm, secret, recipient }
     }
 

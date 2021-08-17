@@ -51,22 +51,22 @@ impl MetadataEntryBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A MetadataEntryBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = StateHeaderBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let source_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[source_address.get_size()..].to_vec();
-        let target_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[target_address.get_size()..].to_vec();
-        let scoped_metadata_key = ScopedMetadataKeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[scoped_metadata_key.get_size()..].to_vec();
-        let mut buf = fixed_bytes::<8>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = StateHeaderBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let source_address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[source_address.get_size()..].to_vec();
+        let target_address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[target_address.get_size()..].to_vec();
+        let scoped_metadata_key = ScopedMetadataKeyDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[scoped_metadata_key.get_size()..].to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let target_id = u64::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[8..]).to_vec();
-        let metadata_type = MetadataTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[metadata_type.get_size()..].to_vec();
-        let value = MetadataValueBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[value.get_size()..].to_vec();
+        let _bytes = (&_bytes[8..]).to_vec();
+        let metadata_type = MetadataTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        let mut _bytes = _bytes[metadata_type.get_size()..].to_vec();
+        let value = MetadataValueBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[value.get_size()..].to_vec();
         MetadataEntryBuilder { super_object, source_address, target_address, scoped_metadata_key, target_id, metadata_type, value }
     }
 
@@ -143,7 +143,7 @@ impl MetadataEntryBuilder {
         buf.append(&mut self.source_address.serializer()); // kind:CUSTOM
         buf.append(&mut self.target_address.serializer()); // kind:CUSTOM
         buf.append(&mut self.scoped_metadata_key.serializer()); // kind:CUSTOM
-        buf.append(&mut (self.get_target_id() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_target_id().to_le_bytes().to_vec()); // kind:SIMPLE
         buf.append(&mut self.metadata_type.serializer()); // kind:CUSTOM
         buf.append(&mut self.value.serializer()); // kind:CUSTOM
         buf

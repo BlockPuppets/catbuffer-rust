@@ -38,11 +38,11 @@ impl FinalizationRoundBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A FinalizationRoundBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let epoch = FinalizationEpochDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[epoch.get_size()..].to_vec();
-        let point = FinalizationPointDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[point.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let epoch = FinalizationEpochDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[epoch.get_size()..].to_vec();
+        let point = FinalizationPointDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[point.get_size()..].to_vec();
         FinalizationRoundBuilder { epoch, point }
     }
 

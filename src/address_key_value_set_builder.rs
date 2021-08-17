@@ -35,16 +35,16 @@ impl AddressKeyValueSetBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A AddressKeyValueSetBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = fixed_bytes::<1>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let buf = fixed_bytes::<1>(&_bytes);
         let keyValueCount = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[1..]).to_vec();
+        let mut _bytes = (&_bytes[1..]).to_vec();
         let mut keys: Vec<AddressKeyValueBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
+        let mut _bytes = _bytes.to_vec();
         for _ in 0..keyValueCount {
-            let item = AddressKeyValueBuilder::from_binary(&bytes_);
+            let item = AddressKeyValueBuilder::from_binary(&_bytes);
             keys.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         AddressKeyValueSetBuilder { keys }
     }

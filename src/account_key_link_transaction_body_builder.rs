@@ -38,11 +38,11 @@ impl AccountKeyLinkTransactionBodyBuilder {
     /// # Returns
     /// A AccountKeyLinkTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let linked_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[linked_public_key.get_size()..].to_vec();
-        let link_action = LinkActionDto::from_binary(&bytes_); // kind:CUSTOM2
-        bytes_ = (&bytes_[link_action.get_size()..]).to_vec();
+        let mut _bytes = payload.to_vec();
+        let linked_public_key = KeyDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[linked_public_key.get_size()..].to_vec();
+        let link_action = LinkActionDto::from_binary(&_bytes); // kind:CUSTOM2
+        _bytes = (&_bytes[link_action.get_size()..]).to_vec();
         // create object and call.
         AccountKeyLinkTransactionBodyBuilder { linked_public_key, link_action } // TransactionBody
     }

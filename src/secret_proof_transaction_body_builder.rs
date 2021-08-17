@@ -43,18 +43,18 @@ impl SecretProofTransactionBodyBuilder {
     /// # Returns
     /// A SecretProofTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let recipient_address = UnresolvedAddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[recipient_address.get_size()..].to_vec();
-        let secret = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[secret.get_size()..].to_vec();
-        let buf = fixed_bytes::<2>(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let recipient_address = UnresolvedAddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[recipient_address.get_size()..].to_vec();
+        let secret = Hash256Dto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[secret.get_size()..].to_vec();
+        let buf = fixed_bytes::<2>(&_bytes);
         let proof_size = u16::from_le_bytes(buf); // kind:SIZE_FIELD
-        bytes_ = (&bytes_[2..]).to_vec();
-        let hash_algorithm = LockHashAlgorithmDto::from_binary(&bytes_); // kind:CUSTOM2
-        bytes_ = (&bytes_[hash_algorithm.get_size()..]).to_vec();
-        let proof = (&bytes_[..proof_size as usize]).to_vec(); // kind:BUFFER
-        bytes_ = (&bytes_[proof_size as usize..]).to_vec();
+        _bytes = (&_bytes[2..]).to_vec();
+        let hash_algorithm = LockHashAlgorithmDto::from_binary(&_bytes); // kind:CUSTOM2
+        _bytes = (&_bytes[hash_algorithm.get_size()..]).to_vec();
+        let proof = (&_bytes[..proof_size as usize]).to_vec(); // kind:BUFFER
+        _bytes = (&_bytes[proof_size as usize..]).to_vec();
         // create object and call.
         SecretProofTransactionBodyBuilder { recipient_address, secret, hash_algorithm, proof } // TransactionBody
     }

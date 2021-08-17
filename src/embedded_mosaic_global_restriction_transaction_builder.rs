@@ -20,8 +20,13 @@
  */
 
 use super::embedded_transaction_builder::*;
+use super::embedded_transaction_helper::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
+use super::key_dto::*;
 use super::mosaic_global_restriction_transaction_body_builder::*;
 use super::mosaic_restriction_type_dto::*;
+use super::network_type_dto::*;
 use super::unresolved_mosaic_id_dto::*;
 
 /// Binary layout for an embedded mosaic global restriction transaction.
@@ -43,13 +48,13 @@ impl EmbeddedMosaicGlobalRestrictionTransactionBuilder {
     /// # Returns
     /// A EmbeddedMosaicGlobalRestrictionTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = EmbeddedTransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = EmbeddedTransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let mosaic_global_restriction_transaction_body = MosaicGlobalRestrictionTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[mosaic_global_restriction_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let mosaic_global_restriction_transaction_body = MosaicGlobalRestrictionTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[mosaic_global_restriction_transaction_body.get_size()..].to_vec();
         // create object and call.
         EmbeddedMosaicGlobalRestrictionTransactionBuilder { super_object, body: mosaic_global_restriction_transaction_body }  // Transaction
         // nothing needed to copy into EmbeddedTransaction
@@ -59,7 +64,6 @@ impl EmbeddedMosaicGlobalRestrictionTransactionBuilder {
     pub fn get_mosaic_id(&self) -> UnresolvedMosaicIdDto {
         self.body.mosaic_id.clone()
     }
-
     pub fn set_mosaic_id(&mut self, mosaic_id: UnresolvedMosaicIdDto) {
         self.body.mosaic_id = mosaic_id;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -68,7 +72,6 @@ impl EmbeddedMosaicGlobalRestrictionTransactionBuilder {
     pub fn get_reference_mosaic_id(&self) -> UnresolvedMosaicIdDto {
         self.body.reference_mosaic_id.clone()
     }
-
     pub fn set_reference_mosaic_id(&mut self, reference_mosaic_id: UnresolvedMosaicIdDto) {
         self.body.reference_mosaic_id = reference_mosaic_id;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -77,7 +80,6 @@ impl EmbeddedMosaicGlobalRestrictionTransactionBuilder {
     pub fn get_restriction_key(&self) -> u64 {
         self.body.restriction_key.clone()
     }
-
     pub fn set_restriction_key(&mut self, restriction_key: u64) {
         self.body.restriction_key = restriction_key;   // MARKER1 AttributeKind.SIMPLE
     }
@@ -86,7 +88,6 @@ impl EmbeddedMosaicGlobalRestrictionTransactionBuilder {
     pub fn get_previous_restriction_value(&self) -> u64 {
         self.body.previous_restriction_value.clone()
     }
-
     pub fn set_previous_restriction_value(&mut self, previous_restriction_value: u64) {
         self.body.previous_restriction_value = previous_restriction_value;   // MARKER1 AttributeKind.SIMPLE
     }
@@ -95,7 +96,6 @@ impl EmbeddedMosaicGlobalRestrictionTransactionBuilder {
     pub fn get_new_restriction_value(&self) -> u64 {
         self.body.new_restriction_value.clone()
     }
-
     pub fn set_new_restriction_value(&mut self, new_restriction_value: u64) {
         self.body.new_restriction_value = new_restriction_value;   // MARKER1 AttributeKind.SIMPLE
     }
@@ -104,7 +104,6 @@ impl EmbeddedMosaicGlobalRestrictionTransactionBuilder {
     pub fn get_previous_restriction_type(&self) -> MosaicRestrictionTypeDto {
         self.body.previous_restriction_type.clone()
     }
-
     pub fn set_previous_restriction_type(&mut self, previous_restriction_type: MosaicRestrictionTypeDto) {
         self.body.previous_restriction_type = previous_restriction_type;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -113,7 +112,6 @@ impl EmbeddedMosaicGlobalRestrictionTransactionBuilder {
     pub fn get_new_restriction_type(&self) -> MosaicRestrictionTypeDto {
         self.body.new_restriction_type.clone()
     }
-
     pub fn set_new_restriction_type(&mut self, new_restriction_type: MosaicRestrictionTypeDto) {
         self.body.new_restriction_type = new_restriction_type;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -138,6 +136,20 @@ impl EmbeddedMosaicGlobalRestrictionTransactionBuilder {
         buf.append(&mut self.super_object.serializer());
         buf.append(&mut self.body.serializer()); // kind:CUSTOM TransactionBody
         buf
+    }
+}
+
+impl EmbeddedTransactionHelper for EmbeddedMosaicGlobalRestrictionTransactionBuilder {
+    fn box_clone(&self) -> Box<dyn EmbeddedTransactionHelper> {
+        Box::new((*self).clone())
+    }
+
+    fn get_size(&self) -> usize {
+        self.get_size()
+    }
+
+    fn serializer(&self) -> Vec<u8> {
+        self.serializer()
     }
 }
 

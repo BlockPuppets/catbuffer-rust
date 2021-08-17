@@ -19,11 +19,18 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::amount_dto::*;
 use super::block_duration_dto::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
+use super::key_dto::*;
 use super::mosaic_definition_transaction_body_builder::*;
 use super::mosaic_flags_dto::*;
 use super::mosaic_id_dto::*;
 use super::mosaic_nonce_dto::*;
+use super::network_type_dto::*;
+use super::signature_dto::*;
+use super::timestamp_dto::*;
 use super::transaction_builder::*;
 
 /// Binary layout for a non-embedded mosaic definition transaction.
@@ -45,13 +52,13 @@ impl MosaicDefinitionTransactionBuilder {
     /// # Returns
     /// A MosaicDefinitionTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = TransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = TransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let mosaic_definition_transaction_body = MosaicDefinitionTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[mosaic_definition_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let mosaic_definition_transaction_body = MosaicDefinitionTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[mosaic_definition_transaction_body.get_size()..].to_vec();
         // create object and call.
         MosaicDefinitionTransactionBuilder { super_object, body: mosaic_definition_transaction_body }  // Transaction
     }
@@ -60,7 +67,6 @@ impl MosaicDefinitionTransactionBuilder {
     pub fn get_id(&self) -> MosaicIdDto {
         self.body.id.clone()
     }
-
     pub fn set_id(&mut self, id: MosaicIdDto) {
         self.body.id = id;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -69,7 +75,6 @@ impl MosaicDefinitionTransactionBuilder {
     pub fn get_duration(&self) -> BlockDurationDto {
         self.body.duration.clone()
     }
-
     pub fn set_duration(&mut self, duration: BlockDurationDto) {
         self.body.duration = duration;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -78,7 +83,6 @@ impl MosaicDefinitionTransactionBuilder {
     pub fn get_nonce(&self) -> MosaicNonceDto {
         self.body.nonce.clone()
     }
-
     pub fn set_nonce(&mut self, nonce: MosaicNonceDto) {
         self.body.nonce = nonce;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -87,7 +91,6 @@ impl MosaicDefinitionTransactionBuilder {
     pub fn get_flags(&self) -> Vec<MosaicFlagsDto> {
         self.body.flags.clone()
     }
-
     pub fn set_flags(&mut self, flags: Vec<MosaicFlagsDto>) {
         self.body.flags = flags;   // MARKER1 AttributeKind.FLAGS
     }
@@ -96,7 +99,6 @@ impl MosaicDefinitionTransactionBuilder {
     pub fn get_divisibility(&self) -> u8 {
         self.body.divisibility.clone()
     }
-
     pub fn set_divisibility(&mut self, divisibility: u8) {
         self.body.divisibility = divisibility;   // MARKER1 AttributeKind.SIMPLE
     }

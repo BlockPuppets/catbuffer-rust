@@ -19,9 +19,16 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::amount_dto::*;
 use super::block_duration_dto::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
 use super::hash_lock_transaction_body_builder::*;
+use super::key_dto::*;
+use super::network_type_dto::*;
+use super::signature_dto::*;
+use super::timestamp_dto::*;
 use super::transaction_builder::*;
 use super::unresolved_mosaic_builder::*;
 
@@ -44,13 +51,13 @@ impl HashLockTransactionBuilder {
     /// # Returns
     /// A HashLockTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = TransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = TransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let hash_lock_transaction_body = HashLockTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[hash_lock_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let hash_lock_transaction_body = HashLockTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[hash_lock_transaction_body.get_size()..].to_vec();
         // create object and call.
         HashLockTransactionBuilder { super_object, body: hash_lock_transaction_body }  // Transaction
     }
@@ -59,7 +66,6 @@ impl HashLockTransactionBuilder {
     pub fn get_mosaic(&self) -> UnresolvedMosaicBuilder {
         self.body.mosaic.clone()
     }
-
     pub fn set_mosaic(&mut self, mosaic: UnresolvedMosaicBuilder) {
         self.body.mosaic = mosaic;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -68,7 +74,6 @@ impl HashLockTransactionBuilder {
     pub fn get_duration(&self) -> BlockDurationDto {
         self.body.duration.clone()
     }
-
     pub fn set_duration(&mut self, duration: BlockDurationDto) {
         self.body.duration = duration;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -77,7 +82,6 @@ impl HashLockTransactionBuilder {
     pub fn get_hash(&self) -> Hash256Dto {
         self.body.hash.clone()
     }
-
     pub fn set_hash(&mut self, hash: Hash256Dto) {
         self.body.hash = hash;   // MARKER1 AttributeKind.CUSTOM
     }

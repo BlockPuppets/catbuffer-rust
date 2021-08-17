@@ -20,8 +20,13 @@
  */
 
 use super::embedded_transaction_builder::*;
+use super::embedded_transaction_helper::*;
+use super::entity_type_dto::*;
 use super::finalization_epoch_dto::*;
+use super::generator_utils::*;
+use super::key_dto::*;
 use super::link_action_dto::*;
+use super::network_type_dto::*;
 use super::voting_key_dto::*;
 use super::voting_key_link_transaction_body_builder::*;
 
@@ -44,13 +49,13 @@ impl EmbeddedVotingKeyLinkTransactionBuilder {
     /// # Returns
     /// A EmbeddedVotingKeyLinkTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = EmbeddedTransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = EmbeddedTransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let voting_key_link_transaction_body = VotingKeyLinkTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[voting_key_link_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let voting_key_link_transaction_body = VotingKeyLinkTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[voting_key_link_transaction_body.get_size()..].to_vec();
         // create object and call.
         EmbeddedVotingKeyLinkTransactionBuilder { super_object, body: voting_key_link_transaction_body }  // Transaction
         // nothing needed to copy into EmbeddedTransaction
@@ -60,7 +65,6 @@ impl EmbeddedVotingKeyLinkTransactionBuilder {
     pub fn get_linked_public_key(&self) -> VotingKeyDto {
         self.body.linked_public_key.clone()
     }
-
     pub fn set_linked_public_key(&mut self, linked_public_key: VotingKeyDto) {
         self.body.linked_public_key = linked_public_key;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -69,7 +73,6 @@ impl EmbeddedVotingKeyLinkTransactionBuilder {
     pub fn get_start_epoch(&self) -> FinalizationEpochDto {
         self.body.start_epoch.clone()
     }
-
     pub fn set_start_epoch(&mut self, start_epoch: FinalizationEpochDto) {
         self.body.start_epoch = start_epoch;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -78,7 +81,6 @@ impl EmbeddedVotingKeyLinkTransactionBuilder {
     pub fn get_end_epoch(&self) -> FinalizationEpochDto {
         self.body.end_epoch.clone()
     }
-
     pub fn set_end_epoch(&mut self, end_epoch: FinalizationEpochDto) {
         self.body.end_epoch = end_epoch;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -87,7 +89,6 @@ impl EmbeddedVotingKeyLinkTransactionBuilder {
     pub fn get_link_action(&self) -> LinkActionDto {
         self.body.link_action.clone()
     }
-
     pub fn set_link_action(&mut self, link_action: LinkActionDto) {
         self.body.link_action = link_action;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -112,6 +113,20 @@ impl EmbeddedVotingKeyLinkTransactionBuilder {
         buf.append(&mut self.super_object.serializer());
         buf.append(&mut self.body.serializer()); // kind:CUSTOM TransactionBody
         buf
+    }
+}
+
+impl EmbeddedTransactionHelper for EmbeddedVotingKeyLinkTransactionBuilder {
+    fn box_clone(&self) -> Box<dyn EmbeddedTransactionHelper> {
+        Box::new((*self).clone())
+    }
+
+    fn get_size(&self) -> usize {
+        self.get_size()
+    }
+
+    fn serializer(&self) -> Vec<u8> {
+        self.serializer()
     }
 }
 

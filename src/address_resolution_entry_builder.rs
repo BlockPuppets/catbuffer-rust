@@ -38,11 +38,11 @@ impl AddressResolutionEntryBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A AddressResolutionEntryBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let source = ReceiptSourceBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[source.get_size()..].to_vec();
-        let resolved = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[resolved.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let source = ReceiptSourceBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[source.get_size()..].to_vec();
+        let resolved = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[resolved.get_size()..].to_vec();
         AddressResolutionEntryBuilder { source, resolved }
     }
 

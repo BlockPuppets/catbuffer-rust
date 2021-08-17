@@ -41,13 +41,13 @@ impl MosaicAliasTransactionBodyBuilder {
     /// # Returns
     /// A MosaicAliasTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let namespace_id = NamespaceIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[namespace_id.get_size()..].to_vec();
-        let mosaic_id = MosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
-        let alias_action = AliasActionDto::from_binary(&bytes_); // kind:CUSTOM2
-        bytes_ = (&bytes_[alias_action.get_size()..]).to_vec();
+        let mut _bytes = payload.to_vec();
+        let namespace_id = NamespaceIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[namespace_id.get_size()..].to_vec();
+        let mosaic_id = MosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[mosaic_id.get_size()..].to_vec();
+        let alias_action = AliasActionDto::from_binary(&_bytes); // kind:CUSTOM2
+        _bytes = (&_bytes[alias_action.get_size()..]).to_vec();
         // create object and call.
         MosaicAliasTransactionBodyBuilder { namespace_id, mosaic_id, alias_action } // TransactionBody
     }

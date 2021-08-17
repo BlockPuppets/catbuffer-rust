@@ -73,38 +73,38 @@ impl BlockHeaderBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A BlockHeaderBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let signature = SignatureDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[signature.get_size()..].to_vec();
-        let signer_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
-        let mut buf = fixed_bytes::<1>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let signature = SignatureDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[signature.get_size()..].to_vec();
+        let signer_public_key = KeyDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[signer_public_key.get_size()..].to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let version = u8::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[1..]).to_vec();
-        let network = NetworkTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[network.get_size()..].to_vec();
-        let _type = EntityTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let bytes_ = (&bytes_[_type.get_size()..]).to_vec();
-        let height = HeightDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[height.get_size()..].to_vec();
-        let timestamp = TimestampDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[timestamp.get_size()..].to_vec();
-        let difficulty = DifficultyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[difficulty.get_size()..].to_vec();
-        let generation_hash_proof = VrfProofBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[generation_hash_proof.get_size()..].to_vec();
-        let previous_block_hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[previous_block_hash.get_size()..].to_vec();
-        let transactions_hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[transactions_hash.get_size()..].to_vec();
-        let receipts_hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[receipts_hash.get_size()..].to_vec();
-        let state_hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[state_hash.get_size()..].to_vec();
-        let beneficiary_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[beneficiary_address.get_size()..].to_vec();
-        let fee_multiplier = BlockFeeMultiplierDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[fee_multiplier.get_size()..].to_vec();
+        let _bytes = (&_bytes[1..]).to_vec();
+        let network = NetworkTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        let mut _bytes = _bytes[network.get_size()..].to_vec();
+        let _type = EntityTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        let _bytes = (&_bytes[_type.get_size()..]).to_vec();
+        let height = HeightDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[height.get_size()..].to_vec();
+        let timestamp = TimestampDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[timestamp.get_size()..].to_vec();
+        let difficulty = DifficultyDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[difficulty.get_size()..].to_vec();
+        let generation_hash_proof = VrfProofBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[generation_hash_proof.get_size()..].to_vec();
+        let previous_block_hash = Hash256Dto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[previous_block_hash.get_size()..].to_vec();
+        let transactions_hash = Hash256Dto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[transactions_hash.get_size()..].to_vec();
+        let receipts_hash = Hash256Dto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[receipts_hash.get_size()..].to_vec();
+        let state_hash = Hash256Dto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[state_hash.get_size()..].to_vec();
+        let beneficiary_address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[beneficiary_address.get_size()..].to_vec();
+        let fee_multiplier = BlockFeeMultiplierDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[fee_multiplier.get_size()..].to_vec();
         BlockHeaderBuilder { signature, signer_public_key, version, network, _type, height, timestamp, difficulty, generation_hash_proof, previous_block_hash, transactions_hash, receipts_hash, state_hash, beneficiary_address, fee_multiplier }
     }
 
@@ -261,12 +261,12 @@ impl BlockHeaderBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
-        buf.append(&mut (self.get_size() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_size().to_le_bytes().to_vec()); // kind:SIMPLE
         buf.append(&mut 4u16.to_le_bytes().to_vec());
         buf.append(&mut self.signature.serializer()); // kind:CUSTOM
         buf.append(&mut self.signer_public_key.serializer()); // kind:CUSTOM
         buf.append(&mut 4u16.to_le_bytes().to_vec());
-        buf.append(&mut (self.get_version() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_version().to_le_bytes().to_vec()); // kind:SIMPLE
         buf.append(&mut self.network.serializer()); // kind:CUSTOM
         buf.append(&mut self._type.serializer()); // kind:CUSTOM
         buf.append(&mut self.height.serializer()); // kind:CUSTOM

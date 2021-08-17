@@ -38,19 +38,19 @@ impl NamespacePathBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A NamespacePathBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = fixed_bytes::<1>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let buf = fixed_bytes::<1>(&_bytes);
         let pathSize = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[1..]).to_vec();
+        let mut _bytes = (&_bytes[1..]).to_vec();
         let mut path: Vec<NamespaceIdDto> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
+        let mut _bytes = _bytes.to_vec();
         for _ in 0..pathSize {
-            let item = NamespaceIdDto::from_binary(&bytes_);
+            let item = NamespaceIdDto::from_binary(&_bytes);
             path.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
-        let alias = NamespaceAliasBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[alias.get_size()..].to_vec();
+        let alias = NamespaceAliasBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[alias.get_size()..].to_vec();
         NamespacePathBuilder { path, alias }
     }
 

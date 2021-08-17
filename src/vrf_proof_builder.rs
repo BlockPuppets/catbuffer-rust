@@ -41,13 +41,13 @@ impl VrfProofBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A VrfProofBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let gamma = ProofGammaDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[gamma.get_size()..].to_vec();
-        let verification_hash = ProofVerificationHashDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[verification_hash.get_size()..].to_vec();
-        let scalar = ProofScalarDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[scalar.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let gamma = ProofGammaDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[gamma.get_size()..].to_vec();
+        let verification_hash = ProofVerificationHashDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[verification_hash.get_size()..].to_vec();
+        let scalar = ProofScalarDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[scalar.get_size()..].to_vec();
         VrfProofBuilder { gamma, verification_hash, scalar }
     }
 

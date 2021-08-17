@@ -20,8 +20,12 @@
  */
 
 use super::embedded_transaction_builder::*;
+use super::embedded_transaction_helper::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
 use super::key_dto::*;
 use super::link_action_dto::*;
+use super::network_type_dto::*;
 use super::vrf_key_link_transaction_body_builder::*;
 
 /// Binary layout for an embedded vrf key link transaction.
@@ -43,13 +47,13 @@ impl EmbeddedVrfKeyLinkTransactionBuilder {
     /// # Returns
     /// A EmbeddedVrfKeyLinkTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = EmbeddedTransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = EmbeddedTransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let vrf_key_link_transaction_body = VrfKeyLinkTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[vrf_key_link_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let vrf_key_link_transaction_body = VrfKeyLinkTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[vrf_key_link_transaction_body.get_size()..].to_vec();
         // create object and call.
         EmbeddedVrfKeyLinkTransactionBuilder { super_object, body: vrf_key_link_transaction_body }  // Transaction
         // nothing needed to copy into EmbeddedTransaction
@@ -59,7 +63,6 @@ impl EmbeddedVrfKeyLinkTransactionBuilder {
     pub fn get_linked_public_key(&self) -> KeyDto {
         self.body.linked_public_key.clone()
     }
-
     pub fn set_linked_public_key(&mut self, linked_public_key: KeyDto) {
         self.body.linked_public_key = linked_public_key;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -68,7 +71,6 @@ impl EmbeddedVrfKeyLinkTransactionBuilder {
     pub fn get_link_action(&self) -> LinkActionDto {
         self.body.link_action.clone()
     }
-
     pub fn set_link_action(&mut self, link_action: LinkActionDto) {
         self.body.link_action = link_action;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -93,6 +95,20 @@ impl EmbeddedVrfKeyLinkTransactionBuilder {
         buf.append(&mut self.super_object.serializer());
         buf.append(&mut self.body.serializer()); // kind:CUSTOM TransactionBody
         buf
+    }
+}
+
+impl EmbeddedTransactionHelper for EmbeddedVrfKeyLinkTransactionBuilder {
+    fn box_clone(&self) -> Box<dyn EmbeddedTransactionHelper> {
+        Box::new((*self).clone())
+    }
+
+    fn get_size(&self) -> usize {
+        self.get_size()
+    }
+
+    fn serializer(&self) -> Vec<u8> {
+        self.serializer()
     }
 }
 

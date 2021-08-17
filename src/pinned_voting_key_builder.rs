@@ -40,13 +40,13 @@ impl PinnedVotingKeyBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A PinnedVotingKeyBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let voting_key = VotingKeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[voting_key.get_size()..].to_vec();
-        let start_epoch = FinalizationEpochDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[start_epoch.get_size()..].to_vec();
-        let end_epoch = FinalizationEpochDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[end_epoch.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let voting_key = VotingKeyDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[voting_key.get_size()..].to_vec();
+        let start_epoch = FinalizationEpochDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[start_epoch.get_size()..].to_vec();
+        let end_epoch = FinalizationEpochDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[end_epoch.get_size()..].to_vec();
         PinnedVotingKeyBuilder { voting_key, start_epoch, end_epoch }
     }
 

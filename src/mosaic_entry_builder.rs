@@ -44,15 +44,15 @@ impl MosaicEntryBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A MosaicEntryBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = StateHeaderBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let mosaic_id = MosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
-        let supply = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[supply.get_size()..].to_vec();
-        let definition = MosaicDefinitionBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[definition.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = StateHeaderBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let mosaic_id = MosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[mosaic_id.get_size()..].to_vec();
+        let supply = AmountDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[supply.get_size()..].to_vec();
+        let definition = MosaicDefinitionBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[definition.get_size()..].to_vec();
         MosaicEntryBuilder { super_object, mosaic_id, supply, definition }
     }
 

@@ -38,11 +38,11 @@ impl GlobalKeyValueBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A GlobalKeyValueBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let key = MosaicRestrictionKeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[key.get_size()..].to_vec();
-        let restriction_rule = RestrictionRuleBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[restriction_rule.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let key = MosaicRestrictionKeyDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[key.get_size()..].to_vec();
+        let restriction_rule = RestrictionRuleBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[restriction_rule.get_size()..].to_vec();
         GlobalKeyValueBuilder { key, restriction_rule }
     }
 

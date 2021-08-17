@@ -19,10 +19,21 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::address_dto::*;
 use super::amount_dto::*;
+use super::block_fee_multiplier_dto::*;
 use super::block_header_builder::*;
+use super::difficulty_dto::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
 use super::hash256_dto::*;
+use super::height_dto::*;
 use super::importance_block_footer_builder::*;
+use super::key_dto::*;
+use super::network_type_dto::*;
+use super::signature_dto::*;
+use super::timestamp_dto::*;
+use super::vrf_proof_builder::*;
 
 /// Binary layout for a nemesis block header.
 #[derive(Debug, Clone)]
@@ -39,11 +50,11 @@ impl NemesisBlockHeaderBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A NemesisBlockHeaderBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = BlockHeaderBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let importance_block_footer = ImportanceBlockFooterBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[importance_block_footer.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = BlockHeaderBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let importance_block_footer = ImportanceBlockFooterBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[importance_block_footer.get_size()..].to_vec();
         NemesisBlockHeaderBuilder { super_object, importance_block_footer }
     }
 

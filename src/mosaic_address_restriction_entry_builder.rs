@@ -41,13 +41,13 @@ impl MosaicAddressRestrictionEntryBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A MosaicAddressRestrictionEntryBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mosaic_id = MosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
-        let address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[address.get_size()..].to_vec();
-        let key_pairs = AddressKeyValueSetBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[key_pairs.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let mosaic_id = MosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[mosaic_id.get_size()..].to_vec();
+        let address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[address.get_size()..].to_vec();
+        let key_pairs = AddressKeyValueSetBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[key_pairs.get_size()..].to_vec();
         MosaicAddressRestrictionEntryBuilder { mosaic_id, address, key_pairs }
     }
 

@@ -41,13 +41,13 @@ impl MosaicSupplyChangeTransactionBodyBuilder {
     /// # Returns
     /// A MosaicSupplyChangeTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let mosaic_id = UnresolvedMosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
-        let delta = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[delta.get_size()..].to_vec();
-        let action = MosaicSupplyChangeActionDto::from_binary(&bytes_); // kind:CUSTOM2
-        bytes_ = (&bytes_[action.get_size()..]).to_vec();
+        let mut _bytes = payload.to_vec();
+        let mosaic_id = UnresolvedMosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[mosaic_id.get_size()..].to_vec();
+        let delta = AmountDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[delta.get_size()..].to_vec();
+        let action = MosaicSupplyChangeActionDto::from_binary(&_bytes); // kind:CUSTOM2
+        _bytes = (&_bytes[action.get_size()..]).to_vec();
         // create object and call.
         MosaicSupplyChangeTransactionBodyBuilder { mosaic_id, delta, action } // TransactionBody
     }

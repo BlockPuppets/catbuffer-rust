@@ -35,13 +35,13 @@ impl HeightActivityBucketsBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A HeightActivityBucketsBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
+    pub fn from_binary(_bytes: &[u8]) -> Self {
         let mut buckets: Vec<HeightActivityBucketBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
+        let mut _bytes = _bytes.to_vec();
         for _ in 0..5 {
-            let item = HeightActivityBucketBuilder::from_binary(&bytes_);
+            let item = HeightActivityBucketBuilder::from_binary(&_bytes);
             buckets.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         HeightActivityBucketsBuilder { buckets }
     }

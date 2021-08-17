@@ -36,13 +36,13 @@ impl ReceiptSourceBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A ReceiptSourceBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = fixed_bytes::<4>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let buf = fixed_bytes::<4>(&_bytes);
         let primary_id = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = fixed_bytes::<4>(&bytes_);
+        let _bytes = (&_bytes[4..]).to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
         let secondary_id = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
+        let _bytes = (&_bytes[4..]).to_vec();
         ReceiptSourceBuilder { primary_id, secondary_id }
     }
 
@@ -79,8 +79,8 @@ impl ReceiptSourceBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
-        buf.append(&mut (self.get_primary_id() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
-        buf.append(&mut (self.get_secondary_id() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_primary_id().to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_secondary_id().to_le_bytes().to_vec()); // kind:SIMPLE
         buf
     }
 }

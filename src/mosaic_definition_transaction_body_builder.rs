@@ -46,18 +46,18 @@ impl MosaicDefinitionTransactionBodyBuilder {
     /// # Returns
     /// A MosaicDefinitionTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let id = MosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[id.get_size()..].to_vec();
-        let duration = BlockDurationDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[duration.get_size()..].to_vec();
-        let nonce = MosaicNonceDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[nonce.get_size()..].to_vec();
-        let flags = MosaicFlagsDto::bytes_to_flags(&bytes_[..1]); // kind:FLAGS
-        let mut bytes_ = (&bytes_[1..]).to_vec();
-        let buf = fixed_bytes::<1>(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let id = MosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[id.get_size()..].to_vec();
+        let duration = BlockDurationDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[duration.get_size()..].to_vec();
+        let nonce = MosaicNonceDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[nonce.get_size()..].to_vec();
+        let flags = MosaicFlagsDto::bytes_to_flags(&_bytes[..1]); // kind:FLAGS
+        let mut _bytes = (&_bytes[1..]).to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let divisibility = u8::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[1..]).to_vec();
+        _bytes = (&_bytes[1..]).to_vec();
         // create object and call.
         MosaicDefinitionTransactionBodyBuilder { id, duration, nonce, flags, divisibility } // TransactionBody
     }

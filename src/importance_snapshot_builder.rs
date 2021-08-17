@@ -38,11 +38,11 @@ impl ImportanceSnapshotBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A ImportanceSnapshotBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let importance = ImportanceDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[importance.get_size()..].to_vec();
-        let height = ImportanceHeightDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[height.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let importance = ImportanceDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[importance.get_size()..].to_vec();
+        let height = ImportanceHeightDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[height.get_size()..].to_vec();
         ImportanceSnapshotBuilder { importance, height }
     }
 

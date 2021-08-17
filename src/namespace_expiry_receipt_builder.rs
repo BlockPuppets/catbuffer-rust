@@ -22,6 +22,7 @@
 use super::generator_utils::*;
 use super::namespace_id_dto::*;
 use super::receipt_builder::*;
+use super::receipt_type_dto::*;
 
 /// Binary layout for a namespace expiry receipt.
 #[derive(Debug, Clone)]
@@ -38,11 +39,11 @@ impl NamespaceExpiryReceiptBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A NamespaceExpiryReceiptBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = ReceiptBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let artifact_id = NamespaceIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[artifact_id.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = ReceiptBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let artifact_id = NamespaceIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[artifact_id.get_size()..].to_vec();
         NamespaceExpiryReceiptBuilder { super_object, artifact_id }
     }
 

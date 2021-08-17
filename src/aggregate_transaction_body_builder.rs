@@ -21,6 +21,7 @@
 
 use super::cosignature_builder::*;
 use super::embedded_transaction_builder::*;
+use super::embedded_transaction_helper::*;
 use super::generator_utils::*;
 use super::hash256_dto::*;
 
@@ -30,40 +31,56 @@ pub struct AggregateTransactionBodyBuilder {
     /// Aggregate hash of an aggregate's transactions.
     pub transactions_hash: Hash256Dto,
     /// Sub-transaction data (transactions are variable sized and payload size is in bytes).
-    pub transactions: Vec<EmbeddedTransactionBuilder>,
+    pub transactions: Vec<Box<dyn EmbeddedTransactionHelper + 'static>>,
     /// Cosignatures data (fills remaining body space after transactions).
     pub cosignatures: Vec<CosignatureBuilder>,
 }
 
 impl AggregateTransactionBodyBuilder {
-    fn load_embedded_transactions(mut transactions: Vec<EmbeddedTransactionBuilder>, payload: Vec<u8>, payload_size: u32) -> Vec<u8> {
-        vec![]
+    fn load_embedded_transactions(transactions: &mut Vec<Box<dyn EmbeddedTransactionHelper + 'static>>, mut payload: Vec<u8>, payload_size: u32) -> Vec<u8> {
+        let mut remaining_byte_sizes = payload_size as usize;
+        while remaining_byte_sizes > 0 {
+            let item = load_from_binary(&payload);
+            transactions.push(item.clone());
+            let size = item.get_size();
+            let item_size = size + Self::get_padding_size(item.get_size(), 8);
+            remaining_byte_sizes -= item_size;
+            payload = (&payload[item_size..]).to_vec();
+        }
+        payload
     }
 
+    fn load_cosignatures(transactions: &mut Vec<CosignatureBuilder>, mut payload: Vec<u8>, payload_size: usize) -> Vec<u8> {
+        let mut remaining_byte_sizes = payload_size;
+        while remaining_byte_sizes > 0 {
+            let item = CosignatureBuilder::from_binary(&payload);
+            transactions.push(item.clone());
+            let size = item.get_size();
+            let item_size = size + Self::get_padding_size(item.get_size(), 8);
+            remaining_byte_sizes -= item_size;
+            payload = (&payload[item_size..]).to_vec();
+        }
+        payload
+    }
 
     /// Creates an instance of AggregateTransactionBodyBuilder from binary payload.
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A AggregateTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let transactions_hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[transactions_hash.get_size()..].to_vec();
-        let buf = fixed_bytes::<4>(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let transactions_hash = Hash256Dto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[transactions_hash.get_size()..].to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
         let payload_size = u32::from_le_bytes(buf); // kind:SIZE_FIELD
-        bytes_ = (&bytes_[4..]).to_vec();
-        let buf = fixed_bytes::<4>(&bytes_);
-        let aggregate_transaction_header__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[4..]).to_vec();
-        let transactions: Vec<EmbeddedTransactionBuilder> = vec![];
-        bytes_ = AggregateTransactionBodyBuilder::load_embedded_transactions(transactions.clone(), bytes_, payload_size);
+        _bytes = (&_bytes[4..]).to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
+        let _ = u32::from_le_bytes(buf); // kind:SIMPLE
+        _bytes = (&_bytes[4..]).to_vec();
+        let mut transactions: Vec<Box<dyn EmbeddedTransactionHelper + 'static>> = vec![];
+        _bytes = AggregateTransactionBodyBuilder::load_embedded_transactions(&mut transactions, _bytes, payload_size);
         let mut cosignatures: Vec<CosignatureBuilder> = vec![];
-        let mut remaining_byte_sizes = bytes_.len();
-        while remaining_byte_sizes > 0 {
-            let item = CosignatureBuilder::from_binary(&bytes_);
-            cosignatures.push(item.clone());
-            remaining_byte_sizes -= item.get_size();
-        }
+        let _ = Self::load_cosignatures(&mut cosignatures, _bytes.clone(), _bytes.clone().len());
         // create object and call.
         AggregateTransactionBodyBuilder { transactions_hash, transactions, cosignatures } // TransactionBody
     }
@@ -71,22 +88,26 @@ impl AggregateTransactionBodyBuilder {
     /// Serializes an embeded transaction with correct padding.
     /// # Returns
     /// A Serialized embedded transaction.
-    pub fn serialize_aligned(transaction: &EmbeddedTransactionBuilder) -> Vec<u8> {
+    pub fn serialize_aligned(transaction: &Box<dyn EmbeddedTransactionHelper>) -> Vec<u8> {
         let txn_bytes = transaction.serializer();
-        let padding = vec![0u8; Self::transaction_padding_size(txn_bytes.len(), 8)];
+        let padding = vec![0u8; Self::get_padding_size(txn_bytes.len(), 8)];
         [txn_bytes, padding].concat()
     }
 
     /// Serializes an embeded transaction with correct padding.
     /// # Returns
     /// A Serialized embedded transaction.
-    pub fn size_aligned(transaction: &EmbeddedTransactionBuilder) -> usize {
+    pub fn size_aligned(transaction: &Box<dyn EmbeddedTransactionHelper>) -> usize {
         let txn_size = transaction.get_size();
-        let padding_size = Self::transaction_padding_size(txn_size, 8);
+        let padding_size = Self::get_padding_size(txn_size, 8);
         txn_size + padding_size
     }
 
-    fn transaction_padding_size(size: usize, alignment: usize) -> usize {
+    fn get_padding_size(size: usize, alignment: usize) -> usize {
+        if alignment == 0 {
+            return 0;
+        }
+
         if size % alignment == 0 {
             return 0;
         }

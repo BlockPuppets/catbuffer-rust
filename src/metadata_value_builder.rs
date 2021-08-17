@@ -34,12 +34,12 @@ impl MetadataValueBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A MetadataValueBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = fixed_bytes::<2>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let buf = fixed_bytes::<2>(&_bytes);
         let size = u16::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[2..]).to_vec();
-        let data = (&bytes_[..size as usize]).to_vec(); // kind:BUFFER
-        let bytes_ = (&bytes_[size as usize..]).to_vec();
+        let mut _bytes = (&_bytes[2..]).to_vec();
+        let data = (&_bytes[..size as usize]).to_vec(); // kind:BUFFER
+        let _bytes = (&_bytes[size as usize..]).to_vec();
         MetadataValueBuilder { data }
     }
 

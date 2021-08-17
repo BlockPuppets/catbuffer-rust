@@ -20,7 +20,12 @@
  */
 
 use super::embedded_transaction_builder::*;
+use super::embedded_transaction_helper::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
+use super::key_dto::*;
 use super::multisig_account_modification_transaction_body_builder::*;
+use super::network_type_dto::*;
 use super::unresolved_address_dto::*;
 
 /// Binary layout for an embedded multisig account modification transaction.
@@ -42,13 +47,13 @@ impl EmbeddedMultisigAccountModificationTransactionBuilder {
     /// # Returns
     /// A EmbeddedMultisigAccountModificationTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = EmbeddedTransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = EmbeddedTransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let multisig_account_modification_transaction_body = MultisigAccountModificationTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[multisig_account_modification_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let multisig_account_modification_transaction_body = MultisigAccountModificationTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[multisig_account_modification_transaction_body.get_size()..].to_vec();
         // create object and call.
         EmbeddedMultisigAccountModificationTransactionBuilder { super_object, body: multisig_account_modification_transaction_body }  // Transaction
         // nothing needed to copy into EmbeddedTransaction
@@ -58,7 +63,6 @@ impl EmbeddedMultisigAccountModificationTransactionBuilder {
     pub fn get_min_removal_delta(&self) -> u8 {
         self.body.min_removal_delta.clone()
     }
-
     pub fn set_min_removal_delta(&mut self, min_removal_delta: u8) {
         self.body.min_removal_delta = min_removal_delta;   // MARKER1 AttributeKind.SIMPLE
     }
@@ -67,7 +71,6 @@ impl EmbeddedMultisigAccountModificationTransactionBuilder {
     pub fn get_min_approval_delta(&self) -> u8 {
         self.body.min_approval_delta.clone()
     }
-
     pub fn set_min_approval_delta(&mut self, min_approval_delta: u8) {
         self.body.min_approval_delta = min_approval_delta;   // MARKER1 AttributeKind.SIMPLE
     }
@@ -77,11 +80,9 @@ impl EmbeddedMultisigAccountModificationTransactionBuilder {
         self.body.address_additions.clone()
     }
 
-
     pub fn get_address_deletions(&self) -> Vec<UnresolvedAddressDto> {
         self.body.address_deletions.clone()
     }
-
     /// Gets the size of the type.
     ///
     /// Returns:
@@ -102,6 +103,20 @@ impl EmbeddedMultisigAccountModificationTransactionBuilder {
         buf.append(&mut self.super_object.serializer());
         buf.append(&mut self.body.serializer()); // kind:CUSTOM TransactionBody
         buf
+    }
+}
+
+impl EmbeddedTransactionHelper for EmbeddedMultisigAccountModificationTransactionBuilder {
+    fn box_clone(&self) -> Box<dyn EmbeddedTransactionHelper> {
+        Box::new((*self).clone())
+    }
+
+    fn get_size(&self) -> usize {
+        self.get_size()
+    }
+
+    fn serializer(&self) -> Vec<u8> {
+        self.serializer()
     }
 }
 

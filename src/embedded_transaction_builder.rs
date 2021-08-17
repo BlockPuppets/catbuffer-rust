@@ -43,23 +43,23 @@ impl EmbeddedTransactionBuilder {
     /// # Returns
     /// A EmbeddedTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        bytes_ = (&bytes_[4..]).to_vec();
-        let buf = fixed_bytes::<4>(&bytes_);
-        let embedded_transaction_header__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[4..]).to_vec();
-        let signer_public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[signer_public_key.get_size()..].to_vec();
-        let buf = fixed_bytes::<4>(&bytes_);
-        let entity_body__reserved1 = u32::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[4..]).to_vec();
-        let buf = fixed_bytes::<1>(&bytes_);
+        let mut _bytes = payload.to_vec();
+        _bytes = (&_bytes[4..]).to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
+        let _ = u32::from_le_bytes(buf); // kind:SIMPLE
+        _bytes = (&_bytes[4..]).to_vec();
+        let signer_public_key = KeyDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[signer_public_key.get_size()..].to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
+        let _ = u32::from_le_bytes(buf); // kind:SIMPLE
+        _bytes = (&_bytes[4..]).to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let version = u8::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[1..]).to_vec();
-        let network = NetworkTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        bytes_ = (&bytes_[network.get_size()..]).to_vec();
-        let _type = EntityTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        bytes_ = (&bytes_[_type.get_size()..]).to_vec();
+        _bytes = (&_bytes[1..]).to_vec();
+        let network = NetworkTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        _bytes = (&_bytes[network.get_size()..]).to_vec();
+        let _type = EntityTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        _bytes = (&_bytes[_type.get_size()..]).to_vec();
         // create object and call. // EmbeddedTransaction
         EmbeddedTransactionBuilder { signer_public_key, version, network, _type }
     }

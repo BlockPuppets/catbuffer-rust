@@ -22,6 +22,8 @@
 use super::cosignature_builder::*;
 use super::generator_utils::*;
 use super::hash256_dto::*;
+use super::key_dto::*;
+use super::signature_dto::*;
 
 /// Cosignature detached from an aggregate transaction.
 #[derive(Debug, Clone)]
@@ -38,11 +40,11 @@ impl DetachedCosignatureBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A DetachedCosignatureBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = CosignatureBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let parent_hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[parent_hash.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = CosignatureBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let parent_hash = Hash256Dto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[parent_hash.get_size()..].to_vec();
         DetachedCosignatureBuilder { super_object, parent_hash }
     }
 

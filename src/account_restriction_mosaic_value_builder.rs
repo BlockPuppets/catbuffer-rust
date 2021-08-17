@@ -35,16 +35,16 @@ impl AccountRestrictionMosaicValueBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A AccountRestrictionMosaicValueBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = fixed_bytes::<8>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let buf = fixed_bytes::<8>(&_bytes);
         let restrictionValuesCount = u64::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[8..]).to_vec();
+        let mut _bytes = (&_bytes[8..]).to_vec();
         let mut restriction_values: Vec<MosaicIdDto> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
+        let mut _bytes = _bytes.to_vec();
         for _ in 0..restrictionValuesCount {
-            let item = MosaicIdDto::from_binary(&bytes_);
+            let item = MosaicIdDto::from_binary(&_bytes);
             restriction_values.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         AccountRestrictionMosaicValueBuilder { restriction_values }
     }

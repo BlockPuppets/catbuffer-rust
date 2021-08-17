@@ -73,72 +73,72 @@ impl AccountStateBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A AccountStateBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = StateHeaderBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[address.get_size()..].to_vec();
-        let address_height = HeightDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[address_height.get_size()..].to_vec();
-        let public_key = KeyDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[public_key.get_size()..].to_vec();
-        let public_key_height = HeightDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[public_key_height.get_size()..].to_vec();
-        let account_type = AccountTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[account_type.get_size()..].to_vec();
-        let format = AccountStateFormatDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[format.get_size()..].to_vec();
-        let supplemental_public_keys_mask = AccountKeyTypeFlagsDto::bytes_to_flags(&bytes_[..1]); // kind:FLAGS
-        let mut bytes_ = (&bytes_[1..]).to_vec();
-        let mut buf = fixed_bytes::<1>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = StateHeaderBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[address.get_size()..].to_vec();
+        let address_height = HeightDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[address_height.get_size()..].to_vec();
+        let public_key = KeyDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[public_key.get_size()..].to_vec();
+        let public_key_height = HeightDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[public_key_height.get_size()..].to_vec();
+        let account_type = AccountTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        let mut _bytes = _bytes[account_type.get_size()..].to_vec();
+        let format = AccountStateFormatDto::from_binary(&_bytes); // kind:CUSTOM2
+        let mut _bytes = _bytes[format.get_size()..].to_vec();
+        let supplemental_public_keys_mask = AccountKeyTypeFlagsDto::bytes_to_flags(&_bytes[..1]); // kind:FLAGS
+        let mut _bytes = (&_bytes[1..]).to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let votingPublicKeysCount = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[1..]).to_vec();
+        let mut _bytes = (&_bytes[1..]).to_vec();
         let mut linked_public_key = None;
         if supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::LINKED) {
-            let raw_linked_public_key = KeyDto::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_linked_public_key.get_size()..]).to_vec();
+            let raw_linked_public_key = KeyDto::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_linked_public_key.get_size()..]).to_vec();
             linked_public_key = Some(raw_linked_public_key); // kind:CUSTOM1
         }
         let mut node_public_key = None;
         if supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::NODE) {
-            let raw_node_public_key = KeyDto::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_node_public_key.get_size()..]).to_vec();
+            let raw_node_public_key = KeyDto::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_node_public_key.get_size()..]).to_vec();
             node_public_key = Some(raw_node_public_key); // kind:CUSTOM1
         }
         let mut vrf_public_key = None;
         if supplemental_public_keys_mask.iter().any(|&i| i == AccountKeyTypeFlagsDto::VRF) {
-            let raw_vrf_public_key = KeyDto::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_vrf_public_key.get_size()..]).to_vec();
+            let raw_vrf_public_key = KeyDto::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_vrf_public_key.get_size()..]).to_vec();
             vrf_public_key = Some(raw_vrf_public_key); // kind:CUSTOM1
         }
         let mut voting_public_keys: Vec<PinnedVotingKeyBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
+        let mut _bytes = _bytes.to_vec();
         for _ in 0..votingPublicKeysCount {
-            let item = PinnedVotingKeyBuilder::from_binary(&bytes_);
+            let item = PinnedVotingKeyBuilder::from_binary(&_bytes);
             voting_public_keys.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         let mut importance_snapshots = None;
         if format == AccountStateFormatDto::HIGH_VALUE {
-            let raw_importance_snapshots = ImportanceSnapshotBuilder::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_importance_snapshots.get_size()..]).to_vec();
+            let raw_importance_snapshots = ImportanceSnapshotBuilder::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_importance_snapshots.get_size()..]).to_vec();
             importance_snapshots = Some(raw_importance_snapshots); // kind:CUSTOM1
         }
         let mut activity_buckets = None;
         if format == AccountStateFormatDto::HIGH_VALUE {
-            let raw_activity_buckets = HeightActivityBucketsBuilder::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_activity_buckets.get_size()..]).to_vec();
+            let raw_activity_buckets = HeightActivityBucketsBuilder::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_activity_buckets.get_size()..]).to_vec();
             activity_buckets = Some(raw_activity_buckets); // kind:CUSTOM1
         }
-        let mut buf = fixed_bytes::<2>(&bytes_);
+        let buf = fixed_bytes::<2>(&_bytes);
         let balancesCount = u16::from_le_bytes(buf); // kind:SIZE_FIELD
-        let mut bytes_ = (&bytes_[2..]).to_vec();
+        let mut _bytes = (&_bytes[2..]).to_vec();
         let mut balances: Vec<MosaicBuilder> = vec![]; // kind:ARRAY
-        let mut bytes_ = bytes_.to_vec();
+        let mut _bytes = _bytes.to_vec();
         for _ in 0..balancesCount {
-            let item = MosaicBuilder::from_binary(&bytes_);
+            let item = MosaicBuilder::from_binary(&_bytes);
             balances.push(item.clone());
-            bytes_ = (&bytes_[item.get_size()..]).to_vec();
+            _bytes = (&_bytes[item.get_size()..]).to_vec();
         }
         AccountStateBuilder { super_object, address, address_height, public_key, public_key_height, account_type, format, supplemental_public_keys_mask, linked_public_key, node_public_key, vrf_public_key, voting_public_keys, importance_snapshots, activity_buckets, balances }
     }

@@ -41,13 +41,13 @@ impl AddressAliasTransactionBodyBuilder {
     /// # Returns
     /// A AddressAliasTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let namespace_id = NamespaceIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[namespace_id.get_size()..].to_vec();
-        let address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[address.get_size()..].to_vec();
-        let alias_action = AliasActionDto::from_binary(&bytes_); // kind:CUSTOM2
-        bytes_ = (&bytes_[alias_action.get_size()..]).to_vec();
+        let mut _bytes = payload.to_vec();
+        let namespace_id = NamespaceIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[namespace_id.get_size()..].to_vec();
+        let address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[address.get_size()..].to_vec();
+        let alias_action = AliasActionDto::from_binary(&_bytes); // kind:CUSTOM2
+        _bytes = (&_bytes[alias_action.get_size()..]).to_vec();
         // create object and call.
         AddressAliasTransactionBodyBuilder { namespace_id, address, alias_action } // TransactionBody
     }

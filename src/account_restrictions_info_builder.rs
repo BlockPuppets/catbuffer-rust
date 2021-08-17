@@ -44,25 +44,25 @@ impl AccountRestrictionsInfoBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A AccountRestrictionsInfoBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let restriction_flags = AccountRestrictionFlagsDto::bytes_to_flags(&bytes_[..2]); // kind:FLAGS
-        let mut bytes_ = (&bytes_[2..]).to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let restriction_flags = AccountRestrictionFlagsDto::bytes_to_flags(&_bytes[..2]); // kind:FLAGS
+        let mut _bytes = (&_bytes[2..]).to_vec();
         let mut address_restrictions = None;
         if restriction_flags.iter().any(|&i| i == AccountRestrictionFlagsDto::ADDRESS) {
-            let raw_address_restrictions = AccountRestrictionAddressValueBuilder::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_address_restrictions.get_size()..]).to_vec();
+            let raw_address_restrictions = AccountRestrictionAddressValueBuilder::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_address_restrictions.get_size()..]).to_vec();
             address_restrictions = Some(raw_address_restrictions); // kind:CUSTOM1
         }
         let mut mosaic_id_restrictions = None;
         if restriction_flags.iter().any(|&i| i == AccountRestrictionFlagsDto::MOSAIC_ID) {
-            let raw_mosaic_id_restrictions = AccountRestrictionMosaicValueBuilder::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_mosaic_id_restrictions.get_size()..]).to_vec();
+            let raw_mosaic_id_restrictions = AccountRestrictionMosaicValueBuilder::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_mosaic_id_restrictions.get_size()..]).to_vec();
             mosaic_id_restrictions = Some(raw_mosaic_id_restrictions); // kind:CUSTOM1
         }
         let mut transaction_type_restrictions = None;
         if restriction_flags.iter().any(|&i| i == AccountRestrictionFlagsDto::TRANSACTION_TYPE) {
-            let raw_transaction_type_restrictions = AccountRestrictionTransactionTypeValueBuilder::from_binary(&bytes_);
-            bytes_ = (&bytes_[raw_transaction_type_restrictions.get_size()..]).to_vec();
+            let raw_transaction_type_restrictions = AccountRestrictionTransactionTypeValueBuilder::from_binary(&_bytes);
+            _bytes = (&_bytes[raw_transaction_type_restrictions.get_size()..]).to_vec();
             transaction_type_restrictions = Some(raw_transaction_type_restrictions); // kind:CUSTOM1
         }
         AccountRestrictionsInfoBuilder { restriction_flags, address_restrictions, mosaic_id_restrictions, transaction_type_restrictions }

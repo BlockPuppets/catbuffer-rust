@@ -45,18 +45,18 @@ impl NamespaceRegistrationTransactionBodyBuilder {
     /// # Returns
     /// A NamespaceRegistrationTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let registration_type_condition = bytes_[0..8].to_vec();
-        bytes_ = (&bytes_[8..]).to_vec();
-        let id = NamespaceIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[id.get_size()..].to_vec();
-        let registration_type = NamespaceRegistrationTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        bytes_ = (&bytes_[registration_type.get_size()..]).to_vec();
-        let buf = fixed_bytes::<1>(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let registration_type_condition = _bytes[0..8].to_vec();
+        _bytes = (&_bytes[8..]).to_vec();
+        let id = NamespaceIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[id.get_size()..].to_vec();
+        let registration_type = NamespaceRegistrationTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        _bytes = (&_bytes[registration_type.get_size()..]).to_vec();
+        let buf = fixed_bytes::<1>(&_bytes);
         let name_size = u8::from_le_bytes(buf); // kind:SIZE_FIELD
-        bytes_ = (&bytes_[1..]).to_vec();
-        let name = (&bytes_[..name_size as usize]).to_vec(); // kind:BUFFER
-        bytes_ = (&bytes_[name_size as usize..]).to_vec();
+        _bytes = (&_bytes[1..]).to_vec();
+        let name = (&_bytes[..name_size as usize]).to_vec(); // kind:BUFFER
+        _bytes = (&_bytes[name_size as usize..]).to_vec();
         let mut duration = None;
         if registration_type == NamespaceRegistrationTypeDto::ROOT {
             duration = Some(BlockDurationDto::from_binary(&registration_type_condition)); // kind:CUSTOM3

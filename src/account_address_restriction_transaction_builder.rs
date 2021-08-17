@@ -21,6 +21,13 @@
 
 use super::account_address_restriction_transaction_body_builder::*;
 use super::account_restriction_flags_dto::*;
+use super::amount_dto::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
+use super::key_dto::*;
+use super::network_type_dto::*;
+use super::signature_dto::*;
+use super::timestamp_dto::*;
 use super::transaction_builder::*;
 use super::unresolved_address_dto::*;
 
@@ -43,13 +50,13 @@ impl AccountAddressRestrictionTransactionBuilder {
     /// # Returns
     /// A AccountAddressRestrictionTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = TransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = TransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let account_address_restriction_transaction_body = AccountAddressRestrictionTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[account_address_restriction_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let account_address_restriction_transaction_body = AccountAddressRestrictionTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[account_address_restriction_transaction_body.get_size()..].to_vec();
         // create object and call.
         AccountAddressRestrictionTransactionBuilder { super_object, body: account_address_restriction_transaction_body }  // Transaction
     }
@@ -58,7 +65,6 @@ impl AccountAddressRestrictionTransactionBuilder {
     pub fn get_restriction_flags(&self) -> Vec<AccountRestrictionFlagsDto> {
         self.body.restriction_flags.clone()
     }
-
     pub fn set_restriction_flags(&mut self, restriction_flags: Vec<AccountRestrictionFlagsDto>) {
         self.body.restriction_flags = restriction_flags;   // MARKER1 AttributeKind.FLAGS
     }
@@ -68,11 +74,9 @@ impl AccountAddressRestrictionTransactionBuilder {
         self.body.restriction_additions.clone()
     }
 
-
     pub fn get_restriction_deletions(&self) -> Vec<UnresolvedAddressDto> {
         self.body.restriction_deletions.clone()
     }
-
     /// Gets the size of the type.
     ///
     /// Returns:

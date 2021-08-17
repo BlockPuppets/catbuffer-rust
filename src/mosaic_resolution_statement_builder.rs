@@ -22,6 +22,7 @@
 use super::generator_utils::*;
 use super::mosaic_resolution_entry_builder::*;
 use super::receipt_builder::*;
+use super::receipt_type_dto::*;
 use super::unresolved_mosaic_id_dto::*;
 
 /// Binary layout for a mosaic resolution statement.
@@ -41,13 +42,13 @@ impl MosaicResolutionStatementBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A MosaicResolutionStatementBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let super_object = ReceiptBuilder::from_binary(bytes_);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let unresolved = UnresolvedMosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[unresolved.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let super_object = ReceiptBuilder::from_binary(_bytes);
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let unresolved = UnresolvedMosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[unresolved.get_size()..].to_vec();
         let resolution_entries: Vec<MosaicResolutionEntryBuilder> = vec![];
-        //let bytes_ = GeneratorUtils.load_from_binary(MosaicResolutionEntryBuilder, resolutionEntries, bytes_, len(bytes_));
+        //let _bytes = GeneratorUtils.load_from_binary(MosaicResolutionEntryBuilder, resolutionEntries, _bytes, len(_bytes));
         MosaicResolutionStatementBuilder { super_object, unresolved, resolution_entries }
     }
 

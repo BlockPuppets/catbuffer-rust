@@ -42,17 +42,17 @@ impl ImportanceBlockFooterBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A ImportanceBlockFooterBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mut buf = fixed_bytes::<4>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let buf = fixed_bytes::<4>(&_bytes);
         let voting_eligible_accounts_count = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = fixed_bytes::<8>(&bytes_);
+        let _bytes = (&_bytes[4..]).to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let harvesting_eligible_accounts_count = u64::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[8..]).to_vec();
-        let total_voting_balance = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[total_voting_balance.get_size()..].to_vec();
-        let previous_importance_block_hash = Hash256Dto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[previous_importance_block_hash.get_size()..].to_vec();
+        let _bytes = (&_bytes[8..]).to_vec();
+        let total_voting_balance = AmountDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[total_voting_balance.get_size()..].to_vec();
+        let previous_importance_block_hash = Hash256Dto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[previous_importance_block_hash.get_size()..].to_vec();
         ImportanceBlockFooterBuilder { voting_eligible_accounts_count, harvesting_eligible_accounts_count, total_voting_balance, previous_importance_block_hash }
     }
 
@@ -107,8 +107,8 @@ impl ImportanceBlockFooterBuilder {
     /// A Serialized bytes.
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
-        buf.append(&mut (self.get_voting_eligible_accounts_count() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
-        buf.append(&mut (self.get_harvesting_eligible_accounts_count() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_voting_eligible_accounts_count().to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_harvesting_eligible_accounts_count().to_le_bytes().to_vec()); // kind:SIMPLE
         buf.append(&mut self.total_voting_balance.serializer()); // kind:CUSTOM
         buf.append(&mut self.previous_importance_block_hash.serializer()); // kind:CUSTOM
         buf

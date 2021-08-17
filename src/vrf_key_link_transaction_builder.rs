@@ -19,10 +19,16 @@
  * // along with Catapult. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use super::amount_dto::*;
+use super::entity_type_dto::*;
+use super::generator_utils::*;
+use super::key_dto::*;
 use super::link_action_dto::*;
+use super::network_type_dto::*;
+use super::signature_dto::*;
+use super::timestamp_dto::*;
 use super::transaction_builder::*;
 use super::vrf_key_link_transaction_body_builder::*;
-use crate::key_dto::*;
 
 /// Binary layout for a non-embedded vrf key link transaction.
 #[derive(Debug, Clone)]
@@ -43,13 +49,13 @@ impl VrfKeyLinkTransactionBuilder {
     /// # Returns
     /// A VrfKeyLinkTransactionBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let super_object = TransactionBuilder::from_binary(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let super_object = TransactionBuilder::from_binary(&_bytes);
         assert_eq!(Self::VERSION, super_object.version, "Invalid entity version ({})", super_object.version);
         assert_eq!(Self::ENTITY_TYPE, super_object._type.get_value(), "Invalid entity type ({:?})", super_object._type);
-        let mut bytes_ = bytes_[super_object.get_size()..].to_vec();
-        let vrf_key_link_transaction_body = VrfKeyLinkTransactionBodyBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[vrf_key_link_transaction_body.get_size()..].to_vec();
+        let mut _bytes = _bytes[super_object.get_size()..].to_vec();
+        let vrf_key_link_transaction_body = VrfKeyLinkTransactionBodyBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[vrf_key_link_transaction_body.get_size()..].to_vec();
         // create object and call.
         VrfKeyLinkTransactionBuilder { super_object, body: vrf_key_link_transaction_body }  // Transaction
     }
@@ -58,7 +64,6 @@ impl VrfKeyLinkTransactionBuilder {
     pub fn get_linked_public_key(&self) -> KeyDto {
         self.body.linked_public_key.clone()
     }
-
     pub fn set_linked_public_key(&mut self, linked_public_key: KeyDto) {
         self.body.linked_public_key = linked_public_key;   // MARKER1 AttributeKind.CUSTOM
     }
@@ -67,7 +72,6 @@ impl VrfKeyLinkTransactionBuilder {
     pub fn get_link_action(&self) -> LinkActionDto {
         self.body.link_action.clone()
     }
-
     pub fn set_link_action(&mut self, link_action: LinkActionDto) {
         self.body.link_action = link_action;   // MARKER1 AttributeKind.CUSTOM
     }

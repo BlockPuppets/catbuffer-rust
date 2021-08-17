@@ -42,17 +42,17 @@ impl HeightActivityBucketBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A HeightActivityBucketBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let start_height = ImportanceHeightDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[start_height.get_size()..].to_vec();
-        let total_fees_paid = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[total_fees_paid.get_size()..].to_vec();
-        let mut buf = fixed_bytes::<4>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let start_height = ImportanceHeightDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[start_height.get_size()..].to_vec();
+        let total_fees_paid = AmountDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[total_fees_paid.get_size()..].to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
         let beneficiary_count = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let mut buf = fixed_bytes::<8>(&bytes_);
+        let _bytes = (&_bytes[4..]).to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let raw_score = u64::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[8..]).to_vec();
+        let _bytes = (&_bytes[8..]).to_vec();
         HeightActivityBucketBuilder { start_height, total_fees_paid, beneficiary_count, raw_score }
     }
 
@@ -109,8 +109,8 @@ impl HeightActivityBucketBuilder {
         let mut buf: Vec<u8> = vec![];
         buf.append(&mut self.start_height.serializer()); // kind:CUSTOM
         buf.append(&mut self.total_fees_paid.serializer()); // kind:CUSTOM
-        buf.append(&mut (self.get_beneficiary_count() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
-        buf.append(&mut (self.get_raw_score() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_beneficiary_count().to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_raw_score().to_le_bytes().to_vec()); // kind:SIMPLE
         buf
     }
 }

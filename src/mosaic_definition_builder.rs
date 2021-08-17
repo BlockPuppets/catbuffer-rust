@@ -43,16 +43,16 @@ impl MosaicDefinitionBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A MosaicDefinitionBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let start_height = HeightDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[start_height.get_size()..].to_vec();
-        let owner_address = AddressDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[owner_address.get_size()..].to_vec();
-        let mut buf = fixed_bytes::<4>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let start_height = HeightDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[start_height.get_size()..].to_vec();
+        let owner_address = AddressDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[owner_address.get_size()..].to_vec();
+        let buf = fixed_bytes::<4>(&_bytes);
         let revision = u32::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[4..]).to_vec();
-        let properties = MosaicPropertiesBuilder::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[properties.get_size()..].to_vec();
+        let _bytes = (&_bytes[4..]).to_vec();
+        let properties = MosaicPropertiesBuilder::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[properties.get_size()..].to_vec();
         MosaicDefinitionBuilder { start_height, owner_address, revision, properties }
     }
 
@@ -109,7 +109,7 @@ impl MosaicDefinitionBuilder {
         let mut buf: Vec<u8> = vec![];
         buf.append(&mut self.start_height.serializer()); // kind:CUSTOM
         buf.append(&mut self.owner_address.serializer()); // kind:CUSTOM
-        buf.append(&mut (self.get_revision() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_revision().to_le_bytes().to_vec()); // kind:SIMPLE
         buf.append(&mut self.properties.serializer()); // kind:CUSTOM
         buf
     }

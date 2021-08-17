@@ -1,3 +1,6 @@
+#![allow(non_snake_case)]
+#![allow(unused_imports)]
+
 pub mod account_address_restriction_transaction_body_builder;
 pub mod account_address_restriction_transaction_builder;
 pub mod account_key_link_transaction_body_builder;
@@ -58,6 +61,7 @@ pub mod embedded_node_key_link_transaction_builder;
 pub mod embedded_secret_lock_transaction_builder;
 pub mod embedded_secret_proof_transaction_builder;
 pub mod embedded_transaction_builder;
+pub mod embedded_transaction_helper;
 pub mod embedded_transfer_transaction_builder;
 pub mod embedded_voting_key_link_transaction_builder;
 pub mod embedded_vrf_key_link_transaction_builder;

@@ -38,11 +38,11 @@ impl MosaicBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A MosaicBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let mosaic_id = MosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
-        let amount = AmountDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[amount.get_size()..].to_vec();
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let mosaic_id = MosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[mosaic_id.get_size()..].to_vec();
+        let amount = AmountDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[amount.get_size()..].to_vec();
         MosaicBuilder { mosaic_id, amount }
     }
 

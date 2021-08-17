@@ -48,24 +48,24 @@ impl MosaicGlobalRestrictionTransactionBodyBuilder {
     /// # Returns
     /// A MosaicGlobalRestrictionTransactionBodyBuilder.
     pub fn from_binary(payload: &[u8]) -> Self {
-        let mut bytes_ = payload.to_vec();
-        let mosaic_id = UnresolvedMosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[mosaic_id.get_size()..].to_vec();
-        let reference_mosaic_id = UnresolvedMosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        bytes_ = bytes_[reference_mosaic_id.get_size()..].to_vec();
-        let buf = fixed_bytes::<8>(&bytes_);
+        let mut _bytes = payload.to_vec();
+        let mosaic_id = UnresolvedMosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[mosaic_id.get_size()..].to_vec();
+        let reference_mosaic_id = UnresolvedMosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        _bytes = _bytes[reference_mosaic_id.get_size()..].to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let restriction_key = u64::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[8..]).to_vec();
-        let buf = fixed_bytes::<8>(&bytes_);
+        _bytes = (&_bytes[8..]).to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let previous_restriction_value = u64::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[8..]).to_vec();
-        let buf = fixed_bytes::<8>(&bytes_);
+        _bytes = (&_bytes[8..]).to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let new_restriction_value = u64::from_le_bytes(buf); // kind:SIMPLE
-        bytes_ = (&bytes_[8..]).to_vec();
-        let previous_restriction_type = MosaicRestrictionTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        bytes_ = (&bytes_[previous_restriction_type.get_size()..]).to_vec();
-        let new_restriction_type = MosaicRestrictionTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        bytes_ = (&bytes_[new_restriction_type.get_size()..]).to_vec();
+        _bytes = (&_bytes[8..]).to_vec();
+        let previous_restriction_type = MosaicRestrictionTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        _bytes = (&_bytes[previous_restriction_type.get_size()..]).to_vec();
+        let new_restriction_type = MosaicRestrictionTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        _bytes = (&_bytes[new_restriction_type.get_size()..]).to_vec();
         // create object and call.
         MosaicGlobalRestrictionTransactionBodyBuilder { mosaic_id, reference_mosaic_id, restriction_key, previous_restriction_value, new_restriction_value, previous_restriction_type, new_restriction_type } // TransactionBody
     }

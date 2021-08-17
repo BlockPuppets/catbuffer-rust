@@ -40,14 +40,14 @@ impl RestrictionRuleBuilder {
     /// payload: Byte payload to use to serialize the object.
     /// # Returns
     /// A RestrictionRuleBuilder.
-    pub fn from_binary(bytes_: &[u8]) -> Self {
-        let reference_mosaic_id = MosaicIdDto::from_binary(&bytes_); // kind:CUSTOM1
-        let mut bytes_ = bytes_[reference_mosaic_id.get_size()..].to_vec();
-        let mut buf = fixed_bytes::<8>(&bytes_);
+    pub fn from_binary(_bytes: &[u8]) -> Self {
+        let reference_mosaic_id = MosaicIdDto::from_binary(&_bytes); // kind:CUSTOM1
+        let mut _bytes = _bytes[reference_mosaic_id.get_size()..].to_vec();
+        let buf = fixed_bytes::<8>(&_bytes);
         let restriction_value = u64::from_le_bytes(buf); // kind:SIMPLE
-        let bytes_ = (&bytes_[8..]).to_vec();
-        let restriction_type = MosaicRestrictionTypeDto::from_binary(&bytes_); // kind:CUSTOM2
-        let mut bytes_ = bytes_[restriction_type.get_size()..].to_vec();
+        let _bytes = (&_bytes[8..]).to_vec();
+        let restriction_type = MosaicRestrictionTypeDto::from_binary(&_bytes); // kind:CUSTOM2
+        let mut _bytes = _bytes[restriction_type.get_size()..].to_vec();
         RestrictionRuleBuilder { reference_mosaic_id, restriction_value, restriction_type }
     }
 
@@ -94,7 +94,7 @@ impl RestrictionRuleBuilder {
     pub fn serializer(&self) -> Vec<u8> {
         let mut buf: Vec<u8> = vec![];
         buf.append(&mut self.reference_mosaic_id.serializer()); // kind:CUSTOM
-        buf.append(&mut (self.get_restriction_value() as u16).to_le_bytes().to_vec()); // kind:SIMPLE
+        buf.append(&mut self.get_restriction_value().to_le_bytes().to_vec()); // kind:SIMPLE
         buf.append(&mut self.restriction_type.serializer()); // kind:CUSTOM
         buf
     }
