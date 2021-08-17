@@ -1,6 +1,5 @@
 #![allow(non_snake_case)]
 #![allow(unused_imports)]
-
 pub mod account_address_restriction_transaction_body_builder;
 pub mod account_address_restriction_transaction_builder;
 pub mod account_key_link_transaction_body_builder;
