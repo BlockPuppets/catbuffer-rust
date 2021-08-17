@@ -172,5 +172,3 @@ pub mod voting_key_link_transaction_builder;
 pub mod vrf_key_link_transaction_body_builder;
 pub mod vrf_key_link_transaction_builder;
 pub mod vrf_proof_builder;
-#[cfg(test)]
-mod test;
